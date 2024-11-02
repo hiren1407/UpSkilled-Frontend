@@ -2,9 +2,9 @@ import { useState } from "react";
 // import { useDispatch } from "react-redux";
 // import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-import bg from '../images/bg.jpeg'
-import axios  from "axios";
+import axios from "axios";
 // import { BASE_URL } from "../utils/constants";
+import '../Styles/Login.css'
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
@@ -12,7 +12,7 @@ const Login = () => {
 
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [error, setError] = useState("");
-//   const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -32,18 +32,18 @@ const Login = () => {
     // }
   };
 
-  
+
 
   return (
-    <div className="flex justify-center h-screen" style={{backgroundImage:`url(${bg})`,backgroundSize:'cover'}}>
+    <div className="flex justify-center h-screen bg-image w-screen">
       <div className="card bg-base-300 w-96 shadow-xl fixed mt-36">
         <div className="card-body">
           <h2 className="card-title justify-center">
-        
+
           </h2>
           <div>
-            
-            
+
+
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
                 <span className="label-text">Email ID:</span>
@@ -71,7 +71,7 @@ const Login = () => {
           <div className="card-actions justify-center m-2">
             <button
               className="btn btn-primary"
-              onClick={handleLogin }
+              onClick={handleLogin}
             >
               {isLoginForm ? "Login" : "Sign Up"}
             </button>

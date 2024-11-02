@@ -1,0 +1,13 @@
+.bg-image {
+    background: url('../images/bg.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+/* 
+@media (max-width: 768px) {
+    .bg-image {
+        background-size: contain;
+    }
+} */
