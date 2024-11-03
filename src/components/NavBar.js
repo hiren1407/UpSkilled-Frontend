@@ -24,7 +24,7 @@ const NavBar = () => {
 
 
   return (
-    <div className="navbar bg-neutral text-neutral-content fixed">
+    <div className="navbar bg-neutral text-neutral-content fixed z-10">
       <div className="flex-1">
         {/* <Link to="/" className="btn btn-ghost text-xl">UpSkilled</Link> */}
         <Link to="/"><img src={Logo} alt='Logo' className='h-8 w-28 ml-4'></img></Link>

@@ -1,14 +1,14 @@
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import bg from '../images/bg.jpeg'
-// import axios  from "axios";
-// import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../utils/constants";
+import { loginUser , signUpUser  } from '../utils/userSlice';
 import '../Styles/Login.css'
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
     const [designation, setDesignation] = useState("");
@@ -16,43 +16,30 @@ const Login = () => {
   const [lastName, setLastName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [error, setError] = useState("");
-  //   const dispatch = useDispatch();
+    const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    // try {
-    //   const res = await axios.post(
-    //     BASE_URL + "/auth/login",
-    //     {
-    //       emailId,
-    //       password,
-    //     },
-    //     { withCredentials: true }
-    //   );
-    // //   dispatch(addUser(res.data));
-    //   return navigate("/");
-    // } catch (err) {
-    //   setError(err?.response?.data || "Something went wrong");
-    // }
+    try {
+        await dispatch(loginUser ({ email, password })).unwrap();
+        navigate("/");
+      } catch (err) {
+        setError(err); // Set error if login fails
+      }
   };
 
   const handleSignUp = async () => {
-    // try {
-    //   const res = await axios.post(
-    //     BASE_URL + "/auth/signup",
-    //     { firstName, lastName, emailId, password },
-    //     { withCredentials: true }
-    //   );
-    //   dispatch(addUser(res.data.data));
-    //   return navigate("/profile");
-    // } catch (err) {
-    //   setError(err?.response?.data || "Something went wrong");
-    // }
+    try {
+        await dispatch(signUpUser ({ firstName, lastName, email, password, role, designation })).unwrap();
+        navigate("/profile");
+      } catch (err) {
+        setError(err); // Set error if signup fails
+      }
   };
 
   return (
     <div
-      className="flex justify-center items-center min-h-screen"
+      className="flex justify-center items-center min-h-screen "
       style={{
         backgroundImage: `url(${bg})`,
         backgroundSize: 'cover',
@@ -60,7 +47,7 @@ const Login = () => {
         paddingBottom: '5rem', // Space for footer
       }}
     >
-      <div className="card bg-base-300 w-96 shadow-xl" style={{background: 'linear-gradient(0deg, #9495fd, #a3c3fe)'}}>
+      <div className="card bg-base-300 w-96 shadow-xl text-white" style={{background: 'linear-gradient(0deg, #9495fd, #a3c3fe)'}}>
         <div className="card-body">
           <h2 className="card-title justify-center">
             {isLoginForm ? "Login" : "Sign Up"}
@@ -71,7 +58,7 @@ const Login = () => {
                 <div className="flex gap-x-2 my-2">
                   <label className="form-control w-1/2">
                     <div className="label">
-                      <span className="label-text">First Name</span>
+                      <span className="label-text text-white">First Name</span>
                     </div>
                     <input
                       type="text"
@@ -82,7 +69,7 @@ const Login = () => {
                   </label>
                   <label className="form-control w-1/2">
                     <div className="label">
-                      <span className="label-text">Last Name</span>
+                      <span className="label-text text-white">Last Name</span>
                     </div>
                     <input
                       type="text"
@@ -94,7 +81,7 @@ const Login = () => {
                 </div>
                 <label className="form-control w-full max-w-xs my-2">
                   <div className="label">
-                    <span className="label-text">Designation</span>
+                    <span className="label-text text-white">Designation</span>
                   </div>
                   <input
                     type="text"
@@ -105,7 +92,7 @@ const Login = () => {
                 </label>
                 <label className="form-control w-full max-w-xs my-2">
                   <div className="label">
-                    <span className="label-text">Role</span>
+                    <span className="label-text text-white">Role</span>
                   </div>
                   <select
                     className="select select-bordered w-full max-w-xs"
@@ -122,18 +109,18 @@ const Login = () => {
             )}
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text">Email ID:</span>
+                <span className="label-text text-white">Email ID:</span>
               </div>
               <input
                 type="text"
-                value={emailId}
+                value={email}
                 className="input input-bordered w-full max-w-xs"
-                onChange={(e) => setEmailId(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-white">Password</span>
               </div>
               <input
                 type="password"
