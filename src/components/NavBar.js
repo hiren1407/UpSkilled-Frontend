@@ -23,7 +23,7 @@ const NavBar = () => {
 
   
   return (
-    <div className="navbar bg-neutral text-neutral-content fixed">
+    <div className="navbar bg-neutral text-neutral-content fixed z-10">
     <div className="flex-1">
       <Link to="/" className="btn btn-ghost text-xl">UpSkilled</Link>
     </div>
