@@ -4,7 +4,7 @@ import {  Outlet, useNavigate } from 'react-router-dom'
 import Footer from './Footer'
 // import { BASE_URL } from '../utils/constants'
 
-import axios from 'axios'
+// import axios from 'axios'
 
 const Body = () => {
 //   const dispatch=useDispatch()
