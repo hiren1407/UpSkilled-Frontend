@@ -1,40 +1,45 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import bg from '../images/bg.jpeg'
-import { BASE_URL } from "../utils/constants";
-import { loginUser , signUpUser  } from '../utils/userSlice';
+import { BASE_URL, LOGIN_URL } from "../utils/constants";
+import { loginUser, signUpUser } from '../utils/userSlice';
 import '../Styles/Login.css'
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
-    const [designation, setDesignation] = useState("");
-    const [role, setRole] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [role, setRole] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [error, setError] = useState("");
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const state = useSelector((state) => state.user.user);
 
   const handleLogin = async () => {
     try {
-        await dispatch(loginUser ({ email, password })).unwrap();
-        navigate("/");
-      } catch (err) {
-        setError(err); // Set error if login fails
-      }
+      const response = await dispatch(loginUser({ email, password })).unwrap();
+      const role = response.role.toLowerCase();
+      if (role === "admin") navigate("/admin");
+      else if (role === "instructor") navigate("/instructor");
+      else
+        navigate("/employee/1/announcements");
+    } catch (err) {
+      setError(err.message || "Login failed"); // Set error if login fails
+    }
   };
 
   const handleSignUp = async () => {
     try {
-        await dispatch(signUpUser ({ firstName, lastName, email, password, role, designation })).unwrap();
-        navigate("/profile");
-      } catch (err) {
-        setError(err); // Set error if signup fails
-      }
+      await dispatch(signUpUser({ firstName, lastName, email, password, role, designation })).unwrap();
+      navigate("/profile");
+    } catch (err) {
+      setError(err.message || "Signup failed"); // Set error if signup fails
+    }
   };
 
   return (
@@ -47,7 +52,7 @@ const Login = () => {
         paddingBottom: '5rem', // Space for footer
       }}
     >
-      <div className="card bg-base-300 w-96 shadow-xl text-white" style={{background: 'linear-gradient(0deg, #9495fd, #a3c3fe)'}}>
+      <div className="card bg-base-300 w-96 shadow-xl text-white" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
         <div className="card-body">
           <h2 className="card-title justify-center">
             {isLoginForm ? "Login" : "Sign Up"}
@@ -139,7 +144,7 @@ const Login = () => {
               {isLoginForm ? "Login" : "Sign Up"}
             </button>
           </div>
-  
+
           <p
             className="m-auto cursor-pointer py-2"
             onClick={() => setIsLoginForm((value) => !value)}
@@ -150,8 +155,8 @@ const Login = () => {
       </div>
     </div>
   );
-  
-  
-  
+
+
+
 };
 export default Login;
