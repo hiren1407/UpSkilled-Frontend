@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import bg from '../images/bg.jpeg'
 import { BASE_URL, LOGIN_URL } from "../utils/constants";
-import { loginUser, signUpUser } from '../utils/userSlice';
+import { loginUser, signUpUser, setStateRole } from '../utils/userSlice';
 import { jwtDecode } from 'jwt-decode';
 import '../Styles/Login.css'
 
@@ -19,16 +19,17 @@ const Login = () => {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const state = useSelector((state) => state.user.user);
 
   const handleLogin = async () => {
     try {
       const response = await dispatch(loginUser({ email, password })).unwrap();
-      if (response.status === 200) {
-        localStorage.setItem('token', response.data);
-        if (state.role.toLowerCase() === "admin") navigate("/admin");
-        else if (state.role.toLowerCase() === "instructor") navigate("/instructor");
-        else if (state.role.toLowerCase() === "employee") navigate("/employee/1/announcements");
+      if (response) {
+        localStorage.setItem('token', response);
+        const user = jwtDecode(response);
+        dispatch(setStateRole(user.role));
+        if (user.role.toLowerCase() === "admin") navigate("/admin");
+        else if (user.role.toLowerCase() === "instructor") navigate("/instructor");
+        else if (user.role.toLowerCase() === "employee") navigate("/employee/1/announcements");
       }
     } catch (err) {
       setError(err.message || "Login failed"); // Set error if login fails

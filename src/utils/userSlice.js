@@ -4,20 +4,17 @@ import axios from 'axios';
 import { BASE_URL, LOGIN_URL } from '../utils/constants';
 import { jwtDecode } from 'jwt-decode';
 const initialState = {
-  role: 'employee', // Default role
+  role: '', // Default role
 };
 
 export const loginUser = createAsyncThunk('user/login', async ({ email, password }, { rejectWithValue }) => {
   try {
     const response = await axios.post(`${LOGIN_URL}`,
-      JSON.stringify({ 'email': email, 'password': password }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true
-    });
-    // setRole(response.data.role);
-    return response; // Return the user data
+      { email, password },);
+    if (response.status === 200) {
+      const token = response.data;
+      return token;
+    }
   } catch (error) {
     return rejectWithValue(error.response.data); // Return error message
   }
@@ -36,8 +33,8 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setRole(state, action) {
-      state.role = action.payload;
+    setStateRole(state, action) {
+      state.role = action.payload.toLowerCase();
     },
     clearError: (state) => {
       state.error = null;
@@ -52,7 +49,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = jwtDecode(action.payload.data); // Store user data in state
+        state.user = jwtDecode(action.payload); // Store user data in state
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -73,5 +70,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { clearError, setRole } = userSlice.actions;
+export const { clearError, setStateRole } = userSlice.actions;
 export default userSlice.reducer;
