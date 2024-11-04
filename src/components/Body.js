@@ -12,9 +12,11 @@ const Body = () => {
 
 
   return (
-    <div >
+    <div className='flex flex-col' >
       <NavBar />
+      <div className='mt-12 flex-grow'>
       <Outlet />
+      </div>
       <Footer />
     </div>
   )
