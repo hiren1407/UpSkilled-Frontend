@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL, LOGIN_URL } from '../utils/constants';
+import { jwtDecode } from 'jwt-decode';
 const initialState = {
   role: 'employee', // Default role
 };
@@ -9,14 +10,14 @@ const initialState = {
 export const loginUser = createAsyncThunk('user/login', async ({ email, password }, { rejectWithValue }) => {
   try {
     const response = await axios.post(`${LOGIN_URL}`,
-      new URLSearchParams({ 'username': email, 'password': password }), {
+      JSON.stringify({ 'email': email, 'password': password }), {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
       withCredentials: true
     });
     // setRole(response.data.role);
-    return response.data; // Return the user data
+    return response; // Return the user data
   } catch (error) {
     return rejectWithValue(error.response.data); // Return error message
   }
@@ -51,7 +52,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload; // Store user data in state
+        state.user = jwtDecode(action.payload.data); // Store user data in state
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

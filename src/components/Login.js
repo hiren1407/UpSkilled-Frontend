@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import bg from '../images/bg.jpeg'
 import { BASE_URL, LOGIN_URL } from "../utils/constants";
 import { loginUser, signUpUser } from '../utils/userSlice';
+import { jwtDecode } from 'jwt-decode';
 import '../Styles/Login.css'
 
 const Login = () => {
@@ -23,11 +24,12 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await dispatch(loginUser({ email, password })).unwrap();
-      const role = response.role.toLowerCase();
-      if (role === "admin") navigate("/admin");
-      else if (role === "instructor") navigate("/instructor");
-      else
-        navigate("/employee/1/announcements");
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data);
+        if (state.role.toLowerCase() === "admin") navigate("/admin");
+        else if (state.role.toLowerCase() === "instructor") navigate("/instructor");
+        else if (state.role.toLowerCase() === "employee") navigate("/employee/1/announcements");
+      }
     } catch (err) {
       setError(err.message || "Login failed"); // Set error if login fails
     }
