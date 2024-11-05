@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import bg from '../images/bg.jpeg'
 import { BASE_URL, LOGIN_URL } from "../utils/constants";
-import { loginUser, signUpUser, setStateRole } from '../utils/userSlice';
+import { loginUser, signUpUser, setUser } from '../utils/userSlice';
 import { jwtDecode } from 'jwt-decode';
 import '../Styles/Login.css'
 
@@ -26,7 +26,7 @@ const Login = () => {
       if (response) {
         localStorage.setItem('token', response);
         const user = jwtDecode(response);
-        dispatch(setStateRole(user.role));
+        dispatch(setUser({ user, token: response }));
         if (user.role.toLowerCase() === "admin") navigate("/admin");
         else if (user.role.toLowerCase() === "instructor") navigate("/instructor");
         else if (user.role.toLowerCase() === "employee") navigate("/employee/1/announcements");
