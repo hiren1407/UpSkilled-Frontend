@@ -33,8 +33,10 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setStateRole(state, action) {
-      state.role = action.payload.toLowerCase();
+    setUser(state, action) {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.role = action.payload.user.role.toLowerCase();
     },
     clearError: (state) => {
       state.error = null;
@@ -49,6 +51,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.token = action.payload; // Store token in state
         state.user = jwtDecode(action.payload); // Store user data in state
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -70,5 +73,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { clearError, setStateRole } = userSlice.actions;
+export const { clearError, setUser } = userSlice.actions;
 export default userSlice.reducer;

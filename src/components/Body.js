@@ -7,14 +7,13 @@ import Footer from './Footer'
 // import axios from 'axios'
 
 const Body = () => {
-  //   const dispatch=useDispatch()
-  const navigate = useNavigate()
-
 
   return (
-    <div >
+    <div className='flex flex-column'>
       <NavBar />
-      <Outlet />
+      <div className='flex-grow mt-12'>
+        <Outlet />
+      </div>
       <Footer />
     </div>
   )
