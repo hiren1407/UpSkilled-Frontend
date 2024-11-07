@@ -8,6 +8,9 @@ import EmployeeDashboard from "./components/EmployeeDashboard"
 import InstructorDashboard from "./components/InstructorDashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ViewAnnouncement from "./components/ViewAnnouncement"
+import ManageInstructors from "./components/ManageInstructors"
+import ManageCourses from "./components/ManageCourses"
+import SideBar from "./components/SideBar"
 
 function App() {
 
@@ -27,6 +30,35 @@ function App() {
                                     </ProtectedRoute>
                                 }
                             />
+                            <Route
+                                path="/admin/manage-instructors"
+                                element={
+                                    <ProtectedRoute allowedRoles={['admin']}>
+                                      <div className="flex">
+                                        <SideBar/>
+                                        <div className="flex-grow">
+                                        <ManageInstructors />
+                                        </div>
+                                        </div>
+                                        
+                                  
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/admin/manage-courses"
+                                element={
+                                    <ProtectedRoute allowedRoles={['admin']}>
+                                        <div className="flex">
+                                        <SideBar/>
+                                        <div className="flex-grow">
+                                        <ManageCourses />
+                                        </div>
+                                        </div>
+                                    </ProtectedRoute>
+                                }
+                            />
+                            
                             <Route
                                 path="/employee"
                                 element={

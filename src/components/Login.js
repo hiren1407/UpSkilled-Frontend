@@ -29,9 +29,10 @@ const Login = () => {
         dispatch(setUser({ user, token: response }));
         if (user.role.toLowerCase() === "admin") navigate("/admin");
         else if (user.role.toLowerCase() === "instructor") navigate("/instructor");
-        else if (user.role.toLowerCase() === "employee") navigate("/employee/1/announcements");
+        else if (user.role.toLowerCase() === "employee") navigate("/employee");
       }
     } catch (err) {
+        console.log(err)
       setError(err.message || "Login failed"); // Set error if login fails
     }
   };
@@ -55,7 +56,7 @@ const Login = () => {
         paddingBottom: '5rem', // Space for footer
       }}
     >
-      <div className="card bg-base-300 w-96 shadow-xl text-white" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
+      <div className="card bg-base-300 w-96 shadow-xl text-black" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
         <div className="card-body">
           <h2 className="card-title justify-center">
             {isLoginForm ? "Login" : "Sign Up"}
@@ -117,7 +118,7 @@ const Login = () => {
             )}
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text text-white">Email ID:</span>
+                <span className="label-text text-black">Email ID:</span>
               </div>
               <input
                 type="text"
@@ -128,7 +129,7 @@ const Login = () => {
             </label>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text text-white">Password</span>
+                <span className="label-text text-black">Password</span>
               </div>
               <input
                 type="password"
