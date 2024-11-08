@@ -8,7 +8,7 @@ import { setUser } from '../utils/userSlice';
 const ProtectedRoute = ({ children, allowedRoles }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    let userRole = useSelector((store) => store?.user?.user?.role.toLowerCase());
+    let userRole = useSelector((store) => store?.user?.user?.role?.toLowerCase());
     if (!userRole) {
         userRole = localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')).role.toLowerCase() : '';
         if (userRole === '') {

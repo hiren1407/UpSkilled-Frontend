@@ -3,14 +3,16 @@ import Body from "./components/Body"
 import Login from "./components/Login"
 import { Provider } from "react-redux"
 import appStore from "./utils/appStore"
-import AdminDashboard from "./components/AdminDashboard"
-import EmployeeDashboard from "./components/EmployeeDashboard"
-import InstructorDashboard from "./components/InstructorDashboard"
+import AdminDashboard from "./components/Admin/AdminDashboard"
+import EmployeeDashboard from "./components/Employee/EmployeeDashboard"
+import InstructorDashboard from "./components/Instructor/InstructorDashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ViewAnnouncement from "./components/ViewAnnouncement"
-import ManageInstructors from "./components/ManageInstructors"
-import ManageCourses from "./components/ManageCourses"
+import ManageInstructors from "./components/Admin/ManageInstructors"
+import ManageCourses from "./components/Admin/ManageCourses"
+import Profile from "./components/Profile"
 import SideBar from "./components/SideBar"
+
 
 function App() {
 
@@ -23,6 +25,19 @@ function App() {
                         <Route path="/" element={<Body />}>
                             <Route path="/" element={<Login />} />
                             <Route
+                                path="/profile"
+                                element={
+                                    <ProtectedRoute allowedRoles={['admin', 'instructor', 'employee']}>
+                                        <div className="flex">
+                                            <SideBar />
+                                            <div className="flex-grow">
+                                                <Profile />
+                                            </div>
+                                        </div>
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
                                 path="/admin"
                                 element={
                                     <ProtectedRoute allowedRoles={['admin']}>
@@ -34,14 +49,14 @@ function App() {
                                 path="/admin/manage-instructors"
                                 element={
                                     <ProtectedRoute allowedRoles={['admin']}>
-                                      <div className="flex">
-                                        <SideBar/>
-                                        <div className="flex-grow">
-                                        <ManageInstructors />
+                                        <div className="flex">
+                                            <SideBar />
+                                            <div className="flex-grow">
+                                                <ManageInstructors />
+                                            </div>
                                         </div>
-                                        </div>
-                                        
-                                  
+
+
                                     </ProtectedRoute>
                                 }
                             />
@@ -50,15 +65,15 @@ function App() {
                                 element={
                                     <ProtectedRoute allowedRoles={['admin']}>
                                         <div className="flex">
-                                        <SideBar/>
-                                        <div className="flex-grow">
-                                        <ManageCourses />
-                                        </div>
+                                            <SideBar />
+                                            <div className="flex-grow">
+                                                <ManageCourses />
+                                            </div>
                                         </div>
                                     </ProtectedRoute>
                                 }
                             />
-                            
+
                             <Route
                                 path="/employee"
                                 element={

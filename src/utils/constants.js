@@ -1,2 +1,1 @@
-export const BASE_URL = "http://34.207.178.5:8080/api";
-export const LOGIN_URL = "http://34.207.178.5:8080/api/auth/login";
+export const BASE_URL = "http://52.91.11.189:8080/api";
