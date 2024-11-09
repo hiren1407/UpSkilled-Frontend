@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import bg from '../images/bg.jpeg'
-import { BASE_URL, LOGIN_URL } from "../utils/constants";
 import { loginUser, signUpUser, setUser } from '../utils/userSlice';
 import { jwtDecode } from 'jwt-decode';
 import '../Styles/Login.css'
