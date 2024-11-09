@@ -84,30 +84,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload; // Store error message
       })
-      .addCase(signUpUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(signUpUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload; // Store user data in state
-      })
-      .addCase(signUpUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload; // Store error message
-      })
-      .addCase(updateUser .pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateUser .fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload; // Update user data in state
-      })
-      .addCase(updateUser .rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload; // Store error message
-      });
+      
   }
 });
 
