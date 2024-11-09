@@ -1,10 +1,18 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom'
+import { fetchCourseDetails } from '../utils/courseSlice';
 
 const SideBar = () => {
 
-    const role = useSelector((store)=>store.user.role)
+    const role = useSelector((store) => store.user.role);
+    const {courseId} = useParams();
+    const dispatch = useDispatch();
+    const courseDetails = useSelector((store) => store.courseDetails);
+
+    useEffect(() => {
+        dispatch(fetchCourseDetails({ courseId }));
+    }, [dispatch, courseId]);
 
     const adminItems = [
         { path: "/admin", label: "Admin Dashboard", icon: "fas fa-home" },
@@ -18,8 +26,11 @@ const SideBar = () => {
     ];
 
     const instructorItems = [
-        { path: "/", label: "Instructor Dashboard", icon: "fas fa-home" },
-        { path: "/grades", label: "Manage Grades", icon: "fas fa-graduation-cap" },
+        { path: "/instructor", label: "Dashboard", icon: "fas fa-home" },
+        { path: `/instructor/course/${courseId}/announcements`, label: "Announcements", icon: "fas fa-bullhorn" },
+        { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: "fas fa-tasks" },
+
+        { path: `/instructor/course/${courseId}/syllabus`, label: "Syllabus", icon: "fas fa-book" },
     ];
 
     // Determine which items to display based on role
@@ -32,11 +43,11 @@ const SideBar = () => {
         itemsToDisplay = instructorItems;
     }
 
-    
-    
+
+
     return (
         // <div className='flex flex-col min-h-screen'>
-          
+
         //   <div className='flex flex-grow'>
         //     <div className="fixed flex flex-col top-12 left-0 w-14 hover:w-64 md:w-64 bg-base-300 h-full transition-all duration-300 border-none z-10 sidebar">
         //       <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -107,12 +118,12 @@ const SideBar = () => {
         //           })}
         //         </ol>
         //       </div> */}
-              
+
         //     </div>
         //   </div>
-          
+
         // </div >
-        <div className='flex flex-col min-h-screen'>
+        <div className='flex flex-col'>
             <div className='flex flex-grow'>
                 <div className="fixed flex flex-col top-12 left-0 w-14 hover:w-64 md:w-64 bg-base-300 h-full transition-all duration-300 border-none z-10 sidebar">
                     <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
@@ -136,7 +147,7 @@ const SideBar = () => {
                 </div>
             </div>
         </div>
-      )
+    )
 }
 
 export default SideBar
