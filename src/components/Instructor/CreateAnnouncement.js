@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 import { useNavigate, useParams } from "react-router-dom";
 
 const CreateAnnouncement = () => {

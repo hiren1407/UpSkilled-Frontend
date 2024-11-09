@@ -3,20 +3,23 @@ import Body from "./components/Body"
 import Login from "./components/Login"
 import { Provider } from "react-redux"
 import appStore from "./utils/appStore"
-import AdminDashboard from "./components/AdminDashboard"
-import EmployeeDashboard from "./components/EmployeeDashboard"
-import InstructorDashboard from "./components/InstructorDashboard"
+import AdminDashboard from "./components/Admin/AdminDashboard"
+import EmployeeDashboard from "./components/Employee/EmployeeDashboard"
+import InstructorDashboard from "./components/Instructor/InstructorDashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ViewAnnouncement from "./components/ViewAnnouncement"
 import CourseDashboard from "./components/CourseDashboard"
 import Announcements from "./components/Announcements"
-import CreateAnnouncement from "./components/CreateAnnouncement"
+import CreateAnnouncement from "./components/Instructor/CreateAnnouncement"
 import Syllabus from "./components/Syllabus"
-import ManageInstructors from "./components/ManageInstructors"
-import ManageCourses from "./components/ManageCourses"
+// // import ManageInstructors from "./components/ManageInstructors"
+// // import ManageCourses from "./components/ManageCourses"
+// // import ManageInstructors from "./components/Admin/ManageInstructors"
+// import ManageCourses from "./components/Admin/ManageCourses"
+import Profile from "./components/Profile"
 import SideBar from "./components/SideBar"
 import Assignments from "./components/Assignments"
-import CreateAssignment from "./components/CreateAssignment"
+import CreateAssignment from "./components/Instructor/CreateAssignment"
 import ViewAssignment from "./components/ViewAssignment"
 
 function App() {
@@ -30,6 +33,19 @@ function App() {
                         <Route path="/" element={<Body />}>
                             <Route path="/" element={<Login />} />
                             <Route
+                                path="/profile"
+                                element={
+                                    <ProtectedRoute allowedRoles={['admin', 'instructor', 'employee']}>
+                                        <div className="flex">
+                                            <SideBar />
+                                            <div className="flex-grow">
+                                                <Profile />
+                                            </div>
+                                        </div>
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
                                 path="/admin"
                                 element={
                                     <ProtectedRoute allowedRoles={['admin']}>
@@ -37,7 +53,7 @@ function App() {
                                     </ProtectedRoute>
                                 }
                             />
-                            <Route
+                            {/* <Route
                                 path="/admin/manage-instructors"
                                 element={
                                     <ProtectedRoute allowedRoles={['admin']}>
@@ -64,7 +80,7 @@ function App() {
                                         </div>
                                     </ProtectedRoute>
                                 }
-                            />
+                            /> */}
 
                             <Route
                                 path="/employee"

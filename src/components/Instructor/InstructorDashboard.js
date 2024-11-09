@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL } from '../utils/constants';
+import { BASE_URL } from '../../utils/constants';
 
 const InstructorDashboard = () => {
   document.title = "Instructor Dashboard";
@@ -41,7 +41,7 @@ const InstructorDashboard = () => {
 
   return (
     <div>
-      <h1 className='text-5xl text-center'>Instructor Dashboard</h1>
+      <h1 className='text-5xl text-center'>Dashboard</h1>
       <div className="flex flex-wrap justify-start my-8">
         {courses.map((course) => (
           <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2">

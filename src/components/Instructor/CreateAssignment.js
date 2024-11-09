@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 
 const CreateAssignment = () => {
     document.title = "Create Assignment";

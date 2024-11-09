@@ -6,6 +6,8 @@ import bg from '../images/bg.jpeg'
 import { loginUser, signUpUser, setUser } from '../utils/userSlice';
 import { jwtDecode } from 'jwt-decode';
 import '../Styles/Login.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +21,13 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+
   const handleLogin = async () => {
     try {
       const response = await dispatch(loginUser({ email, password })).unwrap();
@@ -31,15 +40,21 @@ const Login = () => {
         else if (user.role.toLowerCase() === "employee") navigate("/employee");
       }
     } catch (err) {
-        console.log(err)
+      
       setError(err.message || "Login failed"); // Set error if login fails
     }
   };
 
   const handleSignUp = async () => {
     try {
-      await dispatch(signUpUser({ firstName, lastName, email, password, role, designation })).unwrap();
-      navigate("/profile");
+      const status = await dispatch(signUpUser({ firstName, lastName, email, password, role, designation })).unwrap();
+      if (status == 201) {
+        document.getElementById('my_modal_5').showModal()
+
+        setEmail("")
+        setPassword("")
+      }
+
     } catch (err) {
       setError(err.message || "Signup failed"); // Set error if signup fails
     }
@@ -54,7 +69,22 @@ const Login = () => {
         paddingTop: '5rem', // Space for navbar
         paddingBottom: '5rem', // Space for footer
       }}
+
+
     >
+
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">User data saved sucessfully</h3>
+          <p className="py-4">If you signed up as an instructor, you need to contact the admin before login</p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn" onClick={() => setIsLoginForm(true)}>Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
       <div className="card bg-base-300 w-96 shadow-xl text-black" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
         <div className="card-body">
           <h2 className="card-title justify-center">
@@ -130,12 +160,21 @@ const Login = () => {
               <div className="label">
                 <span className="label-text text-black">Password</span>
               </div>
-              <input
-                type="password"
-                value={password}
-                className="input input-bordered w-full max-w-xs"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={password}
+                  className="input input-bordered w-full pr-10" // Add padding to the right for the icon
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <span
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                </span>
+              </div>
             </label>
           </div>
           <p className="text-red-500">{error}</p>
