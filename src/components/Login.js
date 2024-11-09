@@ -181,7 +181,7 @@ const Login = () => {
           </div>
         </div>
       </dialog>
-      <div className="card bg-base-300 w-96 shadow-xl text-black" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
+      <div className="card bg-base-300 w-96 shadow-xl" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
         <div className="card-body">
           <h2 className="card-title justify-center">
             {isLoginForm ? "Login" : "Sign Up"}
@@ -253,7 +253,7 @@ const Login = () => {
             )}
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text text-black">Email ID:</span>
+                <span className="label-text">Email ID:</span>
               </div>
               <input
                 type="text"
@@ -265,7 +265,7 @@ const Login = () => {
             </label>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text text-black">Password</span>
+                <span className="label-text">Password</span>
               </div>
               <div className="relative">
                 <input

@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
-import axios from "axios";
-import { useParams } from "react-router-dom";
 
 const Syllabus = () => {
     const course = useSelector((state) => state.courseDetails.course);
     const role = useSelector((state) => state.user.role);
     const [syllabus, setSyllabus] = useState(null);
     const [newSyllabus, setNewSyllabus] = useState(null); // State for the new syllabus file
-    const { courseId } = useParams();
+    const courseId = useSelector((store) => store.courseDetails.course.id);
     const [showSyllabus, setShowSyllabus] = useState(false);
     const [status, setStatus] = useState(null);
     const [fileError, setFileError] = useState(null);
@@ -85,7 +83,7 @@ const Syllabus = () => {
             <div className="hero place-items-start">
                 <div className="w-full">
                     <div className="flex justify-between">
-                        <div className="">
+                        <div className="w-4/5">
                             <h1 className="text-xl font-bold">{course.title} - {course.name}</h1>
                             <h2 className="text-lg font-bold">Instructor: {course.instructorName} </h2>
                             <p className="py-4">

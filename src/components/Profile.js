@@ -58,7 +58,7 @@ const Profile = () => {
       }}
     >
 
-      <div className="card bg-base-300 w-96 shadow-xl text-black" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
+      <div className="card bg-base-300 w-96 shadow-xl" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
         {showToast && (
           <div className="flex justify-center">
             <div className="toast toast-top relative">
@@ -128,7 +128,7 @@ const Profile = () => {
 
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text text-black">Email ID:</span>
+                <span className="label-text">Email ID:</span>
               </div>
               <input
                 type="text"
@@ -140,7 +140,7 @@ const Profile = () => {
             </label>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text text-black">Password</span>
+                <span className="label-text">Password</span>
               </div>
               <div className="relative">
                 <input

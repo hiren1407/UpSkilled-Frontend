@@ -11,7 +11,7 @@ const CreateAssignment = () => {
     const [error, setError] = useState(null);
     const [status, setStatus] = useState(null);
     const navigate = useNavigate();
-    const { courseId } = useParams();
+    const courseId = useSelector((store) => store.courseDetails.course.id);
 
     const handleCreate = async (event) => {
         event.preventDefault();

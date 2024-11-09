@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
+import { useSelector } from "react-redux";
 
 const Assignments = () => {
-    const { courseId } = useParams();
+    const courseId = useSelector((store) => store.courseDetails.course.id);
     const navigate = useNavigate();
     const [assignments, setAssignments] = useState([]);
 

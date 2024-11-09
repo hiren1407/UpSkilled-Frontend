@@ -7,7 +7,7 @@ const CreateAnnouncement = () => {
     const [content, setContent] = useState("");
     const [showPopup, setShowPopup] = useState(false);
 
-    const { courseId } = useParams();
+    const courseId = useSelector((store) => store.courseDetails.course.id);
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {

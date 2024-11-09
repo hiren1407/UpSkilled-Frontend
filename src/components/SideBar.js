@@ -1,20 +1,14 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom'
-import { fetchCourseDetails } from '../utils/courseSlice';
+import React from 'react'
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTasks, faGraduationCap, faUsersCog, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTasks, faGraduationCap, faUsersCog, faBook, faBullhorn } from '@fortawesome/free-solid-svg-icons';
 
 const SideBar = () => {
 
     const role = useSelector((store) => store.user.role);
-    const {courseId} = useParams();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchCourseDetails({ courseId }));
-    }, [dispatch, courseId]);
+    const courseId = useSelector((store) => store.courseDetails.course.id);
     const location = useLocation(); // Get the current location
 
     const adminItems = [
@@ -30,10 +24,10 @@ const SideBar = () => {
 
     const instructorItems = [
         { path: "/instructor", label: "Dashboard", icon: faHome },
-        { path: `/instructor/course/${courseId}/announcements`, label: "Announcements", icon: "fas fa-bullhorn" },
-        { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: "fas fa-tasks" },
+        { path: `/instructor/course/${courseId}/announcements`, label: "Announcements", icon: faBullhorn },
+        { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
 
-        { path: `/instructor/course/${courseId}/syllabus`, label: "Syllabus", icon: "fas fa-book" },
+        { path: `/instructor/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
     ];
 
     // Determine which items to display based on role

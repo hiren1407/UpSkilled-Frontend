@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const ViewAssignment = () => {
     const { assignmentId } = useParams();
-    const { courseId } = useParams();
+    const courseId = useSelector((store) => store.courseDetails.course.id);
     const [assignment, setAssignment] = useState({});
     const [loading, setLoading] = useState(true);
     const [showEditModal, setShowEditModal] = useState(false);
