@@ -14,11 +14,19 @@ const CourseDashboard = () => {
     }
 
     if (loading) {
-        return <span className="loading loading-dots loading-lg"></span>;
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <span className="loading loading-dots loading-lg"></span>
+            </div>
+        );
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div>{error}</div>
+            </div>
+        );
     }
 
     return (

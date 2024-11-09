@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BASE_URL } from "../../utils/constants";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CreateAnnouncement = () => {
     const [title, setTitle] = useState("");
