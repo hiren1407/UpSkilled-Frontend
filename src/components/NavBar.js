@@ -43,20 +43,20 @@ const NavBar = () => {
 
 
   return (
-    <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0">
+    <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0" style={{minHeight:'3.5rem'}}>
       <div className="flex-1">
         {/* <Link to="/" className="btn btn-ghost text-xl">UpSkilled</Link> */}
         <Link to="/"><img src={Logo} alt='Logo' className='h-8 w-28 ml-4'></img></Link>
       </div>
       {user && (<div className="flex-none gap-2">
         <div className="form-control">
-          Welcome , {user?.firstName}
+          Welcome, {user?.firstName}
         </div>
-        <div className="dropdown dropdown-end mx-5 flex">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
+        <div className="dropdown dropdown-end mr-3 flex">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" style={{minHeight:'2.5rem',height:'2.5rem'}}>
+            <div className="w-8 rounded-full">
               <img
-                alt="user photo"
+                alt="user avatar"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW16OcRfS6od-QYRbk1htduUIOMUAaFVp0PQ&s" />
             </div>
           </div>

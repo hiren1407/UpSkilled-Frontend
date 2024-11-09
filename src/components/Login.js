@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 // import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -142,6 +142,19 @@ const Login = () => {
       setError(err.message || "Signup failed"); // Set error if signup fails
     }
   };
+
+  useEffect(()=>{
+
+    if(isLoginForm){
+      setEmailError("")
+      setPasswordError("")
+      setFirstNameError("")
+      setLastNameError("")
+      setDesignationError("")
+      setRoleError("")
+
+    }
+  },[isLoginForm])
 
   return (
     <div
