@@ -17,7 +17,7 @@ import ManageCourses from "./components/Admin/ManageCourses"
 import Profile from "./components/Profile"
 import SideBar from "./components/SideBar"
 import Assignments from "./components/Assignments"
-import CreateAssignment from "./components/CreateAssignment"
+import CreateAssignment from "./components/Instructor/CreateAssignment"
 import ViewAssignment from "./components/ViewAssignment"
 
 function App() {
