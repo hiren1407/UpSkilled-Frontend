@@ -26,7 +26,6 @@ const Profile = () => {
 
   const dispatch = useDispatch();
 
-
   const update = async () => {
     try {
       const response = await dispatch(updateUser({ designation, password })).unwrap();
@@ -43,8 +42,6 @@ const Profile = () => {
       setError(err.message || "Update failed"); // Set error if login fails
     }
   };
-
-
 
   return (
 
@@ -69,7 +66,7 @@ const Profile = () => {
           </div>
         )}
         <div className="card-body">
-          <h2 className="card-title justify-center">
+          <h2 className="card-title justify-center text-black">
             Profile
           </h2>
           <div>
@@ -78,7 +75,7 @@ const Profile = () => {
               <div className="flex gap-x-2 my-2">
                 <label className="form-control w-1/2">
                   <div className="label">
-                    <span className="label-text text-white">First Name</span>
+                    <span className="label-text text-black">First Name</span>
                   </div>
                   <input
                     type="text"
@@ -89,7 +86,7 @@ const Profile = () => {
                 </label>
                 <label className="form-control w-1/2">
                   <div className="label">
-                    <span className="label-text text-white">Last Name</span>
+                    <span className="label-text text-black">Last Name</span>
                   </div>
                   <input
                     type="text"
@@ -101,7 +98,7 @@ const Profile = () => {
               </div>
               <label className="form-control w-full max-w-xs my-2">
                 <div className="label">
-                  <span className="label-text text-white">Designation</span>
+                  <span className="label-text text-black">Designation</span>
                 </div>
                 <input
                   type="text"
@@ -112,7 +109,7 @@ const Profile = () => {
               </label>
               <label className="form-control w-full max-w-xs my-2">
                 <div className="label">
-                  <span className="label-text text-white">Role</span>
+                  <span className="label-text text-black">Role</span>
                 </div>
                 <select
                   className="select select-bordered w-full max-w-xs"
@@ -128,7 +125,7 @@ const Profile = () => {
 
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text">Email ID:</span>
+                <span className="label-text text-black">Email ID:</span>
               </div>
               <input
                 type="text"
@@ -140,7 +137,7 @@ const Profile = () => {
             </label>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-black">Password</span>
               </div>
               <div className="relative">
                 <input

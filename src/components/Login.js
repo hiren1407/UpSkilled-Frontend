@@ -183,7 +183,7 @@ const Login = () => {
       </dialog>
       <div className="card bg-base-300 w-96 shadow-xl" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
         <div className="card-body">
-          <h2 className="card-title justify-center">
+          <h2 className="card-title justify-center text-black">
             {isLoginForm ? "Login" : "Sign Up"}
           </h2>
           <div>
@@ -192,7 +192,7 @@ const Login = () => {
                 <div className="flex gap-x-2 my-2">
                   <label className="form-control w-1/2">
                     <div className="label">
-                      <span className="label-text text-white">First Name</span>
+                      <span className="label-text text-black">First Name</span>
                     </div>
                     <input
                       type="text"
@@ -204,7 +204,7 @@ const Login = () => {
                   </label>
                   <label className="form-control w-1/2">
                     <div className="label">
-                      <span className="label-text text-white">Last Name</span>
+                      <span className="label-text text-black">Last Name</span>
                     </div>
                     <input
                       type="text"
@@ -218,7 +218,7 @@ const Login = () => {
                 </div>
                 <label className="form-control w-full max-w-xs my-2">
                   <div className="label">
-                    <span className="label-text text-white">Designation</span>
+                    <span className="label-text text-black">Designation</span>
                   </div>
                   <input
                     type="text"
@@ -232,7 +232,7 @@ const Login = () => {
                 </label>
                 <label className="form-control w-full max-w-xs my-2">
                   <div className="label">
-                    <span className="label-text text-white">Role</span>
+                    <span className="label-text text-black">Role</span>
                   </div>
                   <select
                     className="select select-bordered w-full max-w-xs"
@@ -253,7 +253,7 @@ const Login = () => {
             )}
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text">Email ID:</span>
+                <span className="label-text text-black">Email ID:</span>
               </div>
               <input
                 type="text"
@@ -265,7 +265,7 @@ const Login = () => {
             </label>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-black">Password</span>
               </div>
               <div className="relative">
                 <input
@@ -296,7 +296,7 @@ const Login = () => {
           </div>
 
           <p
-            className="m-auto cursor-pointer py-2"
+            className="m-auto cursor-pointer py-2 text-black"
             onClick={() => setIsLoginForm((value) => !value)}
           >
             {isLoginForm ? "New User? Signup Here" : "Existing User? Login Here"}
