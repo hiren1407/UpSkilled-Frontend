@@ -1,1 +1,1 @@
-export const BASE_URL = "https://upskilled-backend-85a9d459e559.herokuapp.com/api";
+export const BASE_URL = "https://upskilled-backend-hg-4f193855ab3c.herokuapp.com/api";
