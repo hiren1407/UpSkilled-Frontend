@@ -12,14 +12,12 @@ import CourseDashboard from "./components/CourseDashboard"
 import Announcements from "./components/Announcements"
 import CreateAnnouncement from "./components/Instructor/CreateAnnouncement"
 import Syllabus from "./components/Syllabus"
-// // import ManageInstructors from "./components/ManageInstructors"
-// // import ManageCourses from "./components/ManageCourses"
-// // import ManageInstructors from "./components/Admin/ManageInstructors"
-// import ManageCourses from "./components/Admin/ManageCourses"
+import ManageInstructors from "./components/Admin/ManageInstructors"
+import ManageCourses from "./components/Admin/ManageCourses"
 import Profile from "./components/Profile"
 import SideBar from "./components/SideBar"
 import Assignments from "./components/Assignments"
-import CreateAssignment from "./components/Instructor/CreateAssignment"
+import CreateAssignment from "./components/CreateAssignment"
 import ViewAssignment from "./components/ViewAssignment"
 
 function App() {
@@ -53,7 +51,7 @@ function App() {
                                     </ProtectedRoute>
                                 }
                             />
-                            {/* <Route
+                            <Route
                                 path="/admin/manage-instructors"
                                 element={
                                     <ProtectedRoute allowedRoles={['admin']}>
@@ -80,7 +78,7 @@ function App() {
                                         </div>
                                     </ProtectedRoute>
                                 }
-                            /> */}
+                            />
 
                             <Route
                                 path="/employee"
@@ -98,7 +96,6 @@ function App() {
                                     </ProtectedRoute>
                                 }
                             />
-                            <Route path="/employee/:id/announcements" element={<ViewAnnouncement />} />
                             <Route path="/employee/:id/announcements" element={<ProtectedRoute allowedRoles={['employee']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewAnnouncement /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><CourseDashboard /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/announcements" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><Announcements /></div></div></ProtectedRoute>} />

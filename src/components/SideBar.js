@@ -11,7 +11,6 @@ const SideBar = () => {
     const role = useSelector((store) => store.user.role);
     const {courseId} = useParams();
     const dispatch = useDispatch();
-    const courseDetails = useSelector((store) => store.courseDetails);
 
     useEffect(() => {
         dispatch(fetchCourseDetails({ courseId }));

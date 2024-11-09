@@ -1,6 +1,6 @@
 import React from 'react'
 import NavBar from './NavBar'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import Footer from './Footer'
 import Breadcrumbs from './Breadcrumbs'
 
