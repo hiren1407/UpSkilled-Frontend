@@ -11,6 +11,7 @@ import { clearUser } from '../utils/userSlice'
 
 const NavBar = () => {
   const user = useSelector((store) => store.user.user)
+  const userCheck=useSelector((store)=>store.user.role)
   //   const dispatch=useDispatch()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -47,7 +48,7 @@ const NavBar = () => {
         {/* <Link to="/" className="btn btn-ghost text-xl">UpSkilled</Link> */}
         <Link to="/"><img src={Logo} alt='Logo' className='h-8 w-28 ml-4'></img></Link>
       </div>
-      {user && (<div className="flex-none gap-2">
+      {userCheck && (<div className="flex-none gap-2">
         <div className="form-control">
           Welcome , {user?.firstName}
         </div>

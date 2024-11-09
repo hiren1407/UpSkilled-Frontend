@@ -23,6 +23,87 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState('');
+  const [lastNameError, setLastNameError] = useState(false);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState('');
+  const [designationError, setDesignationError] = useState(false);
+  const [designationErrorMessage, setDesignationErrorMessage] = useState('');
+  const [roleError, setRoleError] = useState(false);
+  const [roleErrorMessage, setRoleErrorMessage] = useState('');
+
+
+
+  const validateInputs = () => {
+
+
+    let isValid = true;
+
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+        setEmailError(true);
+        setEmailErrorMessage('Please enter a valid email address.');
+        isValid = false;
+    } else {
+        setEmailError(false);
+        setEmailErrorMessage('');
+    }
+
+    if (!password || password.length < 6) {
+        setPasswordError(true);
+        setPasswordErrorMessage('Password must be at least 6 characters long.');
+        isValid = false;
+    } else {
+        setPasswordError(false);
+        setPasswordErrorMessage('');
+    }
+
+    if (!firstName|| firstName.length < 1) {
+        setFirstNameError(true);
+        setFirstNameErrorMessage('First Name is required.');
+        isValid = false;
+    } else {
+        setFirstNameError(false);
+        setFirstNameErrorMessage('');
+    }
+
+    if (!lastName|| lastName.length < 1) {
+      setLastNameError(true);
+      setLastNameErrorMessage('Last Name is required.');
+      isValid = false;
+  } else {
+      setLastNameError(false);
+      setLastNameErrorMessage('');
+  }
+    
+    if (!designation|| designation.length < 1) {
+        setDesignationError(true);
+        setDesignationErrorMessage('Designation is required.');
+        isValid = false;
+    }
+    else {
+        setDesignationError(false);
+        setDesignationErrorMessage('');
+    }
+
+    if(!role){
+      setRoleError(true);
+      setRoleErrorMessage('Role is required.');
+      isValid = false;
+    }
+    else {
+      setRoleError(false);
+      setRoleErrorMessage('');
+    }
+
+    
+
+    return isValid;
+};
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -48,13 +129,15 @@ const Login = () => {
 
   const handleSignUp = async () => {
     try {
-      const status = await dispatch(signUpUser({ firstName, lastName, email, password, role, designation })).unwrap();
-      if (status == 201) {
+      if (validateInputs()) {
+        const check = await dispatch(signUpUser({ firstName, lastName, email, password, role, designation })).unwrap();
+      if (check) {
         document.getElementById('my_modal_5').showModal()
 
         setEmail("")
         setPassword("")
       }
+    }
 
     } catch (err) {
       setError(err.message || "Signup failed"); // Set error if signup fails
@@ -105,6 +188,7 @@ const Login = () => {
                       className="input input-bordered w-full"
                       onChange={(e) => setFirstName(e.target.value)}
                     />
+                  {firstNameError && <p className="text-red-500">{firstNameErrorMessage}</p>}
                   </label>
                   <label className="form-control w-1/2">
                     <div className="label">
@@ -116,6 +200,8 @@ const Login = () => {
                       className="input input-bordered w-full"
                       onChange={(e) => setLastName(e.target.value)}
                     />
+                    {lastNameError && <p className="text-red-500">{lastNameErrorMessage}</p>}
+
                   </label>
                 </div>
                 <label className="form-control w-full max-w-xs my-2">
@@ -128,6 +214,9 @@ const Login = () => {
                     className="input input-bordered w-full max-w-xs"
                     onChange={(e) => setDesignation(e.target.value)}
                   />
+                  {designationError && <p className="text-red-500">{designationErrorMessage}</p>}
+                  
+  
                 </label>
                 <label className="form-control w-full max-w-xs my-2">
                   <div className="label">
@@ -135,15 +224,19 @@ const Login = () => {
                   </div>
                   <select
                     className="select select-bordered w-full max-w-xs"
+                    value={role}
                     onChange={(e) => setRole(e.target.value)}
                   >
-                    <option disabled selected value="">
+                    <option disabled value="">
                       Select Role
                     </option>
                     <option>Employee</option>
                     <option>Instructor</option>
                   </select>
+                  {roleError && <p className="text-red-500">{roleErrorMessage}</p>}
                 </label>
+
+
               </>
             )}
             <label className="form-control w-full max-w-xs my-2">
@@ -156,6 +249,7 @@ const Login = () => {
                 className="input input-bordered w-full max-w-xs"
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {emailError && <p className="text-red-500">{emailErrorMessage}</p>}
             </label>
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
@@ -176,6 +270,7 @@ const Login = () => {
                   <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </span>
               </div>
+              {passwordError && <p className="text-red-500">{passwordErrorMessage}</p>}
             </label>
           </div>
           <p className="text-red-500">{error}</p>
