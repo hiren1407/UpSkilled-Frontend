@@ -1,22 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import NavBar from './NavBar'
-import {  Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import Footer from './Footer'
-// import { BASE_URL } from '../utils/constants'
-
-import axios from 'axios'
+import Breadcrumbs from './Breadcrumbs'
 
 const Body = () => {
-//   const dispatch=useDispatch()
-  const navigate=useNavigate()
-  
-  
+
   return (
-    <div className=''>
-        <NavBar/>
-        <Outlet/>
-        <Footer/>
-    </div>
+    <div className='flex flex-col min-h-screen'>
+      <NavBar />
+      <div className='flex-grow mt-14'>
+        {/* <Breadcrumbs /> */}
+        <Outlet />
+      </div>
+      <Footer />
+    </div >
   )
 }
 
