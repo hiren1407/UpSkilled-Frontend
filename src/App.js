@@ -35,7 +35,6 @@ function App() {
                                 element={
                                     <ProtectedRoute allowedRoles={['admin', 'instructor', 'employee']}>
                                         <div className="flex">
-                                            <SideBar />
                                             <div className="flex-grow">
                                                 <Profile />
                                             </div>

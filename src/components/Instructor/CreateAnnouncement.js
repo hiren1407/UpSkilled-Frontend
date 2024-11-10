@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { BASE_URL } from "../../utils/constants";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CreateAnnouncement = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [showPopup, setShowPopup] = useState(false);
 
-    const courseId = useSelector((store) => store.courseDetails.course.id);
+    const { courseId } = useParams();
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {

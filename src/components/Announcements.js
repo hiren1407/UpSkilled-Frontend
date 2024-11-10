@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ViewAnnouncement = () => {
     const [announcements, setAnnouncements] = useState([]);
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
 
-    const courseId = useSelector((store) => store.courseDetails.course.id);
+    const { courseId } = useParams();
 
     useEffect(() => {
         if (user.role === "instructor") {

@@ -17,8 +17,9 @@ const Profile = () => {
   const [lastName, setLastName] = useState(user?.lastName);
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false)
-
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -26,25 +27,39 @@ const Profile = () => {
 
   const dispatch = useDispatch();
 
+  const validateInputs = () => {
+    let isValid = true;
+    if (!password || password.length < 6) {
+      setPasswordError(true);
+      setPasswordErrorMessage('Password must be at least 6 characters long.');
+      isValid = false;
+    } else {
+      setPasswordError(false);
+      setPasswordErrorMessage('');
+    }
+    return isValid;
+  }
+
   const update = async () => {
-    try {
-      const response = await dispatch(updateUser({ designation, password })).unwrap();
-      if (response == 201) {
-        setShowToast(true)
-        setTimeout(() => {
-          setShowToast(false)
-        }, 3000)
+    if (validateInputs()) {
+      try {
+        const response = await dispatch(updateUser({ designation, password })).unwrap();
+        if (response === 201) {
+          setShowToast(true)
+          setTimeout(() => {
+            setShowToast(false)
+          }, 3000)
 
+        }
+
+      } catch (err) {
+
+        setError(err.message || "Update failed"); // Set error if login fails
       }
-
-    } catch (err) {
-
-      setError(err.message || "Update failed"); // Set error if login fails
     }
   };
 
   return (
-
     <div
       className="flex justify-center items-center min-h-screen"
       style={{
@@ -154,6 +169,7 @@ const Profile = () => {
                   <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </span>
               </div>
+              {passwordError && <p className="text-red-500">{passwordErrorMessage}</p>}
             </label>
           </div>
           <p className="text-red-500">{error}</p>

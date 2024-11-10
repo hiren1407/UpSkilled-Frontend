@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../../utils/constants";
-import { useSelector } from "react-redux";
 
 const CreateAssignment = () => {
     document.title = "Create Assignment";
@@ -12,7 +11,7 @@ const CreateAssignment = () => {
     const [error, setError] = useState(null);
     const [status, setStatus] = useState(null);
     const navigate = useNavigate();
-    const courseId = useSelector((store) => store.courseDetails.course.id);
+    const { courseId } = useParams();
 
     const handleCreate = async (event) => {
         event.preventDefault();

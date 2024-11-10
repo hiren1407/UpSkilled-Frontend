@@ -1,29 +1,34 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTasks, faGraduationCap, faUsersCog, faBook, faBullhorn } from '@fortawesome/free-solid-svg-icons';
+import { faTasks, faUsersCog, faBook, faBullhorn, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
+import { fetchCourseDetails } from '../utils/courseSlice';
 
 const SideBar = () => {
 
     const role = useSelector((store) => store.user.role);
-    const courseId = useSelector((store) => store.courseDetails.course.id);
+    const { courseId } = useParams();
     const location = useLocation(); // Get the current location
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCourseDetails({ courseId }));
+    }, [dispatch, courseId]);
 
     const adminItems = [
-        { path: "/admin", label: "Admin Dashboard", icon: faHome },
         { path: "/admin/manage-instructors", label: "Manage Instructors", icon: faUsersCog },
         { path: "/admin/manage-courses", label: "Manage Courses", icon: faBook },
     ];
 
     const employeeItems = [
-        { path: "/", label: "Employee Dashboard", icon: faHome },
+        { path: `/employee/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
         { path: "/tasks", label: "My Tasks", icon: faTasks },
     ];
 
     const instructorItems = [
-        { path: "/instructor", label: "Dashboard", icon: faHome },
+        { path: `/instructor/course/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
         { path: `/instructor/course/${courseId}/announcements`, label: "Announcements", icon: faBullhorn },
         { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
 

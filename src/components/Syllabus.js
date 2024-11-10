@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
+import { useParams } from "react-router-dom";
 
 const Syllabus = () => {
     const course = useSelector((state) => state.courseDetails.course);
     const role = useSelector((state) => state.user.role);
     const [syllabus, setSyllabus] = useState(null);
     const [newSyllabus, setNewSyllabus] = useState(null); // State for the new syllabus file
-    const courseId = useSelector((store) => store.courseDetails.course.id);
-    const [showSyllabus, setShowSyllabus] = useState(false);
+    const { courseId } = useParams();
     const [status, setStatus] = useState(null);
     const [fileError, setFileError] = useState(null);
     const [error, setError] = useState(null);
@@ -64,6 +64,7 @@ const Syllabus = () => {
                 setStatus('success');
                 setNewSyllabus(null);
                 setFileError(null);
+                setError(null);
                 fetchSyllabus();
                 if (fileInputRef.current) {
                     fileInputRef.current.value = '';
@@ -101,13 +102,21 @@ const Syllabus = () => {
                             </div>
                         )}
                     </div>
-                    {!error && <button className="btn py-0" onClick={() => setShowSyllabus(!showSyllabus)}>{showSyllabus ? 'Hide Syllabus' : 'Show Syllabus'}</button>}
-                    {showSyllabus && (
-                        <div className="w-full content-center">
-                            <div className="mt-6">
-                                <iframe src={syllabus} style={{ width: '100%', height: '80vh' }} title="PDF Preview" />
+                    {!error && <button className="btn py-0" onClick={() => document.getElementById('my_modal_4').showModal()}>Show Syllabus</button>}
+                    {(
+                        <dialog id="my_modal_4" className="modal">
+                            <div className="modal-box w-11/12 max-w-5xl">
+                                <h3 className="font-bold text-lg text-center">Syllabus</h3>
+                                <form method="dialog">
+                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                </form>
+                                <div className="w-full content-center">
+                                    <div className="mt-4">
+                                        <iframe src={syllabus} style={{ width: '100%', height: '75vh' }} title="PDF Preview" />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </dialog>
                     )}
 
                 </div>

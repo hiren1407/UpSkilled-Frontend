@@ -1,59 +1,39 @@
 import React from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-// import { BASE_URL } from '../utils/constants'
 import Logo from '../images/Logo.jpeg'
-import { BASE_URL } from '../utils/constants'
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUser } from '../utils/userSlice'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 
 const NavBar = () => {
   const user = useSelector((store) => store.user.user)
-  
-  //   const dispatch=useDispatch()
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-  //   const handleLogout=async()=>{
-
-  //     try{
-  //       await axios.post(BASE_URL+"/auth/logout",{},{withCredentials:true})
-  //       dispatch(removeUser())
-  //       return navigate("/login")
-  //     }
-  //     catch(err){
-
-  //     }
-  //   }
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
-
     try {
-      //   await axios.post(BASE_URL+"/auth/logout",{},{withCredentials:true})
       localStorage.removeItem('token')
       dispatch(clearUser())
       return navigate("/")
     }
     catch (err) {
-
+      console.log(err)
     }
   }
 
-
   return (
-    <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0" style={{minHeight:'3.5rem'}}>
+    <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0" style={{ minHeight: '3.5rem' }}>
       <div className="flex-1">
-        {/* <Link to="/" className="btn btn-ghost text-xl">UpSkilled</Link> */}
         <Link to="/"><img src={Logo} alt='Logo' className='h-8 w-28 ml-4'></img></Link>
+        {user && (<Link to={`/${user.role.toLowerCase()}`}><span><FontAwesomeIcon className='ml-2 mr-1' icon={faHome}></FontAwesomeIcon>Home</span></Link>)}
       </div>
       {user && (<div className="flex-none gap-2">
         <div className="form-control">
           Welcome, {user?.firstName}
         </div>
         <div className="dropdown dropdown-end mr-3 flex">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" style={{minHeight:'2.5rem',height:'2.5rem'}}>
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" style={{ minHeight: '2.5rem', height: '2.5rem' }}>
             <div className="w-8 rounded-full">
               <img
                 alt="user avatar"
@@ -66,7 +46,6 @@ const NavBar = () => {
             <li>
               <Link to='/profile' className="justify-between">
                 Profile
-
               </Link>
             </li>
 

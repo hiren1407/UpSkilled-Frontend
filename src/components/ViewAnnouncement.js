@@ -13,7 +13,7 @@ const ViewAnnouncement = () => {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const courseId = useSelector((store) => store.courseDetails.course.id);
+    const { courseId } = useParams();
 
     const { announcementId } = useParams();
 
