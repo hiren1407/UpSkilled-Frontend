@@ -17,8 +17,9 @@ const Profile = () => {
   const [lastName, setLastName] = useState(user?.lastName);
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false)
-
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -26,28 +27,39 @@ const Profile = () => {
 
   const dispatch = useDispatch();
 
+  const validateInputs = () => {
+    let isValid = true;
+    if (!password || password.length < 6) {
+      setPasswordError(true);
+      setPasswordErrorMessage('Password must be at least 6 characters long.');
+      isValid = false;
+    } else {
+      setPasswordError(false);
+      setPasswordErrorMessage('');
+    }
+    return isValid;
+  }
 
   const update = async () => {
-    try {
-      const response = await dispatch(updateUser({ designation, password })).unwrap();
-      if (response == 201) {
-        setShowToast(true)
-        setTimeout(() => {
-          setShowToast(false)
-        }, 3000)
+    if (validateInputs()) {
+      try {
+        const response = await dispatch(updateUser({ designation, password })).unwrap();
+        if (response === 201) {
+          setShowToast(true)
+          setTimeout(() => {
+            setShowToast(false)
+          }, 3000)
 
+        }
+
+      } catch (err) {
+
+        setError(err.message || "Update failed"); // Set error if login fails
       }
-
-    } catch (err) {
-
-      setError(err.message || "Update failed"); // Set error if login fails
     }
   };
 
-
-
   return (
-
     <div
       className="flex justify-center items-center min-h-screen"
       style={{
@@ -58,7 +70,7 @@ const Profile = () => {
       }}
     >
 
-      <div className="card bg-base-300 w-96 shadow-xl text-black" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
+      <div className="card bg-base-300 w-96 shadow-xl" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
         {showToast && (
           <div className="flex justify-center">
             <div className="toast toast-top relative">
@@ -69,7 +81,7 @@ const Profile = () => {
           </div>
         )}
         <div className="card-body">
-          <h2 className="card-title justify-center">
+          <h2 className="card-title justify-center text-black">
             Profile
           </h2>
           <div>
@@ -78,7 +90,7 @@ const Profile = () => {
               <div className="flex gap-x-2 my-2">
                 <label className="form-control w-1/2">
                   <div className="label">
-                    <span className="label-text text-white">First Name</span>
+                    <span className="label-text text-black">First Name</span>
                   </div>
                   <input
                     type="text"
@@ -89,7 +101,7 @@ const Profile = () => {
                 </label>
                 <label className="form-control w-1/2">
                   <div className="label">
-                    <span className="label-text text-white">Last Name</span>
+                    <span className="label-text text-black">Last Name</span>
                   </div>
                   <input
                     type="text"
@@ -101,7 +113,7 @@ const Profile = () => {
               </div>
               <label className="form-control w-full max-w-xs my-2">
                 <div className="label">
-                  <span className="label-text text-white">Designation</span>
+                  <span className="label-text text-black">Designation</span>
                 </div>
                 <input
                   type="text"
@@ -112,7 +124,7 @@ const Profile = () => {
               </label>
               <label className="form-control w-full max-w-xs my-2">
                 <div className="label">
-                  <span className="label-text text-white">Role</span>
+                  <span className="label-text text-black">Role</span>
                 </div>
                 <select
                   className="select select-bordered w-full max-w-xs"
@@ -157,6 +169,7 @@ const Profile = () => {
                   <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </span>
               </div>
+              {passwordError && <p className="text-red-500">{passwordErrorMessage}</p>}
             </label>
           </div>
           <p className="text-red-500">{error}</p>

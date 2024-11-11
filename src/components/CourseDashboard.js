@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchCourseDetails } from "../utils/courseSlice";
 
 const CourseDashboard = () => {
     document.title = "Course Dashboard";
@@ -9,18 +7,26 @@ const CourseDashboard = () => {
     const loading = courseDetails.loading;
     const error = courseDetails.error;
     const navigate = useNavigate();
-    const {courseId} = useParams();
+    const { courseId } = useParams();
 
     const createAnnouncement = () => {
         navigate(`/instructor/course/${courseId}/create-announcement`);
     }
 
     if (loading) {
-        return <span className="loading loading-dots loading-lg"></span>;
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <span className="loading loading-dots loading-lg"></span>
+            </div>
+        );
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <div>{error}</div>
+            </div>
+        );
     }
 
     return (

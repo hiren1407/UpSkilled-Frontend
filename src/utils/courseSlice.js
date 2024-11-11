@@ -24,9 +24,6 @@ const courseSlice = createSlice({
         error: null
     },
     reducers: {
-        setCourses(state, action) {
-            state.course = action.payload;
-        },
         clearError: (state) => {
             state.error = null;
         },
@@ -49,7 +46,5 @@ const courseSlice = createSlice({
             }
             )
     }
-}
-);
-export const { setCourses } = courseSlice.actions;
+});
 export default courseSlice.reducer;

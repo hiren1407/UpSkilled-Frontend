@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const Syllabus = () => {
@@ -10,7 +9,6 @@ const Syllabus = () => {
     const [syllabus, setSyllabus] = useState(null);
     const [newSyllabus, setNewSyllabus] = useState(null); // State for the new syllabus file
     const { courseId } = useParams();
-    const [showSyllabus, setShowSyllabus] = useState(false);
     const [status, setStatus] = useState(null);
     const [fileError, setFileError] = useState(null);
     const [error, setError] = useState(null);
@@ -66,6 +64,7 @@ const Syllabus = () => {
                 setStatus('success');
                 setNewSyllabus(null);
                 setFileError(null);
+                setError(null);
                 fetchSyllabus();
                 if (fileInputRef.current) {
                     fileInputRef.current.value = '';
@@ -85,7 +84,7 @@ const Syllabus = () => {
             <div className="hero place-items-start">
                 <div className="w-full">
                     <div className="flex justify-between">
-                        <div className="">
+                        <div className="w-4/5">
                             <h1 className="text-xl font-bold">{course.title} - {course.name}</h1>
                             <h2 className="text-lg font-bold">Instructor: {course.instructorName} </h2>
                             <p className="py-4">
@@ -103,13 +102,21 @@ const Syllabus = () => {
                             </div>
                         )}
                     </div>
-                    {!error && <button className="btn py-0" onClick={() => setShowSyllabus(!showSyllabus)}>{showSyllabus ? 'Hide Syllabus' : 'Show Syllabus'}</button>}
-                    {showSyllabus && (
-                        <div className="w-full content-center">
-                            <div className="mt-6">
-                                <iframe src={syllabus} style={{ width: '100%', height: '80vh' }} title="PDF Preview" />
+                    {!error && <button className="btn py-0" onClick={() => document.getElementById('my_modal_4').showModal()}>Show Syllabus</button>}
+                    {(
+                        <dialog id="my_modal_4" className="modal">
+                            <div className="modal-box w-11/12 max-w-5xl">
+                                <h3 className="font-bold text-lg text-center">Syllabus</h3>
+                                <form method="dialog">
+                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                </form>
+                                <div className="w-full content-center">
+                                    <div className="mt-4">
+                                        <iframe src={syllabus} style={{ width: '100%', height: '75vh' }} title="PDF Preview" />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </dialog>
                     )}
 
                 </div>

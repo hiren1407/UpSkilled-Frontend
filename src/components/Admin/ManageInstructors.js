@@ -70,7 +70,7 @@ const ManageInstructors = () => {
 
 
       <div role="tablist" className="tabs tabs-lifted mx-2">
-        <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Active Instrcutors" />
+        <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Active Instructors" />
         <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
           <div className="flex justify-center">
             <div className="overflow-x-auto w-full max-w-4xl">

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../../utils/constants';
+import { fetchCourseDetails } from '../../utils/courseSlice';
 
 const InstructorDashboard = () => {
   document.title = "Instructor Dashboard";
@@ -13,6 +14,7 @@ const InstructorDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClick = (courseId) => {
+    dispatch(fetchCourseDetails({ courseId }));
     navigate(`/instructor/course/${courseId}`);
   }
 
@@ -25,10 +27,10 @@ const InstructorDashboard = () => {
     });
     response.then((res) => {
       setCourses(res.data);
-      setLoading(false);
     }).catch((err) => {
       setError(err);
     });
+    setLoading(false);
   }, [dispatch]);
 
   if (loading) {

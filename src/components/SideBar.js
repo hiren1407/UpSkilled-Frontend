@@ -1,39 +1,38 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom'
-import { fetchCourseDetails } from '../utils/courseSlice';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTasks, faGraduationCap, faUsersCog, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faTasks, faUsersCog, faBook, faBullhorn, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
+import { fetchCourseDetails } from '../utils/courseSlice';
 
 const SideBar = () => {
 
     const role = useSelector((store) => store.user.role);
-    const {courseId} = useParams();
+    const { courseId } = useParams();
+    const location = useLocation(); // Get the current location
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchCourseDetails({ courseId }));
     }, [dispatch, courseId]);
-    const location = useLocation(); // Get the current location
 
     const adminItems = [
-        { path: "/admin", label: "Admin Dashboard", icon: faHome },
         { path: "/admin/manage-instructors", label: "Manage Instructors", icon: faUsersCog },
         { path: "/admin/manage-courses", label: "Manage Courses", icon: faBook },
     ];
 
     const employeeItems = [
-        { path: "/", label: "Employee Dashboard", icon: faHome },
+        { path: `/employee/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
         { path: "/tasks", label: "My Tasks", icon: faTasks },
     ];
 
     const instructorItems = [
-        { path: "/instructor", label: "Dashboard", icon: faHome },
-        { path: `/instructor/course/${courseId}/announcements`, label: "Announcements", icon: "fas fa-bullhorn" },
-        { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: "fas fa-tasks" },
+        { path: `/instructor/course/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
+        { path: `/instructor/course/${courseId}/announcements`, label: "Announcements", icon: faBullhorn },
+        { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
 
-        { path: `/instructor/course/${courseId}/syllabus`, label: "Syllabus", icon: "fas fa-book" },
+        { path: `/instructor/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
     ];
 
     // Determine which items to display based on role
