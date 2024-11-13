@@ -16,7 +16,11 @@ const Syllabus = () => {
 
     const fetchSyllabus = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/instructor/${courseId}/syllabus`, {
+            const url = role === 'instructor' 
+                ? `${BASE_URL}/instructor/${courseId}/syllabus`
+                : `${BASE_URL}/employee/${courseId}/syllabus`; // Example URL for employee
+
+            const response = await fetch(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,10 +42,11 @@ const Syllabus = () => {
         }
     };
 
+
     useEffect(() => {
         document.title = "Syllabus";
         fetchSyllabus();
-    }, []);
+    }, [courseId, role]);
 
     const handleUpload = async () => {
         if (!newSyllabus) {
@@ -107,8 +112,8 @@ const Syllabus = () => {
                         <dialog id="my_modal_4" className="modal">
                             <div className="modal-box w-11/12 max-w-5xl">
                                 <h3 className="font-bold text-lg text-center">Syllabus</h3>
-                                <form method="dialog">
-                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                <form method="dialog" onSubmit={(e) => e.preventDefault()}>
+                                <button type="button" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById('my_modal_4').close()}>✕</button>
                                 </form>
                                 <div className="w-full content-center">
                                     <div className="mt-4">

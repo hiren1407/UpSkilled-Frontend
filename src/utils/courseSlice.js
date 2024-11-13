@@ -1,8 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { BASE_URL } from "./constants";
 
-export const fetchCourseDetails = createAsyncThunk('fetchCourseDetails', async ({ courseId }) => {
+import { BASE_URL } from "./constants";
+import { useSelector } from "react-redux";
+
+
+
+export const fetchCourseDetails = createAsyncThunk('fetchCourseDetails', async ({ courseId },{getState}) => {
+    const role=getState().user.role
+    if(role=="instructor"){
     const response = await axios.get(`${BASE_URL}/instructor/course/${courseId}`,
         {
             headers: {
@@ -14,6 +20,21 @@ export const fetchCourseDetails = createAsyncThunk('fetchCourseDetails', async (
         throw new Error('Server error');
     }
     return response.data;
+}
+else{
+    const response = await axios.get(`${BASE_URL}/employee/course/${courseId}`,
+        {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+    );
+    if (response.status !== 200) {
+        throw new Error('Server error');
+    }
+    return response.data;
+}
+    
 });
 
 const courseSlice = createSlice({

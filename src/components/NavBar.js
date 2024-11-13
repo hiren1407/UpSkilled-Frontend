@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { clearUser } from '../utils/userSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { BASE_URL } from '../utils/constants'
 
 const NavBar = () => {
   const user = useSelector((store) => store.user.user)
@@ -13,9 +14,18 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
+      const token= localStorage.getItem('token')
+      const res=await fetch(BASE_URL+"/auth/logout",
+      {
+      method:'POST',
+        headers:{
+        'Authorization':`Bearer ${token}`
+      }})
+      if(res.status==200){
       localStorage.removeItem('token')
       dispatch(clearUser())
       return navigate("/")
+      }
     }
     catch (err) {
       console.log(err)

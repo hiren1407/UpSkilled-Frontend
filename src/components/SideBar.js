@@ -14,6 +14,7 @@ const SideBar = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if(role=="instructor" || role=="employee")
         dispatch(fetchCourseDetails({ courseId }));
     }, [dispatch, courseId]);
 
@@ -23,8 +24,10 @@ const SideBar = () => {
     ];
 
     const employeeItems = [
-        { path: `/employee/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
-        { path: "/tasks", label: "My Tasks", icon: faTasks },
+        { path: `/employee/course/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
+        { path: `/employee/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
+        { path: `/employee/course/${courseId}/announcements`, label: "Announcements", icon: faBullhorn },
+        { path: `/employee/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
     ];
 
     const instructorItems = [

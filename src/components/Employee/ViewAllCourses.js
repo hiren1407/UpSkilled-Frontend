@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../../utils/constants';
 
-const EmployeeDashboard = () => {
-  document.title = "Employee Dashboard";
+const ViewAllCourses = () => {
+  document.title = "All Courses";
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,12 +13,12 @@ const EmployeeDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClick = (courseId) => {
-    navigate(`/employee/course/${courseId}`);
+    navigate(`/employee/course-details/${courseId}`);
   }
 
   useEffect(() => {
     setLoading(true);
-    const response = axios.get(`${BASE_URL}/employee/enrolledCourses`, {
+    const response = axios.get(`${BASE_URL}/employee/courses`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
@@ -40,13 +40,12 @@ const EmployeeDashboard = () => {
   }
 
   if(courses.length==0){
-    return(<div><button className="btn btn-neutral ml-2 my-5" onClick={()=>navigate('/employee/all-courses')}>Enroll in a new course</button><h1 className='text-xl ml-2'>You haven't enrolled in any courses yet.</h1></div>)
+    return(<div><button className="btn btn-neutral ml-2 my-5" onClick={()=>navigate('/employee')}>⬅️ My Courses</button><h1 className='text-xl ml-2'>No courses are available at the moment.</h1></div>)
   }
-
   return (
     <div>
-      <h1 className='text-5xl text-center'>My Courses</h1>
-      <button className="btn btn-neutral ml-2" onClick={()=>navigate('/employee/all-courses')}>Enroll in a new course</button>
+      <h1 className='text-5xl text-center'>Available Courses</h1>
+      <button className="btn btn-neutral ml-2" onClick={()=>navigate('/employee')}>⬅️ My Courses</button>
       <div className="flex flex-wrap justify-start my-8">
         {courses.map((course) => (
           <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2">
@@ -54,7 +53,7 @@ const EmployeeDashboard = () => {
               <h2 className="card-title">{course.title}</h2>
               <p>{course.name}</p>
               <div className="card-actions justify-end">
-                <button className="btn btn-primary" onClick={() => handleClick(course.id)}>Go to Course</button>
+                <button className="btn btn-primary" onClick={() => handleClick(course.id)}>View Course Details</button>
               </div>
             </div>
           </div>
@@ -64,4 +63,4 @@ const EmployeeDashboard = () => {
   )
 }
 
-export default EmployeeDashboard
+export default ViewAllCourses

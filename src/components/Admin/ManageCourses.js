@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { BASE_URL } from '../../utils/constants';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ManageCourses = () => {
 
@@ -12,6 +14,8 @@ const ManageCourses = () => {
     const [instructorName, setInstructorName] = useState('');
     const [selectedInstructor, setSelectedInstructor] = useState('');
     const [description, setDescription] = useState('');
+    const [currentCourseId, setCurrentCourseId] = useState(null); // To track the course being edited
+    const [isEditing, setIsEditing] = useState(false); // To track if we are editing
 
     const fetchInstructors = async () => {
         const token = localStorage.getItem('token');
@@ -38,6 +42,7 @@ const ManageCourses = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
+        
         const token = localStorage.getItem('token');
         const newCourse = {
             "title": courseTitle,
@@ -46,16 +51,27 @@ const ManageCourses = () => {
             "name": courseName
         };
 
-        // Assuming you have an endpoint to add a course
-        await fetch(`${BASE_URL}/admin/createCourse`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newCourse)
+        if (isEditing) {
+            // Update existing course
+            await fetch(`${BASE_URL}/admin/updateCourseDetails/${currentCourseId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newCourse)
+            });
+        } else {
+            // Create new course
+            await fetch(`${BASE_URL}/admin/createCourse`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newCourse)
+            });
         }
-        );
 
         // Clear form fields
         setCourseTitle('');
@@ -66,12 +82,36 @@ const ManageCourses = () => {
         document.getElementById('my_modal_5').close(); // Close modal after submission
     };
 
+    const handleEdit = async (course) => {
+        await fetchInstructors();
+        setCourseTitle(course.title);
+        setCourseName(course.name);
+        setSelectedInstructor(course.instructorId);
+        setDescription(course.description);
+        setCurrentCourseId(course.id);
+        setIsEditing(true);
+        document.getElementById('my_modal_5').showModal();
+    };
+
+    const handleDelete = async (courseId) => {
+        const token = localStorage.getItem('token');
+        await fetch(`${BASE_URL}/admin/course/inactivate/${courseId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        setFlag(!flag); // Trigger re-fetching of courses
+    };
+
     useEffect(() => {
         fetchCourses()
 
     }, [flag])
 
     const openModal = async () => {
+        setIsEditing(false)
+        setSelectedInstructor('')
         await fetchInstructors(); // Fetch instructors when opening the modal
         document.getElementById('my_modal_5').showModal(); // Show the modal
     };
@@ -85,7 +125,11 @@ const ManageCourses = () => {
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Add a New Course</h3>
-                    <form onSubmit={handleSubmit} className="py-4">
+                    <form method="dialog">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        </form>
+                    <form className="py-4">
                         <div>
                             <label className="label">Course Title:</label>
                             <input
@@ -130,9 +174,9 @@ const ManageCourses = () => {
                             ></textarea>
                         </div>
                         <div className="modal-action">
-                            <button type="submit" className="btn">Submit</button>
-                            <button type="button" className="btn" onClick={() => document.getElementById('my_modal_5').close()}>Close</button>
-                        </div>
+                        <button type="submit" className="btn" onClick={(e)=>handleSubmit(e)}>{isEditing ? 'Update' : 'Create'}</button>
+                        
+                    </div>
                     </form>
                 </div>
             </dialog>
@@ -146,6 +190,13 @@ const ManageCourses = () => {
                     </div>
                     <div className="collapse-content">
                         <p>{data.description}</p>
+                        <button className="btn btn-warning mt-2" onClick={() => handleEdit(data)}>
+                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                                </button>
+                                <button className="btn btn-danger mt-2" onClick={() => handleDelete(data.id)}>
+                                    <FontAwesomeIcon icon={faTrash} /> Delete
+                                </button>
+
                     </div>
                 </div>
 

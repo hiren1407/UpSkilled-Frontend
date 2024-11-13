@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 
 const ViewAnnouncement = () => {
+    const dispatch = useDispatch();
+    const userRole = useSelector((state) => state.user.role)
     const [announcement, setAnnouncement] = useState([]);
     const [editedAnnouncement, setEditedAnnouncement] = useState({});
     const [loading, setLoading] = useState(false);
@@ -18,6 +20,8 @@ const ViewAnnouncement = () => {
     const { announcementId } = useParams();
 
     useEffect(() => {
+        if(userRole=="instructor")
+        {
         try {
             const response = axios.get(`${BASE_URL}/instructor/getAnnouncementById/${announcementId}`,
                 {
@@ -35,6 +39,27 @@ const ViewAnnouncement = () => {
             setError(error.message);
             setLoading(false);
         }
+    }
+    else{
+        try {
+            const response = axios.get(`${BASE_URL}/employee/getAnnouncementById/${announcementId}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                }
+            );
+            response.then((res) => {
+                setAnnouncement(res.data);
+                
+                setLoading(false);
+            })
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+
+    }
     }, [user, announcementId]);
 
     const handleUpdate = async (event) => {
