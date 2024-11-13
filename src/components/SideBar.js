@@ -31,7 +31,7 @@ const SideBar = () => {
         { path: `/instructor/course/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
         { path: `/instructor/course/${courseId}/announcements`, label: "Announcements", icon: faBullhorn },
         { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
-
+        { path: `/instructor/course/${courseId}/modules`, label: "Modules", icon: faBook },
         { path: `/instructor/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
     ];
 

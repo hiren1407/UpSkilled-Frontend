@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 import { useSelector } from "react-redux";
 
 const ViewAssignment = () => {
     const { assignmentId } = useParams();
     const { courseId } = useParams();
-    const [assignment, setAssignment] = useState({});
+    const [assignment, setAssignment] = useState({
+        title: "",
+        description: "",
+        deadline: "",
+    });
     const [loading, setLoading] = useState(true);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -14,12 +18,13 @@ const ViewAssignment = () => {
     const [error, setError] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
+    const [submissions, setSubmissions] = useState([]);
     const role = useSelector((state) => state.user.role);
     const navigate = useNavigate();
 
-    const fetchAssignment = async () => {
+    const fetchAssignmentSubmissions = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/instructor/getAssignmentById/${assignmentId}`, {
+            const response = await fetch(`${BASE_URL}/instructor/${courseId}/${assignmentId}/submissions`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,20 +32,21 @@ const ViewAssignment = () => {
                 },
             });
             const data = await response.json();
-            setAssignment(data);
-            setEditedAssignment({
-                ...data,
-                deadline: new Date(data.deadline - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16)
-            });
-            document.title = data.title;
+            setSubmissions(data.submissionDetails);
+            setEditedAssignment(data.assignmentDetails);
+            setAssignment(data.assignmentDetails);
+            document.title = data.assignmentDetails.title;
             setLoading(false);
+            return true;
         } catch (error) {
             console.error(error);
             setLoading(false);
+            return false;
         }
     };
+
     useEffect(() => {
-        fetchAssignment();
+        fetchAssignmentSubmissions();
     }, []);
 
     const handleUpdate = async (event) => {
@@ -114,15 +120,15 @@ const ViewAssignment = () => {
                 </div>
             </div>
             <div className="p-4 rounded-md shadow-md">
-                <p className="text-md">{assignment.description}</p>
-                <p className="text-md">Due: {new Date(assignment.deadline).toLocaleString()}</p>
+                <p className="text-md" style={{ whiteSpace: 'pre-line' }}>{assignment.description}</p>
+                <p className="text-md mt-4">Due: {new Date(assignment.deadline).toLocaleString()}</p>
             </div>
 
             {role === 'instructor' && showEditModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="relative bg-slate-700 p-4 rounded-lg shadow-lg w-1/2 text-center left-20">
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal}>✕</button>
-                        <h3 className="font-bold text-lg">Edit Announcement</h3>
+                        <h3 className="font-bold text-lg">Edit Assignment</h3>
                         <form className="flex flex-col p-8" onSubmit={handleUpdate}>
                             <label className="label">Title:</label>
                             <input type="text" name="title" value={editedAssignment.title} onChange={(e) => setEditedAssignment({ ...editedAssignment, title: e.target.value })} className="input input-bordered" />
@@ -159,7 +165,31 @@ const ViewAssignment = () => {
                 )
             }
 
-
+            {submissions.length === 0 ? <p className="text-center text-xl mt-8">No submissions found</p> :
+                <div className="overflow-x-auto">
+                    <h2 className="text-2xl font-bold mt-8">Submissions</h2>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Submission</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {submissions.map((submission, index) => (
+                                <tr key={index}>
+                                    <th>{index + 1}</th>
+                                    <td>{`${submission.userDetails.firstName} ${submission.userDetails.lastName}`}</td>
+                                    <td><button className="btn" onClick={() => navigate(`submission/${submission.submissionId}`)}>View Submission</button></td>
+                                    <td>{submission.gradeBook ? submission.gradeBook.grade : '-'}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
     );
 }

@@ -27,6 +27,7 @@ const ViewAnnouncement = () => {
                 }
             );
             response.then((res) => {
+                document.title = res.data.title;
                 setAnnouncement(res.data);
                 setEditedAnnouncement(res.data);
                 setLoading(false);
@@ -156,7 +157,6 @@ const ViewAnnouncement = () => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 }

@@ -18,7 +18,9 @@ import Profile from "./components/Profile"
 import SideBar from "./components/SideBar"
 import Assignments from "./components/Assignments"
 import CreateAssignment from "./components/Instructor/CreateAssignment"
-import ViewAssignment from "./components/ViewAssignment"
+import ViewAssignment from "./components/Instructor/ViewAssignmentforInstructor"
+import ViewIndividualAssignmentSubmission from "./components/Instructor/ViewIndividualAssignmentSubmission"
+import Modules from "./components/Modules"
 
 function App() {
 
@@ -104,6 +106,9 @@ function App() {
                             <Route path="/instructor/course/:courseId/assignments" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><Assignments /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/create-assignment" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><CreateAssignment /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/assignments/:assignmentId" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewAssignment /></div></div></ProtectedRoute>} />
+                            <Route path="/instructor/course/:courseId/assignments/:assignmentId/submission/:submissionId" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewIndividualAssignmentSubmission /></div></div></ProtectedRoute>} />
+                            <Route path="/instructor/course/:courseId/modules" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><Modules /></div></div></ProtectedRoute>} />
+                            <Route path="/employee/course/:courseId/modules" element={<ProtectedRoute allowedRoles={['employee']}><div className="flex"><SideBar /> <div className="flex-grow"><Modules /></div></div></ProtectedRoute>} />
                         </Route>
                     </Routes>
                 </BrowserRouter>

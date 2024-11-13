@@ -17,7 +17,8 @@ const Assignments = () => {
             }
         });
         response.then(response => response.json())
-            .then(data => setAssignments(data));
+            .then(data => setAssignments(data))
+            .catch(error => console.error('Error fetching assignments:', error));
     }, [courseId]);
 
     return (
@@ -28,13 +29,16 @@ const Assignments = () => {
             </div>
             {assignments.length === 0 ? <p className="text-center text-xl">No assignments found</p> :
                 <div className="p-8 border-2 w-full bg-slate-700">
-                    {assignments.map((assignment, index) => (
-                        <div key={index} className="shadow-md rounded-md p-4  my-4 bg-base-300 cursor-pointer" onClick={() => navigate(`${assignment.id}`)}>
-                            <h2 className="text-xl font-bold">{assignment.title}</h2>
-                            <p className="text-md  truncate max-w-md">{assignment.description}</p>
-                            <p className="text-sm ">Due: {new Date(assignment.deadline).toString()}</p>
-                        </div>
-                    ))}
+                    {assignments.map((assignmentDetails, index) => {
+                        let assignment = assignmentDetails.assignmentDetails;
+                        return (
+                            <div key={index} className="shadow-md rounded-md p-4  my-4 bg-base-300 cursor-pointer" onClick={() => navigate(`${assignment.id}`)}>
+                                <h2 className="text-xl font-bold">{assignment.title}</h2>
+                                <p className="text-md  truncate max-w-md">{assignment.description}</p>
+                                <p className="text-sm ">Due: {new Date(assignment.deadline).toString()}</p>
+                            </div>
+                        );
+                    })}
                 </div>
             }
         </div>
