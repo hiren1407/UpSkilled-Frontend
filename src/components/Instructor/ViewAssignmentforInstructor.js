@@ -33,7 +33,7 @@ const ViewAssignment = () => {
             const data = await response.json();
             if (data.assignmentDetails) {
                 const deadline = new Date(data.assignmentDetails.deadline);
-                setDate(deadline.toISOString().split("T")[0]);
+                setDate(deadline.toLocaleDateString("en-CA"));
                 setTime(deadline.toTimeString().slice(0, 5));
             }
             data.submissionDetails && setSubmissions(data.submissionDetails);
