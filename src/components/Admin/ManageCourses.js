@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ManageCourses = () => {
-
     const [courses, setCourses] = useState([]);
     const [instructors, setInstructors] = useState([]);
     const [flag, setFlag] = useState(false)

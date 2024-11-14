@@ -31,10 +31,7 @@ const CourseDetails = () => {
                 if (enrollmentStatus.data == "Enrolled") {
                     setIsEnrolled(true)
                     setEnrollButtonContent("Enrolled ✔️")
-
-
                 }
-
                 setLoading(false);
                 setCourseDetails(response.data);
                 document.title="Course details - "+response.data.title
@@ -60,10 +57,8 @@ const CourseDetails = () => {
                 document.getElementById('my_modal_5').showModal()
                 setSyllabus(fileUrl);
             } else {
-
                 setError("Failed to fetch syllabus");
             }
-
         } catch (error) {
             console.error('Error fetching syllabus:', error);
         }
@@ -79,7 +74,7 @@ const CourseDetails = () => {
                     'Authorization': `Bearer ${token}`
                 }
             }); // Replace with your API endpoint
-            if (response.status == 200) {
+            if (response.status === 200) {
                 setEnrollButtonContent("Enrolled ✔️")
             } else {
                 alert('Failed to enroll in the course.');
@@ -95,10 +90,6 @@ const CourseDetails = () => {
                 <span className="loading loading-dots loading-lg"></span>
             </div>
         );
-    }
-
-    if (!courseDetails) {
-        return <div>No course details found.</div>;
     }
 
     return (
@@ -143,8 +134,6 @@ const CourseDetails = () => {
                     View Syllabus
                 </button>
 
-
-
                 <button
                     type='button'
                     onClick={handleEnrollCourse}
@@ -154,7 +143,20 @@ const CourseDetails = () => {
                     {enrollButtonContent}
                 </button>
 
-                
+                <dialog id="my_modal_5" className="modal">
+                    <div className="modal-box w-11/12 max-w-5xl">
+                        <h3 className="font-bold text-lg text-center">Syllabus</h3>
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        </form>
+                        <div className="w-full content-center">
+                            <div className="mt-4">
+                                <iframe src={syllabus} style={{ width: '100%', height: '75vh' }} title="PDF Preview" />
+                            </div>
+                        </div>
+                    </div>
+                </dialog>
                 {error &&
                     (
                         <div role="alert" className="alert alert-error my-4">

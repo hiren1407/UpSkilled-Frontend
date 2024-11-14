@@ -8,8 +8,8 @@ import axios from 'axios';
 const AssignmentView = () => {
     const { assignmentId, courseId } = useParams()
     const [assignment, setAssignment] = useState(null);
-    const [submissionDetails,setSubmissionDetails]=useState(null)
-    const [submissionId,setSubmissionId]=useState(null)
+    const [submissionDetails, setSubmissionDetails] = useState(null)
+    const [submissionId, setSubmissionId] = useState(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [file, setFile] = useState(null);
@@ -18,12 +18,12 @@ const AssignmentView = () => {
     const fetchAssignment = async () => {
         try {
             setLoading(true);
-            const token=localStorage.getItem('token')
-            const response = await axios.get(`${BASE_URL}/employee/course/${courseId}/assignments/${assignmentId}`,{
+            const token = localStorage.getItem('token')
+            const response = await axios.get(`${BASE_URL}/employee/course/${courseId}/assignments/${assignmentId}`, {
                 headers: {
-                    "Authorization":`Bearer ${token}`
+                    "Authorization": `Bearer ${token}`
                 }
-                    
+
             });
             setAssignment(response.data.assignmentDetails);
             if(response.data.submissionDetails){
@@ -32,7 +32,7 @@ const AssignmentView = () => {
             document.title=response.data.assignmentDetails.title
             }
         } catch (err) {
-            
+
             setError('Failed to load assignment details');
         } finally {
             setLoading(false);
@@ -45,8 +45,30 @@ const AssignmentView = () => {
         fetchAssignment();
     }, [assignmentId]);
 
-    if (loading) return <p className="text-center">Loading...</p>;
-    if (error) return <p className="text-center text-red-600">{error}</p>;
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <span className="loading loading-dots loading-lg"></span>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex flex-col justify-center items-center min-h-screen text-center">
+                <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2>
+                <p className="text-lg text-gray-600 mb-6">
+                    We encountered an error. Please try again later.
+                </p>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="px-6 py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition duration-200"
+                >
+                    Reload Page
+                </button>
+            </div>
+        );
+    }
 
     const { title, description, deadline } = assignment;
     const deadlineDate = dayjs(deadline).format('MMMM D, YYYY h:mm A');
@@ -78,17 +100,17 @@ const AssignmentView = () => {
             setUploadError("Please select a PDF file before uploading.");
             return;
         }
-        
+
         const formData = new FormData();
         formData.append('file', file);
         formData.append('courseId', courseId);
-        
+
 
         try {
-            const token=localStorage.getItem('token')
+            const token = localStorage.getItem('token')
             formData.append('assignmentId', assignmentId);
             if (!submission) {
-                
+
                 // No submission present, so create a new submission
                 const response = await fetch(`${BASE_URL}/employee/uploadAssignment`, {
                     method: "POST",
@@ -97,7 +119,7 @@ const AssignmentView = () => {
                     },
                     body: formData
                 });
-                if (response.status==200) {
+                if (response.status == 200) {
                     alert('Assignment submitted successfully!');
                     setFile(null);
                     setUploadError(null);
@@ -107,14 +129,14 @@ const AssignmentView = () => {
                 }
             } else {
                 formData.append('submissionId', submissionId)
-                const response=await fetch(`${BASE_URL}/employee/updateUploadedAssignment/${submissionId}`, {
+                const response = await fetch(`${BASE_URL}/employee/updateUploadedAssignment/${submissionId}`, {
                     method: "PUT",
                     headers: {
                         "Authorization": `Bearer ${token}`
                     },
                     body: formData
                 });
-                if (response.status==200) {
+                if (response.status == 200) {
                     alert('Assignment updated successfully!');
                     setFile(null);
                     setUploadError(null);
@@ -123,7 +145,7 @@ const AssignmentView = () => {
                     setUploadError("Failed to update assignment. Please try again.");
                 }
             }
-            
+
             // Reload the assignment data to reflect the latest submission
             fetchAssignment();
         } catch (error) {
@@ -157,7 +179,7 @@ const AssignmentView = () => {
     return (
         <div className="max-w-3xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg mt-6">
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
-            <p className="text-gray-600 mb-4">{description}</p>
+            <p className=" mb-4">{description}</p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -227,8 +249,8 @@ const AssignmentView = () => {
                         </div>
 
 
-                    </div>
-                </dialog>
+                </div>
+            </dialog>
 
             <div className="mt-8">
                 <h3 className="text-xl font-bold mb-4">Upload Assignment</h3>

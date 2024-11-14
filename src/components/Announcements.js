@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ViewAnnouncement = () => {
+    document.title = "Announcements";
     const [announcements, setAnnouncements] = useState([]);
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();

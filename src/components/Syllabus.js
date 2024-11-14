@@ -16,7 +16,7 @@ const Syllabus = () => {
 
     const fetchSyllabus = async () => {
         try {
-            const url = role === 'instructor' 
+            const url = role === 'instructor'
                 ? `${BASE_URL}/instructor/${courseId}/syllabus`
                 : `${BASE_URL}/employee/${courseId}/syllabus`; // Example URL for employee
 
@@ -38,10 +38,9 @@ const Syllabus = () => {
             }
         } catch (error) {
             console.error("Error fetching syllabus:", error);
-            alert("Failed to fetch syllabus");
+            setError("Failed to fetch syllabus");
         }
     };
-
 
     useEffect(() => {
         document.title = "Syllabus";
@@ -108,43 +107,37 @@ const Syllabus = () => {
                                     ref={fileInputRef}
                                 />
                                 {fileError && <p className="text-red-500 mb-2 text-sm">{fileError}</p>}
-                                <button className="btn btn-primary w-full" onClick={handleUpload}>Upload Syllabus</button>
+                                <button className="btn btn-neutral w-full md:w-auto" onClick={handleUpload}>Upload Syllabus</button>
                             </div>
                         )}
                     </div>
                     {!error && (
                         <button
                             className="btn py-1 mt-4 md:mt-0 w-full md:w-auto"
-                            onClick={() => document.getElementById('my_modal_4').showModal()}
+                            onClick={() => document.getElementById('syllabus').showModal()}
                         >
                             Show Syllabus
                         </button>
                     )}
                     {(
-                        <dialog id="my_modal_4" className="modal">
+                        <dialog id="syllabus" className="modal">
                             <div className="modal-box w-11/12 max-w-5xl">
                                 <h3 className="font-bold text-lg text-center">Syllabus</h3>
                                 <form method="dialog" onSubmit={(e) => e.preventDefault()}>
-                                    <button
-                                        type="button"
-                                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                                        onClick={() => document.getElementById('my_modal_4').close()}
-                                    >
-                                        ✕
-                                    </button>
+                                    <button type="button" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById('syllabus').close()}>✕</button>
                                 </form>
                                 <div className="w-full content-center">
                                     <div className="mt-4">
-                                    <object
-            data={syllabus}
-            type="application/pdf"
-            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
-            style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
-        >
-            <p>Your browser does not support viewing PDF files.
-               <a href={syllabus} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
-            </p>
-        </object>
+                                        <object
+                                            data={syllabus}
+                                            type="application/pdf"
+                                            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
+                                            style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
+                                        >
+                                            <p>Your browser does not support viewing PDF files.
+                                                <a href={syllabus} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
+                                            </p>
+                                        </object>
                                     </div>
                                 </div>
                             </div>
@@ -152,18 +145,18 @@ const Syllabus = () => {
                     )}
                 </div>
             </div>
-    
+
             {status === 'success' && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-slate-700 p-4 md:p-6 rounded-lg shadow-lg max-w-md w-full text-center">
-                        <h3 className="font-bold text-lg">Syllabus uploaded successfully!</h3>
-                        <button className="btn btn-primary mt-4 w-full md:w-auto" onClick={() => { setStatus(null); fetchSyllabus(); }}>
+                        <h3 className="font-bold text-lg text-white">Syllabus uploaded successfully!</h3>
+                        <button className="btn btn-neutral mt-4 w-full md:w-auto" onClick={() => { setStatus(null); fetchSyllabus(); }}>
                             Close
                         </button>
                     </div>
                 </div>
             )}
-    
+
             {error && (
                 <div role="alert" className="alert alert-error my-4">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current"
@@ -176,7 +169,7 @@ const Syllabus = () => {
             )}
         </div>
     );
-    
+
 }
 
 export default Syllabus;

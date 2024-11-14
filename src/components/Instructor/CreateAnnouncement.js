@@ -6,7 +6,7 @@ const CreateAnnouncement = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [showPopup, setShowPopup] = useState(false);
-
+    const [error, setError] = useState(null);
     const { courseId } = useParams();
     const navigate = useNavigate();
 
@@ -22,12 +22,14 @@ const CreateAnnouncement = () => {
         });
         if (response.ok) {
             setShowPopup(true);
+            setTimeout(() => {
+                setShowPopup(false);
+                navigate(`/instructor/course/${courseId}/announcements`);
+            }, 2000);
         }
-    }
-
-    const closePopup = () => {
-        setShowPopup(false);
-        navigate(`/instructor/course/${courseId}/announcements`);
+        else {
+            setError("Failed to create announcement");
+        }
     }
 
     return (
@@ -40,14 +42,14 @@ const CreateAnnouncement = () => {
                     <textarea placeholder="Description" value={content} onChange={(event) => setContent(event.target.value)}
                         className="textarea textarea-bordered textarea-lg m-2 min-h-96"></textarea>
                     <button type="submit" className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg my-2">Create Announcement</button>
+                    {error && <div className="alert alert-error">{error}</div>}
                 </form>
                 {showPopup && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-slate-700 p-6 rounded-lg shadow-lg max-w-md w-full text-center">
-                            <h3 className="font-bold text-lg">Announcement Created Successfully!</h3>
-                            <button className="btn mt-4" onClick={closePopup}>
-                                Close
-                            </button>
+                    <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
+                        <div className="p-4 rounded shadow-lg">
+                            <div className="alert alert-info">
+                                <span>Announcement Created Successfully.</span>
+                            </div>
                         </div>
                     </div>
                 )}

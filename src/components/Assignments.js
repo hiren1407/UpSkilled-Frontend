@@ -44,7 +44,7 @@ const Assignments = () => {
             <div className="flex justify-between items-center my-4 w-full">
                 <h1 className="text-3xl text-center font-bold flex-grow">Assignments</h1>
                 {role === 'instructor' && ( // Show button only for instructors
-                    <button className="btn btn-primary" onClick={() => navigate(`/instructor/course/${courseId}/create-assignment`)}>
+                    <button className="btn btn-neutral" onClick={() => navigate(`/instructor/course/${courseId}/create-assignment`)}>
                         Create New
                     </button>
                 )}

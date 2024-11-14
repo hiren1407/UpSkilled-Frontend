@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom'
-import { useLocation } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTasks, faUsersCog, faBook, faBullhorn, faChalkboardTeacher,faStar } from '@fortawesome/free-solid-svg-icons';
+import { faTasks, faUsersCog, faBook, faBullhorn, faChalkboardTeacher, faBars, faThLarge, faFolder, faFolderOpen,faStar } from '@fortawesome/free-solid-svg-icons';
 import { fetchCourseDetails } from '../utils/courseSlice';
 
 const SideBar = () => {
@@ -12,10 +11,11 @@ const SideBar = () => {
     const { courseId } = useParams();
     const location = useLocation(); // Get the current location
     const dispatch = useDispatch();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar toggle state
 
     useEffect(() => {
-        if(role=="instructor" || role=="employee")
-        dispatch(fetchCourseDetails({ courseId }));
+        if (role === "instructor" || role === "employee")
+            dispatch(fetchCourseDetails({ courseId }));
     }, [dispatch, courseId]);
 
     const adminItems = [
@@ -25,9 +25,10 @@ const SideBar = () => {
 
     const employeeItems = [
         { path: `/employee/course/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
-        { path: `/employee/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
         { path: `/employee/course/${courseId}/announcements`, label: "Announcements", icon: faBullhorn },
         { path: `/employee/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
+        { path: `/employee/course/${courseId}/modules`, label: "Modules", icon: faFolderOpen },
+        { path: `/employee/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
         { path: `/employee/course/${courseId}/grades`, label: "Grades", icon: faStar }
     ];
 
@@ -35,7 +36,7 @@ const SideBar = () => {
         { path: `/instructor/course/${courseId}`, label: "Dashboard", icon: faChalkboardTeacher },
         { path: `/instructor/course/${courseId}/announcements`, label: "Announcements", icon: faBullhorn },
         { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
-
+        { path: `/instructor/course/${courseId}/modules`, label: "Modules", icon: faFolderOpen },
         { path: `/instructor/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
     ];
 
@@ -51,6 +52,19 @@ const SideBar = () => {
 
     return (
         <div className='flex flex-col min-h-screen'>
+            {/* Mobile Sidebar Toggle Button */}
+            <div className="md:hidden p-4 bg-neutral text-neutral-content">
+                <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="focus:outline-none">
+                    <FontAwesomeIcon icon={faBars} size="lg" />
+                </button>
+            </div>
+
+            {/* Sidebar Overlay for Mobile */}
+            <div
+                className={`fixed inset-0 z-20 bg-black opacity-50 ${isSidebarOpen ? 'block' : 'hidden'} md:hidden`}
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            ></div>
+
             <div className='flex flex-grow'>
                 <div className="fixed flex flex-col top-12 left-0 w-14 hover:w-64 md:w-64 bg-neutral text-neutral-content h-full transition-all duration-300 border-none z-10 sidebar">
                     <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">

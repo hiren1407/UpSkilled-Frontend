@@ -39,13 +39,30 @@ const ViewAllCourses = () => {
     );
   }
 
-  if(courses.length==0){
-    return(<div><button className="btn btn-neutral ml-2 my-5" onClick={()=>navigate('/employee')}>⬅️ My Courses</button><h1 className='text-xl ml-2'>No courses are available at the moment.</h1></div>)
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen text-center">
+        <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2>
+        <p className="text-lg text-gray-600 mb-6">
+          We encountered an error. Please try again later.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-6 py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition duration-200"
+        >
+          Reload Page
+        </button>
+      </div>
+    );
+  }
+
+  if (courses.length === 0) {
+    return (<div><button className="btn btn-neutral ml-2 my-5" onClick={() => navigate('/employee')}>⬅️ My Courses</button><h1 className='text-xl ml-2'>No courses are available at the moment.</h1></div>)
   }
   return (
     <div>
-      <h1 className='text-4xl font-bold my-5 text-center'>Available Courses</h1>
-      <button className="btn btn-neutral ml-2" onClick={()=>navigate('/employee')}>⬅️ My Courses</button>
+      <h1 className='text-5xl text-center'>Available Courses</h1>
+      <button className="btn btn-neutral ml-2" onClick={() => navigate('/employee')}>⬅️ My Courses</button>
       <div className="flex flex-wrap justify-start my-8">
         {courses.map((course) => (
           <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2">
