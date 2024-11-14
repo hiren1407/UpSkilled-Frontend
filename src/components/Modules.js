@@ -249,7 +249,7 @@ const CourseMaterial = () => {
                                         <span className="text-xl">Upload PDF</span>
                                     </label>
 
-                                    <input type="file" className="file-input file-input-bordered w-full" onChange={(e) => setNewPdf(e.target.files[0])} />
+                                    <input type="file" accept="application/pdf" className="file-input file-input-bordered w-full" onChange={(e) => setNewPdf(e.target.files[0])} />
                                     {moduleError && <p className="text-red-500">{moduleError}</p>}
                                 </div>
                                 <div className="form-control w-full mt-4">

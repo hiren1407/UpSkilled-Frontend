@@ -101,7 +101,7 @@ const Syllabus = () => {
                                     <span className="text-md md:text-xl">Upload Syllabus</span>
                                 </label>
                                 <input
-                                    type="file"
+                                    type="file" accept="application/pdf"
                                     className="file-input file-input-bordered w-full max-w-xs mb-2"
                                     onChange={(e) => setNewSyllabus(e.target.files[0])}
                                     ref={fileInputRef}
