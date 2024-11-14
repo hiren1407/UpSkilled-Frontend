@@ -47,11 +47,11 @@ const ViewAnnouncement = () => {
     return (
         <div className="flex flex-col w-4/5 items-center justify-self-center mx-5">
             <div className="flex justify-between items-center my-4 w-full">
-                <h1 className="text-4xl text-center flex-grow">Announcements</h1>
+                <h1 className="text-3xl text-center font-bold flex-grow">Announcements</h1>
                 { user.role==="instructor" && <button className="btn btn-neutral" onClick={() => navigate(`/instructor/course/${courseId}/create-announcement`)}>Create New</button>}
             </div>
             {announcements.length === 0 ? <p className="text-center text-xl">No announcements found</p> :
-                <div className="p-8 border-2 w-full bg-slate-700">
+                <div className="p-8 border-2 w-4/5 md:w-full bg-slate-700">
                     {announcements.map((announcement, index) => (
                         <div key={index} className="shadow-md rounded-md p-4  my-4 bg-base-300 cursor-pointer" onClick={() => navigate(`${announcement.id}`)}>
                             <h2 className="text-xl font-bold">{announcement.title}</h2>

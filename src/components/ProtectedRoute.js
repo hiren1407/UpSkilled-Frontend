@@ -3,7 +3,7 @@ import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../utils/userSlice';
+import { clearUser, setUser } from '../utils/userSlice';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
     const navigate = useNavigate();
@@ -20,7 +20,17 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
         }
     }
 
-    return allowedRoles.includes(userRole) ? children : <Navigate to="/" />;
+    if(allowedRoles.includes(userRole)){
+        return children;
+
+    }
+    else{
+        localStorage.removeItem('token')
+        dispatch(clearUser())
+        return <Navigate to='/'/>
+    }
+
+    
 };
 
 export default ProtectedRoute;

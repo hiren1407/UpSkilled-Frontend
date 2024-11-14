@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTasks, faUsersCog, faBook, faBullhorn, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
+import { faTasks, faUsersCog, faBook, faBullhorn, faChalkboardTeacher,faStar } from '@fortawesome/free-solid-svg-icons';
 import { fetchCourseDetails } from '../utils/courseSlice';
 
 const SideBar = () => {
@@ -28,6 +28,7 @@ const SideBar = () => {
         { path: `/employee/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
         { path: `/employee/course/${courseId}/announcements`, label: "Announcements", icon: faBullhorn },
         { path: `/employee/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
+        { path: `/employee/course/${courseId}/grades`, label: "Grades", icon: faStar }
     ];
 
     const instructorItems = [

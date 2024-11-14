@@ -44,7 +44,7 @@ const ViewAllCourses = () => {
   }
   return (
     <div>
-      <h1 className='text-5xl text-center'>Available Courses</h1>
+      <h1 className='text-4xl font-bold my-5 text-center'>Available Courses</h1>
       <button className="btn btn-neutral ml-2" onClick={()=>navigate('/employee')}>⬅️ My Courses</button>
       <div className="flex flex-wrap justify-start my-8">
         {courses.map((course) => (

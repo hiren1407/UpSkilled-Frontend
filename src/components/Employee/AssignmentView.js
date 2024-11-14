@@ -29,6 +29,7 @@ const AssignmentView = () => {
             if(response.data.submissionDetails){
             setSubmissionDetails(response.data?.submissionDetails[0])
             setSubmissionId(response.data?.submissionDetails[0]?.submissionId)
+            document.title=response.data.assignmentDetails.title
             }
         } catch (err) {
             
@@ -39,7 +40,7 @@ const AssignmentView = () => {
     };
 
     useEffect(() => {
-        document.title = "Assignment View";
+        
         
         fetchAssignment();
     }, [assignmentId]);
@@ -212,7 +213,16 @@ const AssignmentView = () => {
                         </form>
                         <div className="w-full content-center">
                             <div className="mt-4">
-                                <iframe src={submissionPdf} style={{ width: '100%', height: '75vh' }} title="PDF Preview" />
+                            <object
+            data={submissionPdf}
+            type="application/pdf"
+            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
+            style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
+        >
+            <p>Your browser does not support viewing PDF files.
+               <a href={submissionPdf} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
+            </p>
+        </object>
                             </div>
                         </div>
 

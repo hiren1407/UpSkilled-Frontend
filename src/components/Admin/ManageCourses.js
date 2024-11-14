@@ -16,33 +16,39 @@ const ManageCourses = () => {
     const [description, setDescription] = useState('');
     const [currentCourseId, setCurrentCourseId] = useState(null); // To track the course being edited
     const [isEditing, setIsEditing] = useState(false); // To track if we are editing
+    const [error, setError] = useState('');
 
     const fetchInstructors = async () => {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`${BASE_URL}/admin/listActiveInstructors`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        setInstructors(response.data); // Assuming response.data is an array of instructors
+        try {
+            const response = await axios.get(`${BASE_URL}/admin/listActiveInstructors`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setInstructors(response.data);
+        } catch (err) {
+            setError('Failed to fetch instructors.');
+        }
     };
 
 
     const fetchCourses = async () => {
-        const token = localStorage.getItem('token')
-        const response = await axios.get(`${BASE_URL}/admin/courses`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }, { withCredentials: true });
-        setCourses(response.data)
-        // Assuming the response data is an array of instructors
+        const token = localStorage.getItem('token');
+        try {
+            const response = await axios.get(`${BASE_URL}/admin/courses`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setCourses(response.data);
+        } catch (err) {
+            setError('Failed to fetch courses.');
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        
         const token = localStorage.getItem('token');
         const newCourse = {
             "title": courseTitle,
@@ -51,35 +57,46 @@ const ManageCourses = () => {
             "name": courseName
         };
 
-        if (isEditing) {
-            // Update existing course
-            await fetch(`${BASE_URL}/admin/updateCourseDetails/${currentCourseId}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newCourse)
-            });
-        } else {
-            // Create new course
-            await fetch(`${BASE_URL}/admin/createCourse`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newCourse)
-            });
-        }
+        try {
+            if (isEditing) {
+                // Update existing course
+                const response=await fetch(`${BASE_URL}/admin/updateCourseDetails/${currentCourseId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newCourse)
+                });
+            if(response.status!=200){
+                alert('Failed to update course. Please try again.');
+            }
+            } else {
+                // Create new course
+                const response=await fetch(`${BASE_URL}/admin/createCourse`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newCourse)
+                });
+                if(response.status!=200){
+                    alert('Failed to save course. Please try again.');
+                }
+            }
 
-        // Clear form fields
-        setCourseTitle('');
-        setCourseName('');
-        setInstructorName('');
-        setDescription('');
-        setFlag(!flag); // Trigger re-fetching of courses
-        document.getElementById('my_modal_5').close(); // Close modal after submission
+            // Clear form fields
+            setCourseTitle('');
+            setCourseName('');
+            setSelectedInstructor('');
+            setDescription('');
+            setFlag(!flag);
+            document.getElementById('my_modal_5').close();
+            setError(''); // Clear any previous errors
+        } catch (err) {
+            alert('Failed to save course. Please try again.');
+        }
     };
 
     const handleEdit = async (course) => {
@@ -95,13 +112,18 @@ const ManageCourses = () => {
 
     const handleDelete = async (courseId) => {
         const token = localStorage.getItem('token');
-        await fetch(`${BASE_URL}/admin/course/inactivate/${courseId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        setFlag(!flag); // Trigger re-fetching of courses
+        try {
+            await fetch(`${BASE_URL}/admin/course/inactivate/${courseId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setFlag(!flag);
+            setError(''); // Clear any previous errors
+        } catch (err) {
+            alert('Failed to delete course. Please try again.');
+        }
     };
 
     useEffect(() => {
@@ -121,6 +143,7 @@ const ManageCourses = () => {
             <h1 className='flex text-3xl font-bold justify-center my-10'>Manage Courses</h1>
 
             {/* Open the modal using document.getElementById('ID').showModal() method */}
+            {error && <div className="error-message">{error}</div>}
             <button className="btn btn-primary my-5 ml-2" onClick={openModal}>Add Course</button>
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">

@@ -30,7 +30,7 @@ export const signUpUser = createAsyncThunk('user/signup', async ({ firstName, la
   }
 });
 
-export const updateUser  = createAsyncThunk('user/update', async ({designation,password}, { rejectWithValue }) => {
+export const updateUser  = createAsyncThunk('user/update', async ({password}, { rejectWithValue }) => {
     try {
       
       const token = localStorage.getItem('token')
@@ -41,7 +41,7 @@ export const updateUser  = createAsyncThunk('user/update', async ({designation,p
           'Content-Type':'application/json'
           
         },
-        body:JSON.stringify({designation,password})
+        body:JSON.stringify({password})
       
       }); // Adjust the URL as needed
       return response.status; // Return updated user data

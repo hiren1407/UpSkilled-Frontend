@@ -37,6 +37,7 @@ const CourseDetails = () => {
 
                 setLoading(false);
                 setCourseDetails(response.data);
+                document.title="Course details - "+response.data.title
             } catch (error) {
                 console.error('Error fetching course details:', error);
             }
@@ -68,8 +69,9 @@ const CourseDetails = () => {
         }
     };
 
-    const handleEnrollCourse = async () => {
+    const handleEnrollCourse = async (e) => {
         try {
+            e.preventDefault()
             const token = localStorage.getItem('token')
             const response = await fetch(`${BASE_URL}/employee/enroll?courseId=${courseId}`, {
                 method: 'POST',
@@ -101,6 +103,31 @@ const CourseDetails = () => {
 
     return (
         <div className='mr-5'>
+            <dialog id="my_modal_5" className="modal modal-responsive">
+                    <div className="modal-box w-11/12 max-w-5xl overflow-y: auto">
+                        <h3 className="font-bold text-lg text-center">Syllabus</h3>
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        </form>
+                        <div className="w-full content-center">
+                            <div className="mt-4" style={{}}>
+                            <object
+            data={syllabus}
+            type="application/pdf"
+            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
+            style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
+        >
+            <p>Your browser does not support viewing PDF files.
+               <a href={syllabus} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
+            </p>
+        </object>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </dialog>
             <button className="btn btn-neutral ml-5 mt-5" onClick={() => navigate('/employee/all-courses')}>⬅️ All courses</button>
             <div className=" mx-5 my-5 p-6  max-w-full bg-white rounded-lg shadow-md">
                 <h1 className="text-3xl font-bold mb-2">{courseDetails.title}</h1>
@@ -119,6 +146,7 @@ const CourseDetails = () => {
 
 
                 <button
+                    type='button'
                     onClick={handleEnrollCourse}
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200 mt-4"
                     disabled={isEnrolled}
@@ -126,22 +154,7 @@ const CourseDetails = () => {
                     {enrollButtonContent}
                 </button>
 
-                <dialog id="my_modal_5" className="modal">
-                    <div className="modal-box w-11/12 max-w-5xl">
-                        <h3 className="font-bold text-lg text-center">Syllabus</h3>
-                        <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                        </form>
-                        <div className="w-full content-center">
-                            <div className="mt-4">
-                                <iframe src={syllabus} style={{ width: '100%', height: '75vh' }} title="PDF Preview" />
-                            </div>
-                        </div>
-
-
-                    </div>
-                </dialog>
+                
                 {error &&
                     (
                         <div role="alert" className="alert alert-error my-4">

@@ -29,6 +29,7 @@ const Profile = () => {
 
   const validateInputs = () => {
     let isValid = true;
+    
     if (!password || password.length < 6) {
       setPasswordError(true);
       setPasswordErrorMessage('Password must be at least 6 characters long.');
@@ -43,7 +44,7 @@ const Profile = () => {
   const update = async () => {
     if (validateInputs()) {
       try {
-        const response = await dispatch(updateUser({ designation, password })).unwrap();
+        const response = await dispatch(updateUser({ password })).unwrap();
         if (response === 201) {
           setShowToast(true)
           setTimeout(() => {
@@ -119,7 +120,7 @@ const Profile = () => {
                   type="text"
                   value={designation}
                   className="input input-bordered w-full max-w-xs"
-                  onChange={(e) => setDesignation(e.target.value)}
+                  disabled
                 />
               </label>
               <label className="form-control w-full max-w-xs my-2">

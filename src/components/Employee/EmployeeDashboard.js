@@ -45,7 +45,7 @@ const EmployeeDashboard = () => {
 
   return (
     <div>
-      <h1 className='text-5xl text-center'>My Courses</h1>
+      <h1 className='text-4xl text-center my-5 font-bold'>My Courses</h1>
       <button className="btn btn-neutral ml-2" onClick={()=>navigate('/employee/all-courses')}>Enroll in a new course</button>
       <div className="flex flex-wrap justify-start my-8">
         {courses.map((course) => (

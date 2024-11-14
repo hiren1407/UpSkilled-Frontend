@@ -22,6 +22,7 @@ import ViewAssignment from "./components/ViewAssignment"
 import ViewAllCourses from "./components/Employee/ViewAllCourses"
 import CourseDetails from "./components/Employee/CourseDetails"
 import AssignmentView from "./components/Employee/AssignmentView"
+import ViewGrades from "./components/Employee/ViewGrades"
 
 function App() {
 
@@ -154,6 +155,14 @@ function App() {
                                 <div className="flex"><SideBar /> 
                                 <div className="flex-grow">
                                     <AssignmentView />
+                                    </div>
+                                    </div>
+                                    </ProtectedRoute>} />
+                            <Route path="/employee/course/:courseId/grades" 
+                            element={<ProtectedRoute allowedRoles={['employee']}>
+                                <div className="flex"><SideBar /> 
+                                <div className="flex-grow">
+                                    <ViewGrades />
                                     </div>
                                     </div>
                                     </ProtectedRoute>} />

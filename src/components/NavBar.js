@@ -9,8 +9,11 @@ import { BASE_URL } from '../utils/constants'
 
 const NavBar = () => {
   const user = useSelector((store) => store.user.user)
+  const role = useSelector((store) => store.user.role)
+  const path='/'+role
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  
 
   const handleLogout = async () => {
     try {
@@ -35,7 +38,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0" style={{ minHeight: '3.5rem' }}>
       <div className="flex-1">
-        <Link to="/"><img src={Logo} alt='Logo' className='h-8 w-28 ml-4'></img></Link>
+        <Link to={path}><img src={Logo} alt='Logo' className='h-8 w-28 ml-4'></img></Link>
         {user && (<Link to={`/${user.role.toLowerCase()}`}><span><FontAwesomeIcon className='ml-2 mr-1' icon={faHome}></FontAwesomeIcon>Home</span></Link>)}
       </div>
       {user && (<div className="flex-none gap-2">
