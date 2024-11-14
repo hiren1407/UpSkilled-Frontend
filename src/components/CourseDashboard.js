@@ -10,6 +10,9 @@ const CourseDashboard = () => {
     const [courseDetails, setCourseDetails] = useState(null);
     const role = useSelector((state) => state.user.role)
     const [loading, setLoading] = useState(true);
+    const [showUnenrollModal, setShowUnenrollModal] = useState(false);
+    
+    
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -51,6 +54,27 @@ const CourseDashboard = () => {
         };
         fetchCourseDetails();
     }, [courseId]);
+
+    const handleUnenroll = async () => {
+        const token = localStorage.getItem('token')
+        try {
+            const response = await fetch(`${BASE_URL}/employee/unenroll/${courseId}`, {
+                method: "POST",
+                headers: {
+                    
+                    'Authorization': `Bearer ${token}`
+                }
+            }); // Replace with your API endpoint
+            
+            if(response.status==200){
+            navigate('/employee')
+            }
+        } catch (error) {
+            console.error('Error unenrolling:', error)
+    }
+}
+   
+    
 
     if (loading) {
         return (
@@ -94,12 +118,37 @@ const CourseDashboard = () => {
                     View Syllabus
                 </button>
 
-                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200 mt-4" onClick={(e) => {
-                        e.preventDefault()
-                        navigate('modules')
-                    }}>
+
+
+                <button
+                    
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200 mt-4 mr-2"
+                   
+                >
                     View Course Material
                 </button>
+                {role=="employee"?<button
+                    
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200 mt-4"
+                    onClick={() => setShowUnenrollModal(true)}
+                   
+                >
+                    Unenroll
+                </button>:<></>}
+                {showUnenrollModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
+                        <h3 className="font-bold text-lg">You will lose all submission and grade related data. Do you want to continue?</h3>
+                        <button className="btn m-4" onClick={handleUnenroll}>Yes</button>
+                        <button className="btn m-4" onClick={() => setShowUnenrollModal(false)}>
+                            No
+                        </button>
+                    </div>
+                </div>
+            )}
+
+               
+               
             </div>
         </div>
     );

@@ -16,6 +16,7 @@ const ManageCourses = () => {
     const [currentCourseId, setCurrentCourseId] = useState(null); // To track the course being edited
     const [isEditing, setIsEditing] = useState(false); // To track if we are editing
     const [error, setError] = useState('');
+    const [courseId, setCourseId] = useState(null);
 
     const fetchInstructors = async () => {
         const token = localStorage.getItem('token');
@@ -109,17 +110,20 @@ const ManageCourses = () => {
         document.getElementById('my_modal_5').showModal();
     };
 
-    const handleDelete = async (courseId) => {
+    const handleDelete = async () => {
         const token = localStorage.getItem('token');
         try {
-            await fetch(`${BASE_URL}/admin/course/inactivate/${courseId}`, {
+            const response=await fetch(`${BASE_URL}/admin/course/inactivate/${courseId}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
+            if(response.status==200){
             setFlag(!flag);
-            setError(''); // Clear any previous errors
+            setError('');
+            document.getElementById('deleteCourse').close();
+            } // Clear any previous errors
         } catch (err) {
             alert('Failed to delete course. Please try again.');
         }
@@ -212,12 +216,14 @@ const ManageCourses = () => {
                     </div>
                     <div className="collapse-content">
                         <p>{data.description}</p>
-                        <button className="btn btn-warning mt-2" onClick={() => handleEdit(data)}>
+                        <div className="flex justify-end mt-2">
+                        <button className="btn btn-warning mt-2 mx-1" onClick={() => handleEdit(data)}>
                                     <FontAwesomeIcon icon={faEdit} /> Edit
                                 </button>
-                                <button className="btn btn-danger mt-2" onClick={() => handleDelete(data.id)}>
+                                <button className="btn btn-danger mt-2" onClick={() => { setCourseId(data.id); document.getElementById('deleteCourse').showModal() }}>
                                     <FontAwesomeIcon icon={faTrash} /> Delete
                                 </button>
+                                </div>
 
                     </div>
                 </div>
@@ -226,6 +232,21 @@ const ManageCourses = () => {
 
 
             ))}
+            <dialog id="deleteCourse" className="modal modal-bottom sm:modal-middle">
+                        <div className="modal-box">
+                            <h3 className="font-bold text-lg">Delete course</h3>
+                            <form method="dialog">
+                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                            </form>
+                            <div className="modal-body">
+                                <p>Are you sure you want to delete this course?</p>
+                                <div className="flex justify-between mt-4">
+                                    <button className="btn btn-danger" onClick={() => handleDelete()}>Delete</button>
+                                    <button className="btn btn-primary" onClick={() => document.getElementById('deleteModule').close()}>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
 
 
 

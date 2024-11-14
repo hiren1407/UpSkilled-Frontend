@@ -4,7 +4,7 @@ import Logo from '../images/Logo.jpeg'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUser } from '../utils/userSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { faHome,faUser , faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { BASE_URL } from '../utils/constants'
 
 const NavBar = () => {
@@ -57,12 +57,13 @@ const NavBar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 text-blue-400 rounded-box z-[1] mt-3 w-52 p-2 shadow">
             <li>
-              <Link to='/profile' className="justify-between">
+              <Link to='/profile'>
+              <FontAwesomeIcon icon={faUser } />
                 Profile
               </Link>
             </li>
 
-            <li><a onClick={handleLogout}>Logout</a></li>
+            <li><button onClick={handleLogout} className=' cursor-pointer'><FontAwesomeIcon icon={faSignOutAlt} />Logout</button></li>
           </ul>
         </div>
       </div>)}

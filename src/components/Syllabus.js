@@ -128,16 +128,19 @@ const Syllabus = () => {
                                 </form>
                                 <div className="w-full content-center">
                                     <div className="mt-4">
-                                        <object
-                                            data={syllabus}
-                                            type="application/pdf"
-                                            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
-                                            style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
-                                        >
-                                            <p>Your browser does not support viewing PDF files.
-                                                <a href={syllabus} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
-                                            </p>
-                                        </object>
+                                    <object
+            data={syllabus}
+            type="application/pdf"
+            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh] overflow-y-scroll"
+            style={{ minHeight: '60vh', // Adjusted for better visibility on smaller screens
+            height: '100%',
+            maxHeight: '100vh',
+            width: '100%' }}
+        >
+            <p>Your browser does not support viewing PDF files.
+               <a href={syllabus} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
+            </p>
+        </object>
                                     </div>
                                 </div>
                             </div>
