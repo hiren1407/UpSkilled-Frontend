@@ -19,6 +19,8 @@ const CourseMaterial = () => {
     const [newDescription, setNewDescription] = useState("");
     const [newPdf, setNewPdf] = useState(null);
     const [moduleId, setModuleId] = useState(null);
+    const [materialTitle,setMaterialTitle]=useState(null)
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     const fetchModules = async () => {
         setLoading(true);
@@ -49,6 +51,9 @@ const CourseMaterial = () => {
 
     useEffect(() => {
         if (courseDetails.length !== 0) fetchModules();
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, [courseDetails]);
 
     const handleCreateModule = async () => {
@@ -102,7 +107,7 @@ const CourseMaterial = () => {
         }
     }
 
-    const handleViewModule = async (id) => {
+    const handleViewModule = async (id,title) => {
         document.getElementById('modulePdf').showModal();
         let url;
         if (userRole === "instructor") {
@@ -121,18 +126,9 @@ const CourseMaterial = () => {
 
         const file = await response.blob();
         const fileUrl = URL.createObjectURL(file);
-
-        if (window.innerWidth >= 768) {  // Check if device width is larger than 768px
-            setModulePdf(fileUrl);  // Show PDF in modal on larger screens
-            document.getElementById('modulePdf').showModal();
-        } else {
-            // Trigger download on smaller devices
-            const link = document.createElement('a');
-            link.href = fileUrl;
-            link.download = `Module_${id}.pdf`;
-            link.click();
-        }
-    };
+        setModulePdf(fileUrl);
+        setMaterialTitle(title)
+    }
 
     const handleEdit = async (data) => {
         if (userRole !== "instructor") return;
@@ -217,7 +213,7 @@ const CourseMaterial = () => {
                             <div className="collapse-content">
                                 <p>{data.materialDescription}</p>
                                 <div className="flex justify-between mt-2">
-                                    <button className="btn btn-neutral" onClick={() => handleViewModule(data.id)}>View Module</button>
+                                    <button className="btn btn-neutral" onClick={() => handleViewModule(data.id,data.materialTitle)}>View Module</button>
                                     {userRole === 'instructor' &&
                                         <div>
                                             <button className="btn btn-warning mt-2" onClick={() => { handleEdit(data) }}>
@@ -232,21 +228,88 @@ const CourseMaterial = () => {
                         </div>
                     ))) : <p className="text-center text-xl">No modules available</p>}
 
-                    <dialog id="modulePdf" className="modal">
-                        <div className="modal-box w-11/12 max-w-5xl">
-                            <h3 className="font-bold text-lg text-center">Module PDF</h3>
+                    <dialog id="moduleDetails" className="modal modal-bottom sm:modal-middle">
+                        <div className="modal-box">
+                            <h3 className="font-bold text-lg">{isEditing ? 'Edit Module Details' : 'Create a new module'}</h3>
                             <form method="dialog">
                                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                             </form>
-                            <div className="w-full content-center">
-                                <div className="mt-4">
-                                    <iframe allow="web-share" src={modulePdf} style={{ width: '100%', height: '75vh' }} title="PDF Preview" />
+
+                            <div className="modal-body">
+                                <div className="form-control w-full max-w-md">
+                                    <label className="label">
+                                        <span className="text-xl">Module Title</span>
+                                    </label>
+
+                                    <input type="text" className="input input-bordered w-full" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
+                                </div>
+                                <div className="form-control w-full ">
+                                    <label className="label">
+                                        <span className="text-xl">Module Description</span>
+                                    </label>
+                                    <textarea className="textarea textarea-bordered w-full h-48" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
+
+                                </div>
+                                <div className="form-control w-full">
+                                    <label className="label">
+                                        <span className="text-xl">Upload PDF</span>
+                                    </label>
+
+                                    <input type="file" accept="application/pdf" className="file-input file-input-bordered w-full" onChange={(e) => setNewPdf(e.target.files[0])} />
+                                    {moduleError && <p className="text-red-500">{moduleError}</p>}
+                                </div>
+                                <div className="form-control w-full mt-4">
+                                    <button className="btn btn-primary" onClick={handleCreateModule}>{isEditing ? 'Edit Module' : 'Create Module'}</button>
                                 </div>
                             </div>
                         </div>
                     </dialog>
 
-                    {/* Other dialogs and modals remain the same */}
+                    <dialog id="modulePdf" className="modal">
+                        <div className="modal-box w-11/12 max-w-5xl">
+                            <h3 className="font-bold text-lg text-center">{ materialTitle}</h3>
+                            <form method="dialog">
+                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                            </form>
+                            <div className="w-full content-center">
+                            <div className="mt-4">
+                                    {isMobile ? (
+                                        <a href={modulePdf} download className="text-blue-500 underline">Download Module</a>
+                                    ) : (
+                                        <object
+                                            data={modulePdf}
+                                            type="application/pdf"
+                                            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh] overflow-y-scroll"
+                                            style={{
+                                                minHeight: '70vh',
+                                                height: '100%',
+                                                maxHeight: '100vh',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            
+                                        </object>
+                                    )}
+                                    </div>
+                            </div>
+                        </div>
+                    </dialog>
+
+                    <dialog id="deleteModule" className="modal modal-bottom sm:modal-middle">
+                        <div className="modal-box">
+                            <h3 className="font-bold text-lg">Delete module</h3>
+                            <form method="dialog">
+                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                            </form>
+                            <div className="modal-body">
+                                <p>Are you sure you want to delete this module?</p>
+                                <div className="flex justify-between mt-4">
+                                    <button className="btn btn-danger" onClick={() => handleDelete()}>Delete</button>
+                                    <button className="btn btn-primary" onClick={() => document.getElementById('deleteModule').close()}>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
                 </div>
             </div>
         </div>

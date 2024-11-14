@@ -12,6 +12,7 @@ const CourseDetails = () => {
     const [isEnrolled, setIsEnrolled] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
         setLoading(true);
@@ -41,6 +42,9 @@ const CourseDetails = () => {
         };
 
         fetchCourseDetails();
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, [courseId, enrollButtonContent]);
 
     const handleViewSyllabus = async () => {
@@ -54,7 +58,7 @@ const CourseDetails = () => {
             if (response.status === 200) {
                 const file = await response.blob();
                 const fileUrl = URL.createObjectURL(file);
-                document.getElementById('my_modal_5').showModal()
+                document.getElementById('course-syllabus').showModal()
                 setSyllabus(fileUrl);
             } else {
                 setError("Failed to fetch syllabus");
@@ -94,31 +98,7 @@ const CourseDetails = () => {
 
     return (
         <div className='mr-5'>
-            <dialog id="my_modal_5" className="modal modal-responsive">
-                    <div className="modal-box w-11/12 max-w-5xl overflow-y: auto">
-                        <h3 className="font-bold text-lg text-center">Syllabus</h3>
-                        <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                        </form>
-                        <div className="w-full content-center">
-                            <div className="mt-4" style={{}}>
-                            <object
-            data={syllabus}
-            type="application/pdf"
-            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
-            style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
-        >
-            <p>Your browser does not support viewing PDF files.
-               <a href={syllabus} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
-            </p>
-        </object>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </dialog>
+            
             <button className="btn btn-neutral ml-5 mt-5" onClick={() => navigate('/employee/all-courses')}>⬅️ All courses</button>
             <div className=" mx-5 my-5 p-6  max-w-full bg-white rounded-lg shadow-md">
                 <h1 className="text-3xl font-bold mb-2">{courseDetails.title}</h1>
@@ -143,7 +123,7 @@ const CourseDetails = () => {
                     {enrollButtonContent}
                 </button>
 
-                <dialog id="my_modal_5" className="modal">
+                <dialog id="course-syllabus" className="modal">
                     <div className="modal-box w-11/12 max-w-5xl">
                         <h3 className="font-bold text-lg text-center">Syllabus</h3>
                         <form method="dialog">
@@ -151,9 +131,25 @@ const CourseDetails = () => {
                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                         </form>
                         <div className="w-full content-center">
-                            <div className="mt-4">
-                                <iframe src={syllabus} style={{ width: '100%', height: '75vh' }} title="PDF Preview" />
-                            </div>
+                        <div className="mt-4">
+                                    {isMobile ? (
+                                        <a href={syllabus} download className="text-blue-500 underline">Download Syllabus</a>
+                                    ) : (
+                                        <object
+                                            data={syllabus}
+                                            type="application/pdf"
+                                            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh] overflow-y-scroll"
+                                            style={{
+                                                minHeight: '70vh',
+                                                height: '100%',
+                                                maxHeight: '100vh',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            
+                                        </object>
+                                    )}
+                                    </div>
                         </div>
                     </div>
                 </dialog>

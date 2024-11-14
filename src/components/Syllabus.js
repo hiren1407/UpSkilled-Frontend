@@ -142,7 +142,7 @@ const Syllabus = () => {
                                             type="application/pdf"
                                             className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh] overflow-y-scroll"
                                             style={{
-                                                minHeight: '60vh',
+                                                minHeight: '70vh',
                                                 height: '100%',
                                                 maxHeight: '100vh',
                                                 width: '100%'

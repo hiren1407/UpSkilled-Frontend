@@ -15,6 +15,8 @@ const AssignmentView = () => {
     const [file, setFile] = useState(null);
     const [uploadError, setUploadError] = useState(null);
     const [submissionPdf, setSubmissionPdf] = useState(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
     const fetchAssignment = async () => {
         try {
             setLoading(true);
@@ -43,6 +45,9 @@ const AssignmentView = () => {
         
         
         fetchAssignment();
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, [assignmentId]);
 
     if (loading) {
@@ -235,16 +240,16 @@ const AssignmentView = () => {
                         </form>
                         <div className="w-full content-center">
                             <div className="mt-4">
-                            <object
+                            {!isMobile?<object
             data={submissionPdf}
             type="application/pdf"
             className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
             style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
-        >
+        />:
             <p>Your browser does not support viewing PDF files.
                <a href={submissionPdf} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
             </p>
-        </object>
+       }
                             </div>
                         </div>
 
