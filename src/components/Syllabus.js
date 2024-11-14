@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
 import { useParams } from "react-router-dom";
 
+
 const Syllabus = () => {
     const course = useSelector((state) => state.courseDetails.course);
     const role = useSelector((state) => state.user.role);
@@ -13,6 +14,7 @@ const Syllabus = () => {
     const [fileError, setFileError] = useState(null);
     const [error, setError] = useState(null);
     const fileInputRef = useRef(null); // Reference to the file input
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     const fetchSyllabus = async () => {
         try {
@@ -43,8 +45,12 @@ const Syllabus = () => {
     };
 
     useEffect(() => {
+        
         document.title = "Syllabus";
         fetchSyllabus();
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, [courseId, role]);
 
     const handleUpload = async () => {
@@ -127,20 +133,24 @@ const Syllabus = () => {
                                     <button type="button" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById('syllabus').close()}>✕</button>
                                 </form>
                                 <div className="w-full content-center">
-                                    <div className="mt-4">
-                                    <object
-            data={syllabus}
-            type="application/pdf"
-            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh] overflow-y-scroll"
-            style={{ minHeight: '60vh', // Adjusted for better visibility on smaller screens
-            height: '100%',
-            maxHeight: '100vh',
-            width: '100%' }}
-        >
-            <p>Your browser does not support viewing PDF files.
-               <a href={syllabus} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
-            </p>
-        </object>
+                                <div className="mt-4">
+                                    {isMobile ? (
+                                        <a href={syllabus} download className="text-blue-500 underline">Download Syllabus</a>
+                                    ) : (
+                                        <object
+                                            data={syllabus}
+                                            type="application/pdf"
+                                            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh] overflow-y-scroll"
+                                            style={{
+                                                minHeight: '60vh',
+                                                height: '100%',
+                                                maxHeight: '100vh',
+                                                width: '100%'
+                                            }}
+                                        >
+                                            
+                                        </object>
+                                    )}
                                     </div>
                                 </div>
                             </div>
