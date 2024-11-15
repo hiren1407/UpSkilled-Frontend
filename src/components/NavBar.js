@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Logo from '../images/Logo.jpeg'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUser } from '../utils/userSlice'
@@ -11,6 +11,7 @@ import { toggleMenu } from '../utils/appSlice'
 const NavBar = () => {
   const user = useSelector((store) => store.user.user)
   const role = useSelector((store) => store.user.role)
+  const { courseId } = useParams()
   const path='/'+role
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0" style={{ minHeight: '3.5rem' }}>
       <div className="flex-1">
-        {isMobile && role && <button className="btn btn-ghost" onClick={()=>toggleMenuHandler()}>
+        {isMobile && courseId && <button className="btn btn-ghost" onClick={()=>toggleMenuHandler()}>
             <FontAwesomeIcon icon={faBars} />
           </button>}
         <Link to={path}><img src={Logo} alt='Logo' className='h-8 w-28 ml-1'></img></Link>
