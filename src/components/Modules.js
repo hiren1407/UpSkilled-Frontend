@@ -199,8 +199,8 @@ const CourseMaterial = () => {
     return (
         <div className="flex flex-col">
             <div className="flex justify-between items-center m-4">
-                <h1 className="text-4xl text-center flex-grow">Course Materials for {courseDetails.title}</h1>
-                {userRole === "instructor" && <button className="btn btn-neutral" onClick={openModal}>Create New</button>}
+                <h1 className="text-2xl md:text-3xl font-bold text-center flex-grow">Course Materials for {courseDetails.title}</h1>
+                {userRole === "instructor" && <button className="btn btn-neutral btn-sm md:btn-md" onClick={openModal}>Create New</button>}
             </div>
             <div className="row mx-2">
                 <div className="col-md-6">
@@ -213,13 +213,13 @@ const CourseMaterial = () => {
                             <div className="collapse-content">
                                 <p>{data.materialDescription}</p>
                                 <div className="flex justify-between mt-2">
-                                    <button className="btn btn-neutral" onClick={() => handleViewModule(data.id,data.materialTitle)}>View Module</button>
+                                    <button className="btn btn-neutral btn-sm md:btn-md" onClick={() => handleViewModule(data.id,data.materialTitle)}>View Module</button>
                                     {userRole === 'instructor' &&
                                         <div>
-                                            <button className="btn btn-warning mt-2" onClick={() => { handleEdit(data) }}>
+                                            <button className="btn btn-warning  btn-sm md:btn-md" onClick={() => { handleEdit(data) }}>
                                                 <FontAwesomeIcon icon={faEdit} /> Edit
                                             </button>
-                                            <button className="btn btn-danger mt-2" onClick={() => { setModuleId(data.id); document.getElementById('deleteModule').showModal() }}>
+                                            <button className="btn btn-danger  btn-sm md:btn-md" onClick={() => { setModuleId(data.id); document.getElementById('deleteModule').showModal() }}>
                                                 <FontAwesomeIcon icon={faTrash} /> Delete
                                             </button>
                                         </div>}

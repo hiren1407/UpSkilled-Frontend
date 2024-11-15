@@ -4,8 +4,8 @@ import instructor from '../../images/instructor.jpg'
 
 const AdminDashboard = () => {
   return (
-    <div>
-      <h1 className='flex text-3xl font-bold justify-center my-10'>Admin Dashboard</h1>
+    <div className='my-2'>
+      <h1 className='flex text-2xl md:text-4xl font-bold justify-center my-2'>Admin Dashboard</h1>
       <div className='flex justify-center items-center space-x-10 my-10'>
         <div className="card glass w-1/3 h-96">
           <figure>

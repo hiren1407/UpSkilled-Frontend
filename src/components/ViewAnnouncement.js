@@ -132,7 +132,7 @@ const ViewAnnouncement = () => {
 
     return (
         <div className="flex flex-col w-4/5 items-center justify-self-center">
-            <h1 className="text-4xl text-center my-4 w-full">Announcement Details</h1>
+            <h1 className="text-2xl md:text-3xl text-center font-bold my-4 w-full">Announcement Details</h1>
             <div className="bg-slate-700 p-6 rounded-lg shadow-lg w-full">
                 <div className="card bg-base-300 rounded-box grid h-20 items-center px-5">
                     <h2 className="text-2xl font-bold">{announcement.title}</h2>

@@ -46,9 +46,9 @@ const ViewAnnouncement = () => {
     }, [user, courseId]);
 
     return (
-        <div className="flex flex-col w-4/5 items-center justify-self-center mx-5">
+        <div className="flex flex-wrap justify-center mx-5 my-1">
             <div className="flex justify-between items-center my-4 w-full">
-                <h1 className="text-3xl text-center font-bold flex-grow">Announcements</h1>
+                <h1 className="text-2xl md:text-3xl text-center font-bold flex-grow">Announcements</h1>
                 { user.role==="instructor" && <button className="btn btn-neutral" onClick={() => navigate(`/instructor/course/${courseId}/create-announcement`)}>Create New</button>}
             </div>
             {announcements.length === 0 ? <p className="text-center text-xl">No announcements found</p> :

@@ -64,9 +64,9 @@ const ManageInstructors = () => {
   }
 
   return (
-    <div className=''>
+    <div className='my-2'>
 
-      <h1 className='flex text-3xl font-bold justify-center my-10'>Manage Instructors</h1>
+      <h1 className='flex text-2xl md:text-4xl font-bold justify-center my-2'>Manage Instructors</h1>
 
 
       <div role="tablist" className="tabs tabs-lifted mx-2">

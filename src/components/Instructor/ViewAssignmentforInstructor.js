@@ -208,7 +208,7 @@ const ViewAssignment = () => {
                                 <tr key={index}>
                                     <th>{index + 1}</th>
                                     <td>{`${submission.userDetails.firstName} ${submission.userDetails.lastName}`}</td>
-                                    <td><button className="btn" onClick={() => navigate(`submission/${submission.submissionId}`)}>View Submission</button></td>
+                                    <td><button className="btn btn-sm md:btn-md" onClick={() => navigate(`submission/${submission.submissionId}`)}>View Submission</button></td>
                                     <td>{submission.gradeBook ? submission.gradeBook.grade : '-'}</td>
                                 </tr>
                             ))}

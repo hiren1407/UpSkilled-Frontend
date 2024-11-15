@@ -53,14 +53,14 @@ const NavBar = () => {
   return (
     <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0" style={{ minHeight: '3.5rem' }}>
       <div className="flex-1">
-        {isMobile && courseId && <button className="btn btn-ghost" onClick={()=>toggleMenuHandler()}>
+        {isMobile && (role=="admin" ||courseId )&& <button className="btn btn-ghost" onClick={()=>toggleMenuHandler()}>
             <FontAwesomeIcon icon={faBars} />
           </button>}
-        <Link to={path}><img src={Logo} alt='Logo' className='h-8 w-28 ml-1'></img></Link>
-        {user && (<Link to={`/${user.role.toLowerCase()}`}><span className='hover:bg-neutral-400 p-2 rounded-md'><FontAwesomeIcon className='mr-1' icon={faHome}></FontAwesomeIcon>Home</span></Link>)}
+        <Link to={path}><img src={Logo} alt='Logo' className='h-6 w-20 ml-0 mr-1 md:h-8 md:w-28 md:ml-1'></img></Link>
+        {user && (<Link to={`/${user.role.toLowerCase()}`}><span className='hover:bg-neutral-400 p-2 rounded-md text-sm md:text-md'><FontAwesomeIcon className='mr-1' icon={faHome}></FontAwesomeIcon>Home</span></Link>)}
       </div>
       {user && (<div className="flex-none gap-2">
-        <div className="form-control">
+        <div className="form-control text-sm md:text-md">
           Welcome, {user?.firstName}
         </div>
         <div className="dropdown dropdown-end mr-3 flex">

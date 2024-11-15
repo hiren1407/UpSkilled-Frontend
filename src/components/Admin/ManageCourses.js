@@ -142,12 +142,12 @@ const ManageCourses = () => {
     };
 
     return (
-        <div className=''>
-            <h1 className='flex text-3xl font-bold justify-center my-10'>Manage Courses</h1>
+        <div className='my-2'>
+            <h1 className='flex text-2xl md:text-4xl font-bold justify-center my-2'>Manage Courses</h1>
 
             {/* Open the modal using document.getElementById('ID').showModal() method */}
             {error && <div className="error-message">{error}</div>}
-            <button className="btn btn-primary my-5 ml-2" onClick={openModal}>Add Course</button>
+            <button className="btn btn-primary ml-2 btn-sm md:btn-md" onClick={openModal}>Add Course</button>
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Add a New Course</h3>
@@ -217,10 +217,10 @@ const ManageCourses = () => {
                     <div className="collapse-content">
                         <p>{data.description}</p>
                         <div className="flex justify-end mt-2">
-                        <button className="btn btn-warning mt-2 mx-1" onClick={() => handleEdit(data)}>
+                        <button className="btn btn-warning mt-2 mx-1 btn-sm md:btn-md" onClick={() => handleEdit(data)}>
                                     <FontAwesomeIcon icon={faEdit} /> Edit
                                 </button>
-                                <button className="btn btn-danger mt-2" onClick={() => { setCourseId(data.id); document.getElementById('deleteCourse').showModal() }}>
+                                <button className="btn btn-danger mt-2 btn-sm md:btn-md" onClick={() => { setCourseId(data.id); document.getElementById('deleteCourse').showModal() }}>
                                     <FontAwesomeIcon icon={faTrash} /> Delete
                                 </button>
                                 </div>

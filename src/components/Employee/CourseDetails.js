@@ -99,7 +99,7 @@ const CourseDetails = () => {
     return (
         <div className='mr-5'>
             
-            <button className="btn btn-neutral ml-5 mt-5" onClick={() => navigate('/employee/all-courses')}>⬅️ All courses</button>
+            <button className="btn btn-neutral ml-5 mt-5 btn-sm md:btn-md" onClick={() => navigate('/employee/all-courses')}>⬅️ All courses</button>
             <div className=" mx-5 my-5 p-6  max-w-full bg-white rounded-lg shadow-md">
                 <h1 className="text-3xl font-bold mb-2">{courseDetails.title}</h1>
                 <h2 className="text-xl text-gray-700 mb-4">{courseDetails.name}</h2>

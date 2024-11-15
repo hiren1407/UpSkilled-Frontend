@@ -60,9 +60,9 @@ const ViewAllCourses = () => {
     return (<div><button className="btn btn-neutral ml-2 my-5" onClick={() => navigate('/employee')}>⬅️ My Courses</button><h1 className='text-xl ml-2'>No courses are available at the moment.</h1></div>)
   }
   return (
-    <div>
-      <h1 className='text-5xl text-center'>Available Courses</h1>
-      <button className="btn btn-neutral ml-2" onClick={() => navigate('/employee')}>⬅️ My Courses</button>
+    <div className='my-2'>
+      <h1 className='text-2xl md:text-4xl font-bold text-center mb-2'>Available Courses</h1>
+      <button className="btn btn-neutral ml-2 btn-sm md:btn-md" onClick={() => navigate('/employee')}>⬅️ My Courses</button>
       <div className="flex flex-wrap justify-start my-8">
         {courses.map((course) => (
           <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2">

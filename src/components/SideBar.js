@@ -69,9 +69,9 @@ const SideBar = () => {
             
 
             <div className='flex flex-grow'>
-                <div className="fixed flex flex-col top-12 left-0  w-40 md:w-64 bg-neutral text-neutral-content h-full transition-all duration-300 border-none z-10 sidebar">
+                <div className="fixed flex flex-col top-12 left-0  w-48 md:w-64 bg-neutral text-neutral-content h-full transition-all duration-300 border-none z-10 sidebar">
                     <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
-                        <ul className="flex flex-col py-4 space-y-1">
+                        <ul className="flex flex-col py-2 space-y-1">
                             {itemsToDisplay.map((item, index) => (
                                 <li key={index}>
                                     

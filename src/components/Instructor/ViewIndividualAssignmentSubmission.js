@@ -125,7 +125,7 @@ const ViewIndividualAssignmentSubmission = () => {
 
     return (
         <div className="flex flex-wrap justify-center px-16 py-8 flex-col">
-            <h2 className="text-3xl font-bold text-center">Submission Details</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-center">Submission Details</h2>
 
             <div className="flex justify-between mt-4">
                 <div className="flex flex-col gap-2">
@@ -144,11 +144,11 @@ const ViewIndividualAssignmentSubmission = () => {
                 {userRole === 'instructor' && (
                     !editGrade ? (gradeDetails.length === 0 ? (
                         <div>
-                            <button className="btn btn-gray" onClick={() => setEditGrade(!editGrade)}>Provide Grade and Feedback</button>
+                            <button className="btn btn-gray btn-sm md:btn-md" onClick={() => setEditGrade(!editGrade)}>Provide Grade and Feedback</button>
                         </div>
                     ) : (
                         <div>
-                            <button className="btn btn-gray" onClick={() => setEditGrade(!editGrade)}>Edit Grade and Feedback</button>
+                            <button className="btn btn-gray btn-sm md:btn-md" onClick={() => setEditGrade(!editGrade)}>Edit Grade and Feedback</button>
                         </div>
                     )) : (
                         <div className="flex flex-col">
@@ -163,14 +163,14 @@ const ViewIndividualAssignmentSubmission = () => {
                                 <h3 className="text-2xl font-bold mb-1">Feedback:</h3>
                                 <textarea className="w-96 h-24 input input-bordered" value={feedback} onChange={(e) => setFeedback(e.target.value)}></textarea>
                             </div>
-                            <button className="btn mt-2" onClick={handleGradeSubmission}>Submit</button>
+                            <button className="btn mt-2 btn-sm md:btn-md" onClick={handleGradeSubmission}>Submit</button>
                         </div >
                     )
                 )}
             </div>
 
             <div>
-                <button className="btn mt-4" onClick={() => setShowSubmission(!showSubmission)}>{showSubmission ? 'Hide Submission' : 'Show Submission'}</button>
+                <button className="btn mt-4 btn-sm md:btn-md" onClick={() => setShowSubmission(!showSubmission)}>{showSubmission ? 'Hide Submission' : 'Show Submission'}</button>
                 {submissionFileUrl ? (
                     showSubmission && (
                         <div className="w-full content-center">

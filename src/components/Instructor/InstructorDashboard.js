@@ -59,8 +59,8 @@ const InstructorDashboard = () => {
   }
 
   return (
-    <div>
-      <h1 className='text-5xl text-center'>Dashboard</h1>
+    <div className='my-2'>
+      <h1 className='text-2xl md:text-4xl font-bold text-center'>Dashboard</h1>
       <div className="flex flex-wrap justify-start my-8">
         {courses.map((course) => (
           <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2">
