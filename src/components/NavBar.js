@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../images/Logo.jpeg'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearUser } from '../utils/userSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome,faUser , faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faHome,faUser , faSignOutAlt,faBars } from '@fortawesome/free-solid-svg-icons'
 import { BASE_URL } from '../utils/constants'
+import { toggleMenu } from '../utils/appSlice'
 
 const NavBar = () => {
   const user = useSelector((store) => store.user.user)
@@ -13,6 +14,7 @@ const NavBar = () => {
   const path='/'+role
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   
 
   const handleLogout = async () => {
@@ -35,10 +37,24 @@ const NavBar = () => {
     }
   }
 
+  const toggleMenuHandler = () => {
+    dispatch(toggleMenu())
+}
+
+  useEffect(()=>{
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+            window.addEventListener("resize", handleResize);
+            return () => window.removeEventListener("resize", handleResize);
+  },[])
+
+
   return (
     <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0" style={{ minHeight: '3.5rem' }}>
       <div className="flex-1">
-        <Link to={path}><img src={Logo} alt='Logo' className='h-8 w-28 ml-4'></img></Link>
+        {isMobile && <button className="btn btn-ghost" onClick={()=>toggleMenuHandler()}>
+            <FontAwesomeIcon icon={faBars} />
+          </button>}
+        <Link to={path}><img src={Logo} alt='Logo' className='h-8 w-28 ml-1'></img></Link>
         {user && (<Link to={`/${user.role.toLowerCase()}`}><span className='hover:bg-neutral-400 p-2 rounded-md'><FontAwesomeIcon className='mr-1' icon={faHome}></FontAwesomeIcon>Home</span></Link>)}
       </div>
       {user && (<div className="flex-none gap-2">
