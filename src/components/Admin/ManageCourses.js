@@ -69,7 +69,7 @@ const ManageCourses = () => {
                     body: JSON.stringify(newCourse)
                 });
             if(response.status!=200){
-                alert('Failed to update course. Please try again.');
+                setError('Failed to update course. Please try again.');
             }
             } else {
                 // Create new course
@@ -82,7 +82,7 @@ const ManageCourses = () => {
                     body: JSON.stringify(newCourse)
                 });
                 if(response.status!=200){
-                    alert('Failed to save course. Please try again.');
+                    setError('Failed to save course. Please try again.');
                 }
             }
 
@@ -95,7 +95,7 @@ const ManageCourses = () => {
             document.getElementById('my_modal_5').close();
             setError(''); // Clear any previous errors
         } catch (err) {
-            alert('Failed to save course. Please try again.');
+            setError('Failed to save course. Please try again.');
         }
     };
 
@@ -122,7 +122,7 @@ const ManageCourses = () => {
             setFlag(!flag);
             setError(''); // Clear any previous errors
         } catch (err) {
-            alert('Failed to delete course. Please try again.');
+            setError('Failed to delete course. Please try again.');
         }
     };
 
