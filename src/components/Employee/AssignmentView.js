@@ -16,6 +16,7 @@ const AssignmentView = () => {
     const [uploadError, setUploadError] = useState(null);
     const [submissionPdf, setSubmissionPdf] = useState(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [showToast, setShowToast] = useState(false)
 
     const fetchAssignment = async () => {
         try {
@@ -125,7 +126,10 @@ const AssignmentView = () => {
                     body: formData
                 });
                 if (response.status == 200) {
-                    alert('Assignment submitted successfully!');
+                    setShowToast(true)
+                    setTimeout(() => {
+                        setShowToast(false)
+                    }, 3000)
                     setFile(null);
                     setUploadError(null);
                     fetchAssignment();
@@ -142,7 +146,10 @@ const AssignmentView = () => {
                     body: formData
                 });
                 if (response.status == 200) {
-                    alert('Assignment updated successfully!');
+                    setShowToast(true)
+                    setTimeout(() => {
+                        setShowToast(false)
+                    }, 3000)
                     setFile(null);
                     setUploadError(null);
                     fetchAssignment();
@@ -183,6 +190,15 @@ const AssignmentView = () => {
 
     return (
         <div className="max-w-3xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg mt-6">
+            {showToast && (
+            <div className="flex justify-center">
+                <div className="toast toast-top relative">
+                <div className="alert alert-success">
+                    <span>Assignment submitted successfully!</span>
+                </div>
+                </div>
+            </div>
+            )}
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
             <p className=" mb-4">{description}</p>
 

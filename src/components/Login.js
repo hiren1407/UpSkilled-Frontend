@@ -122,7 +122,11 @@ const Login = () => {
       }
     } catch (err) {
       
-      setError(err.message || "Login failed"); // Set error if login fails
+      if(err.message=="Rejected")
+      setError("Wrong credentials");
+    else{
+      setError("Login failed")
+    } // Set error if login fails
     }
   };
 
@@ -139,7 +143,9 @@ const Login = () => {
     }
 
     } catch (err) {
-      setError(err.message || "Signup failed"); // Set error if signup fails
+     
+      setError(err.message || "Signup failed")
+    // Set error if signup fails
     }
   };
 

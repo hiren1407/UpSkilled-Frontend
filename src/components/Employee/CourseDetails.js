@@ -81,7 +81,7 @@ const CourseDetails = () => {
             if (response.status === 200) {
                 setEnrollButtonContent("Enrolled ✔️")
             } else {
-                alert('Failed to enroll in the course.');
+                setError('Failed to enroll in the course.');
             }
         } catch (error) {
             console.error('Error enrolling in course:', error);
