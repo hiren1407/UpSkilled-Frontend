@@ -15,6 +15,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
   
 
   const handleLogout = async () => {
@@ -51,7 +52,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-neutral text-neutral-content fixed z-10 min-h-0" style={{ minHeight: '3.5rem' }}>
       <div className="flex-1">
-        {isMobile && <button className="btn btn-ghost" onClick={()=>toggleMenuHandler()}>
+        {isMobile && role && <button className="btn btn-ghost" onClick={()=>toggleMenuHandler()}>
             <FontAwesomeIcon icon={faBars} />
           </button>}
         <Link to={path}><img src={Logo} alt='Logo' className='h-8 w-28 ml-1'></img></Link>
