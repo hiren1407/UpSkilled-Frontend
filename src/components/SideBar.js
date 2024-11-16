@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTasks, faUsersCog, faBook, faBullhorn, faChalkboardTeacher, faBars, faThLarge, faFolder, faFolderOpen,faStar } from '@fortawesome/free-solid-svg-icons';
+import { faTasks, faUsersCog, faBook, faBullhorn, faChalkboardTeacher, faFolderOpen,faStar,faInbox } from '@fortawesome/free-solid-svg-icons';
 import { fetchCourseDetails } from '../utils/courseSlice';
-import { closeMenu, openMenu, toggleMenu } from '../utils/appSlice';
+import {  toggleMenu } from '../utils/appSlice';
 
 const SideBar = () => {
 
@@ -37,7 +37,8 @@ const SideBar = () => {
         { path: `/employee/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
         { path: `/employee/course/${courseId}/modules`, label: "Modules", icon: faFolderOpen },
         { path: `/employee/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
-        { path: `/employee/course/${courseId}/grades`, label: "Grades", icon: faStar }
+        { path: `/employee/course/${courseId}/grades`, label: "Grades", icon: faStar },
+        { path: `/employee/course/${courseId}/employee-messages`, label: "Messages", icon: faInbox }
     ];
 
     const instructorItems = [
