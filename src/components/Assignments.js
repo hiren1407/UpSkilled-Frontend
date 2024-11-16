@@ -13,7 +13,7 @@ const Assignments = () => {
         document.title = "Assignments";
         const fetchAssignments = async () => {
             try {
-                const url = role === 'instructor' 
+                const url = role === 'instructor'
                     ? `${BASE_URL}/instructor/course/${courseId}/assignments`
                     : `${BASE_URL}/employee/course/${courseId}/assignments`; // Example URL for employee
 
@@ -40,11 +40,13 @@ const Assignments = () => {
     }, [courseId, role]);
 
     return (
-        <div className="flex flex-col w-4/5 items-center justify-self-center">
+        <div className="flex flex-col w-4/5 justify-self-center">
             <div className="flex justify-between items-center my-4 w-full">
                 <h1 className="text-2xl md:text-3xl text-center font-bold flex-grow">Assignments</h1>
+            </div>
+            <div className="flex justify-end w-full mb-2">
                 {role === 'instructor' && ( // Show button only for instructors
-                    <button className="btn btn-neutral" onClick={() => navigate(`/instructor/course/${courseId}/create-assignment`)}>
+                    <button className="btn btn-success" onClick={() => navigate(`/instructor/course/${courseId}/create-assignment`)}>
                         Create New
                     </button>
                 )}
@@ -54,20 +56,21 @@ const Assignments = () => {
             ) : (
                 <div className="p-8 border-2 w-full bg-slate-700">
                     {assignments.map((assignment, index) => {
-                        
-                        let assignmentDetails=assignment?.assignmentDetails
-                        if (assignment.submissionDetails){
-                        
-                        var gradingDetails=assignment?.submissionDetails[0]?.gradeBook
+
+                        let assignmentDetails = assignment?.assignmentDetails
+                        if (assignment.submissionDetails) {
+
+                            var gradingDetails = assignment?.submissionDetails[0]?.gradeBook
                         }
-                        return(
-                        <div key={index} className="shadow-md rounded-md p-4 my-4 bg-base-300 cursor-pointer" onClick={() => navigate(`${assignmentDetails.id}`)}>
-                            <h2 className="text-xl font-bold">{assignmentDetails.title}</h2>
-                            <p className="text-md truncate max-w-md">{assignmentDetails.description}</p>
-                            <p className="text-sm">Due: {new Date(assignmentDetails.deadline).toString()}</p>
-                           { gradingDetails && <p className="mt-2">Grade: {gradingDetails?.grade}/100</p>}
-                        </div>)})}
-                    
+                        return (
+                            <div key={index} className="shadow-md rounded-md p-4 my-4 bg-base-300 cursor-pointer" onClick={() => navigate(`${assignmentDetails.id}`)}>
+                                <h2 className="text-xl font-bold">{assignmentDetails.title}</h2>
+                                <p className="text-md truncate max-w-md">{assignmentDetails.description}</p>
+                                <p className="text-sm">Due: {new Date(assignmentDetails.deadline).toString()}</p>
+                                {gradingDetails && <p className="mt-2">Grade: {gradingDetails?.grade}/100</p>}
+                            </div>)
+                    })}
+
                 </div>
             )}
         </div>

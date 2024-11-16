@@ -13,7 +13,7 @@ const ViewAnnouncement = () => {
     const { courseId } = useParams();
 
     useEffect(() => {
-        const token=localStorage.getItem('token')
+        const token = localStorage.getItem('token')
         if (user.role === "instructor") {
             const response = axios.get(`${BASE_URL}/instructor/course/${courseId}/announcements`,
                 {
@@ -31,7 +31,7 @@ const ViewAnnouncement = () => {
             });
         }
         else {
-            const response = axios.get(`${BASE_URL}/employee/course/${courseId}/announcements`,{
+            const response = axios.get(`${BASE_URL}/employee/course/${courseId}/announcements`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -46,10 +46,12 @@ const ViewAnnouncement = () => {
     }, [user, courseId]);
 
     return (
-        <div className="flex flex-wrap justify-center mx-5 my-1">
+        <div className="flex flex-wrap justify-center w-4/5 justify-self-center mx-5 my-1">
             <div className="flex justify-between items-center my-4 w-full">
                 <h1 className="text-2xl md:text-3xl text-center font-bold flex-grow">Announcements</h1>
-                { user.role==="instructor" && <button className="btn btn-neutral" onClick={() => navigate(`/instructor/course/${courseId}/create-announcement`)}>Create New</button>}
+            </div>
+            <div className="flex justify-end w-full mb-2">
+                {user.role === "instructor" && <button className="btn btn-success" onClick={() => navigate(`/instructor/course/${courseId}/create-announcement`)}>Create New</button>}
             </div>
             {announcements.length === 0 ? <p className="text-center text-xl">No announcements found</p> :
                 <div className="p-8 border-2 w-4/5 md:w-full bg-slate-700">
