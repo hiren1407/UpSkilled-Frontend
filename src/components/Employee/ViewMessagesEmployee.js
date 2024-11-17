@@ -140,23 +140,6 @@ const ViewMessagesEmployee = () => {
     <div className="relative my-1">
       <h1 className="text-2xl md:text-3xl font-bold text-center my-4">Messages</h1>
 
-      <dialog id="view-message" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Message</h3>
-          <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-          </form>
-          <div className="modal-body py-4"></div>
-        </div>
-      </dialog>
-
-      <button
-        className="absolute top-4 right-6 bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600 w-14"
-        onClick={() => document.getElementById('send-message').showModal()}
-      >
-        <FontAwesomeIcon icon={faPaperPlane} />
-      </button>
-
       <dialog id="send-message" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Send message to instructor</h3>
@@ -180,6 +163,25 @@ const ViewMessagesEmployee = () => {
           </form>
         </div>
       </dialog>
+
+      <dialog id="view-message" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Message</h3>
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <div className="modal-body py-4"></div>
+        </div>
+      </dialog>
+
+      <button
+        className="absolute top-4 right-6 bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600 w-14"
+        onClick={() => document.getElementById('send-message').showModal()}
+      >
+        <FontAwesomeIcon icon={faPaperPlane} />
+      </button>
+
+      
 
       <div role="tablist" className="tabs tabs-lifted mx-2">
         <input type="radio" id="sent-tab" name="tabs" role="tab" className="tab" aria-label="Sent Messages" defaultChecked />

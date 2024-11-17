@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Logo from '../images/Logo.jpeg'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearUser } from '../utils/userSlice'
+import { clearUser, setUser } from '../utils/userSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome,faUser , faSignOutAlt,faBars } from '@fortawesome/free-solid-svg-icons'
 import { BASE_URL } from '../utils/constants'
 import { toggleMenu } from '../utils/appSlice'
+import { jwtDecode } from 'jwt-decode';
 
 const NavBar = () => {
   const user = useSelector((store) => store.user.user)
@@ -44,6 +45,14 @@ const NavBar = () => {
 }
 
   useEffect(()=>{
+    const token = localStorage.getItem('token')
+    if(token){
+      const user = jwtDecode(token);
+      dispatch(setUser({ user, token }));
+      if (user.role.toLowerCase() === "admin") navigate("/admin");
+        else if (user.role.toLowerCase() === "instructor") navigate("/instructor");
+        else if (user.role.toLowerCase() === "employee") navigate("/employee");
+    }
     const handleResize = () => setIsMobile(window.innerWidth < 768);
             window.addEventListener("resize", handleResize);
             return () => window.removeEventListener("resize", handleResize);
