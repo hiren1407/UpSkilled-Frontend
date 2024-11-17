@@ -65,7 +65,12 @@ const NavBar = () => {
         {isMobile && (role=="admin" ||courseId )&& <button className="btn btn-ghost" onClick={()=>toggleMenuHandler()}>
             <FontAwesomeIcon icon={faBars} />
           </button>}
-        <Link to={path}><img src={Logo} alt='Logo' className='h-6 w-20 ml-0 mr-1 md:h-8 md:w-28 md:ml-1'></img></Link>
+          <Link to={path}>
+  <h1 className="ml-2 text-xl">
+    <span style={{ color: 'orange' }}>Up</span>
+    <span style={{ color: 'white' }}>Skilled</span>
+  </h1>
+</Link>
         {user && (<Link to={`/${user.role.toLowerCase()}`}><span className='hover:bg-neutral-400 p-2 rounded-md text-sm md:text-md'><FontAwesomeIcon className='mr-1' icon={faHome}></FontAwesomeIcon>Home</span></Link>)}
       </div>
       {user && (<div className="flex-none gap-2">
