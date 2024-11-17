@@ -47,6 +47,7 @@ const SideBar = () => {
         { path: `/instructor/course/${courseId}/assignments`, label: "Assignments", icon: faTasks },
         { path: `/instructor/course/${courseId}/modules`, label: "Modules", icon: faFolderOpen },
         { path: `/instructor/course/${courseId}/syllabus`, label: "Syllabus", icon: faBook },
+        { path: `/instructor/course/${courseId}/instructor-messages`, label: "Messages", icon: faInbox }
     ];
 
     // Determine which items to display based on role
