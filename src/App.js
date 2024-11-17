@@ -27,9 +27,9 @@ import AssignmentView from "./components/Employee/AssignmentView"
 import Error from "./components/Error"
 import ViewGrades from "./components/Employee/ViewGrades"
 import ViewMessagesEmployee from "./components/Employee/ViewMessagesEmployee"
+import ViewMessagesInstructor from "./components/Instructor/ViewMessagesInstructor"
 
 function App() {
-
 
     return (
         <>
@@ -161,24 +161,25 @@ function App() {
                                             <AssignmentView />
                                         </div>
                                     </div>
-                                    </ProtectedRoute>} />
-                            <Route path="/employee/course/:courseId/grades" 
-                            element={<ProtectedRoute allowedRoles={['employee']}>
-                                <div className="flex"><SideBar /> 
-                                <div className="flex-grow">
-                                    <ViewGrades />
+                                </ProtectedRoute>} />
+                            <Route path="/employee/course/:courseId/grades"
+                                element={<ProtectedRoute allowedRoles={['employee']}>
+                                    <div className="flex"><SideBar />
+                                        <div className="flex-grow">
+                                            <ViewGrades />
+                                        </div>
                                     </div>
+                                </ProtectedRoute>} />
+                            <Route path="/employee/course/:courseId/employee-messages"
+                                element={<ProtectedRoute allowedRoles={['employee']}>
+                                    <div className="flex"><SideBar />
+                                        <div className="flex-grow">
+                                            <ViewMessagesEmployee />
+                                        </div>
                                     </div>
-                                    </ProtectedRoute>} />
-                            <Route path="/employee/course/:courseId/employee-messages" 
-                            element={<ProtectedRoute allowedRoles={['employee']}>
-                                <div className="flex"><SideBar /> 
-                                <div className="flex-grow">
-                                    <ViewMessagesEmployee />
-                                    </div>
-                                    </div>
-                                    </ProtectedRoute>} />
+                                </ProtectedRoute>} />
 
+                            <Route path="/employee/course/:courseId/modules" element={<ProtectedRoute allowedRoles={['employee']}><div className="flex"><SideBar /> <div className="flex-grow"><Modules /></div></div></ProtectedRoute>} />
 
                             <Route
                                 path="/instructor"
@@ -189,9 +190,6 @@ function App() {
                                 }
                             />
 
-
-
-                            <Route path="/employee/:id/announcements" element={<ProtectedRoute allowedRoles={['employee']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewAnnouncement /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><CourseDashboard /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/announcements" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><Announcements /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/create-announcement" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><CreateAnnouncement /></div></div></ProtectedRoute>} />
@@ -202,7 +200,7 @@ function App() {
                             <Route path="/instructor/course/:courseId/assignments/:assignmentId" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewAssignment /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/assignments/:assignmentId/submission/:submissionId" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewIndividualAssignmentSubmission /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/modules" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><Modules /></div></div></ProtectedRoute>} />
-                            <Route path="/employee/course/:courseId/modules" element={<ProtectedRoute allowedRoles={['employee']}><div className="flex"><SideBar /> <div className="flex-grow"><Modules /></div></div></ProtectedRoute>} />
+                            <Route path="/instructor/course/:courseId/instructor-messages" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewMessagesInstructor /></div></div></ProtectedRoute>} />
                             <Route path="*" element={<ProtectedRoute allowedRoles={['admin', 'employee', 'instructor']}><Error /></ProtectedRoute>} />
                         </Route>
                     </Routes>
