@@ -66,7 +66,7 @@ const NavBar = () => {
             <FontAwesomeIcon icon={faBars} />
           </button>}
           <Link to={path}>
-  <h1 className="ml-2 text-xl">
+  <h1 className="ml-2 text-xl font-bold">
     <span style={{ color: 'orange' }}>Up</span>
     <span style={{ color: 'white' }}>Skilled</span>
   </h1>
