@@ -1,9 +1,9 @@
 UpSkilled - An ELMS Platform
 
-Overview
+Overview-
 UpSkilled is a React-based web application designed to facilitate communication and management between instructors, employees, and administrators in an educational setting. The application provides various features such as dashboards for different user roles, message management, announcements, assignments, and course details.
 
-Features
+Features-
 User Role Management: Different dashboards for Admins, Instructors, and Employees, each with role-specific functionalities.
 Protected Routes: Secure access to routes based on user roles, ensuring that only authorized users can access certain components.
 Message Management: Instructors can send and view messages to/from employees.
@@ -11,15 +11,16 @@ Announcements: View and create announcements for courses.
 Assignments: Manage assignments, including creating, viewing, and grading submissions.
 Course Management: Employees can view course details and syllabi, as well as access modules and grades.
 Responsive Design: The application is designed to work seamlessly on various devices.
-Technologies Used
+
+Technologies Used-
 React: For building the user interface.
 React Router: For handling routing and navigation within the application.
 Redux: For state management.
 Axios: For making HTTP requests to the backend API.
-CSS: For styling the application.
+TailwindCSS: For styling the application.
 JavaScript: For application logic.
 
-Usage
+Usage-
 Component Overview
 The application consists of several key components, including:
 
@@ -33,7 +34,9 @@ ProtectedRoute: A component that restricts access to certain routes based on use
 Announcements: Components for viewing and creating announcements.
 Assignments: Components for managing assignments and viewing submissions.
 Messages: Components for viewing and sending messages.
-User Roles
+
+User Roles-
+
 The application supports three primary user roles:
 
 Admin: Can manage instructors and courses, access all functionalities.
@@ -42,8 +45,21 @@ Instructor: Can manage assignments, view messages, and create announcements.
 
 Employee: Can view courses, grades, and assignments.
 
-Protected Routes
-Routes are protected based on user roles. The ProtectedRoute component checks the user's role and redirects unauthorized users to the login page.
+Protected Routes: Routes are protected based on user roles. The ProtectedRoute component checks the user's role and redirects unauthorized users to the login page.
 
-Sending Messages
-Instructors can send messages to employees through the messaging interface. Messages can be viewed and managed easily.
+Sending Messages: Instructors can send messages to employees through the messaging interface. Messages can be viewed and managed easily.
+
+Folder Structure-
+
+src/
+├── components/               # All React components organized by feature and role
+│   ├── Admin/                # Admin-specific components (ManageCourses, ManageInstructors, etc.)
+│   ├── Employee/             # Employee-specific components (Dashboard, CourseDetails, etc.)
+│   ├── Instructor/           # Instructor-specific components (Dashboard, CreateAssignment, etc.)
+│   ├── common components     # Shared components like Navbar, Footer, etc.
+├── images/                   # Images used across the application
+├── styles/                   # CSS stylesheets
+├── utils/                    # Helper functions, constants, and Redux slices
+├── App.js                    # Main application component
+├── index.js                  # Application entry point
+└── App.css                   # Global styles
