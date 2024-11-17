@@ -45,14 +45,7 @@ const NavBar = () => {
 }
 
   useEffect(()=>{
-    const token = localStorage.getItem('token')
-    if(token){
-      const user = jwtDecode(token);
-      dispatch(setUser({ user, token }));
-      if (user.role.toLowerCase() === "admin") navigate("/admin");
-        else if (user.role.toLowerCase() === "instructor") navigate("/instructor");
-        else if (user.role.toLowerCase() === "employee") navigate("/employee");
-    }
+    
     const handleResize = () => setIsMobile(window.innerWidth < 768);
             window.addEventListener("resize", handleResize);
             return () => window.removeEventListener("resize", handleResize);

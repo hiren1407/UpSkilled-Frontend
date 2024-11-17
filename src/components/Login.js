@@ -151,6 +151,15 @@ const Login = () => {
 
   useEffect(()=>{
 
+    const token = localStorage.getItem('token')
+    if(token){
+      const user = jwtDecode(token);
+      dispatch(setUser({ user, token }));
+      if (user.role.toLowerCase() === "admin") navigate("/admin");
+        else if (user.role.toLowerCase() === "instructor") navigate("/instructor");
+        else if (user.role.toLowerCase() === "employee") navigate("/employee");
+    }
+
     if(isLoginForm){
       setEmailError("")
       setPasswordError("")
