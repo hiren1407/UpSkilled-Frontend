@@ -29,11 +29,11 @@ const NavBar = () => {
         headers:{
         'Authorization':`Bearer ${token}`
       }})
-      if(res.status==200){
+      
       localStorage.removeItem('token')
       dispatch(clearUser())
       return navigate("/")
-      }
+      
     }
     catch (err) {
       console.log(err)
