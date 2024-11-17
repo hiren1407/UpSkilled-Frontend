@@ -37,8 +37,11 @@ User Roles
 The application supports three primary user roles:
 
 Admin: Can manage instructors and courses, access all functionalities.
+
 Instructor: Can manage assignments, view messages, and create announcements.
+
 Employee: Can view courses, grades, and assignments.
+
 Protected Routes
 Routes are protected based on user roles. The ProtectedRoute component checks the user's role and redirects unauthorized users to the login page.
 
