@@ -48,18 +48,3 @@ Employee: Can view courses, grades, and assignments.
 Protected Routes: Routes are protected based on user roles. The ProtectedRoute component checks the user's role and redirects unauthorized users to the login page.
 
 Sending Messages: Instructors can send messages to employees through the messaging interface. Messages can be viewed and managed easily.
-
-Folder Structure-
-
-src/
-├── components/               # All React components organized by feature and role
-│   ├── Admin/                # Admin-specific components (ManageCourses, ManageInstructors, etc.)
-│   ├── Employee/             # Employee-specific components (Dashboard, CourseDetails, etc.)
-│   ├── Instructor/           # Instructor-specific components (Dashboard, CreateAssignment, etc.)
-│   ├── common components     # Shared components like Navbar, Footer, etc.
-├── images/                   # Images used across the application
-├── styles/                   # CSS stylesheets
-├── utils/                    # Helper functions, constants, and Redux slices
-├── App.js                    # Main application component
-├── index.js                  # Application entry point
-└── App.css                   # Global styles
