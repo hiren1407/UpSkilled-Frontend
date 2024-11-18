@@ -1,56 +1,62 @@
+import { BASE_URL } from '../../utils/constants'; // Importing base URL for API requests
+import React, { useEffect, useState } from 'react'; // Importing necessary hooks from React
+import { useParams } from 'react-router-dom'; // Importing useParams for accessing URL parameters
+import dayjs from 'dayjs'; // Importing dayjs for date formatting
+import axios from 'axios'; // Importing axios for making HTTP requests
 
-import { BASE_URL } from '../../utils/constants';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
-import axios from 'axios';
-
+// Main component for viewing assignments
 const AssignmentView = () => {
-    const { assignmentId, courseId } = useParams()
-    const [assignment, setAssignment] = useState(null);
-    const [submissionDetails, setSubmissionDetails] = useState(null)
-    const [submissionId, setSubmissionId] = useState(null)
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [file, setFile] = useState(null);
-    const [uploadError, setUploadError] = useState(null);
-    const [submissionPdf, setSubmissionPdf] = useState(null);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    const [showToast, setShowToast] = useState(false)
+    // Extracting assignmentId and courseId from URL parameters
+    const { assignmentId, courseId } = useParams(); 
+    // State variables for managing assignment data and submission details
+    const [assignment, setAssignment] = useState(null); // State to hold assignment details
+    const [submissionDetails, setSubmissionDetails] = useState(null); // State for submission details
+    const [submissionId, setSubmissionId] = useState(null); // State for submission ID
+    const [loading, setLoading] = useState(true); // State for loading status
+    const [error, setError] = useState(null); // State for error messages
+    const [file, setFile] = useState(null); // State for the file to be uploaded
+    const [uploadError, setUploadError] = useState(null); // State for upload error messages
+    const [submissionPdf, setSubmissionPdf] = useState(null); // State for the submitted PDF
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // State for mobile view detection
+    const [showToast, setShowToast] = useState(false); // State for showing success toast
 
+    // Function to fetch assignment details and submission details from the API
     const fetchAssignment = async () => {
         try {
-            setLoading(true);
-            const token = localStorage.getItem('token')
+            setLoading(true); // Set loading to true while fetching data
+            const token = localStorage.getItem('token'); // Retrieve token from local storage
+            // Making GET request to fetch assignment details
             const response = await axios.get(`${BASE_URL}/employee/course/${courseId}/assignments/${assignmentId}`, {
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `Bearer ${token}` // Set authorization header
                 }
-
             });
+            // Setting assignment and submission details in state
             setAssignment(response.data.assignmentDetails);
-            if(response.data.submissionDetails){
-            setSubmissionDetails(response.data?.submissionDetails[0])
-            setSubmissionId(response.data?.submissionDetails[0]?.submissionId)
-            document.title=response.data.assignmentDetails.title
+            if (response.data.submissionDetails) {
+                setSubmissionDetails(response.data?.submissionDetails[0]);
+                setSubmissionId(response.data?.submissionDetails[0]?.submissionId);
+                document.title = response.data.assignmentDetails.title; // Set document title to assignment title
             }
         } catch (err) {
-
-            setError('Failed to load assignment details');
+            setError('Failed to load assignment details'); // Set error message on failure
         } finally {
-            setLoading(false);
+            setLoading(false); // Set loading to false after fetching
         }
     };
 
+    // useEffect hook to fetch assignment details on component mount or when assignmentId changes
     useEffect(() => {
-        
-        
-        fetchAssignment();
+        fetchAssignment(); // Call the fetchAssignment function
+        // Function to update mobile view state on window resize
         const handleResize = () => setIsMobile(window.innerWidth < 768);
+        // Add event listener for window resize
         window.addEventListener("resize", handleResize);
+        // Cleanup function to remove event listener
         return () => window.removeEventListener("resize", handleResize);
-    }, [assignmentId]);
+    }, [assignmentId]); // Dependency array includes assignmentId
 
+    // Render loading spinner while data is being fetched
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -59,6 +65,7 @@ const AssignmentView = () => {
         );
     }
 
+    // Render error message if there is an error
     if (error) {
         return (
             <div className="flex flex-col justify-center items-center min-h-screen text-center">
@@ -67,7 +74,7 @@ const AssignmentView = () => {
                     We encountered an error. Please try again later.
                 </p>
                 <button
-                    onClick={() => window.location.reload()}
+                    onClick={() => window.location.reload()} // Reload the page on button click
                     className="px-6 py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition duration-200"
                 >
                     Reload Page
@@ -76,140 +83,142 @@ const AssignmentView = () => {
         );
     }
 
-    const { title, description, deadline } = assignment;
-    const deadlineDate = dayjs(deadline).format('MMMM D, YYYY h:mm A');
-    const submission = submissionDetails || null;
-    const gradeBook = submission?.gradeBook;
-    const grade = gradeBook?.grade;
+    // Destructuring assignment details
+    const { title, description, deadline } = assignment; 
+    const deadlineDate = dayjs(deadline).format('MMMM D, YYYY h:mm A'); // Formatting deadline date
+    const submission = submissionDetails || null; // Set submission to submissionDetails or null if not available
+    const gradeBook = submission?.gradeBook; // Accessing grade book from submission details
+    const grade = gradeBook?.grade; // Getting the grade from the grade book
 
+    // Determining submission status based on submission details
     let submissionStatus;
     if (!submission) {
-        submissionStatus = 'No submissions';
+        submissionStatus = 'No submissions'; // No submission made
     } else if (submission && !gradeBook) {
-        submissionStatus = 'Not graded yet';
+        submissionStatus = 'Not graded yet'; // Submission exists but not graded
     } else {
-        submissionStatus = `Grade: ${grade}%`;
+        submissionStatus = `Grade: ${grade}%`; // Submission is graded
     }
 
+    // Function to handle file selection for upload
     const handleFileChange = (e) => {
-        const selectedFile = e.target.files[0];
+        const selectedFile = e.target.files[0]; // Get the selected file
         if (selectedFile && selectedFile.type === "application/pdf") {
-            setFile(selectedFile);
-            setUploadError(null);
+            setFile(selectedFile); // Set the selected file in state
+            setUploadError(null); // Clear any previous upload errors
         } else {
-            setUploadError("Please upload a valid PDF file.");
+            setUploadError("Please upload a valid PDF file."); // Set error for invalid file type
         }
     };
 
+    // Function to handle file upload
     const handleUpload = async () => {
         if (!file) {
-            setUploadError("Please select a PDF file before uploading.");
+            setUploadError("Please select a PDF file before uploading."); // Error if no file selected
             return;
         }
 
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('courseId', courseId);
-
+        const formData = new FormData(); // Create a FormData object for file upload
+        formData.append('file', file); // Append the file to the form data
+        formData.append('courseId', courseId); // Append course ID to the form data
 
         try {
-            const token = localStorage.getItem('token')
-            formData.append('assignmentId', assignmentId);
+            const token = localStorage.getItem('token'); // Retrieve token from local storage
+            formData.append('assignmentId', assignmentId); // Append assignment ID to the form data
             if (!submission) {
-
-                // No submission present, so create a new submission
+                // If no submission exists, create a new submission
                 const response = await fetch(`${BASE_URL}/employee/uploadAssignment`, {
-                    method: "POST",
+                    method: "POST", // HTTP method for creating submission
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        "Authorization": `Bearer ${token}` // Set authorization header
                     },
-                    body: formData
+                    body: formData // Attach form data
                 });
                 if (response.status == 200) {
-                    setShowToast(true)
+                    setShowToast(true); // Show success toast
                     setTimeout(() => {
-                        setShowToast(false)
-                    }, 3000)
-                    setFile(null);
-                    setUploadError(null);
-                    fetchAssignment();
+                        setShowToast(false); // Hide toast after 3 seconds
+                    }, 3000);
+                    setFile(null); // Clear the file input
+                    setUploadError(null); // Clear any upload errors
+                    fetchAssignment(); // Refresh assignment data
                 } else {
-                    setUploadError("Failed to upload assignment. Please try again.");
+                    setUploadError("Failed to upload assignment. Please try again."); // Error on upload failure
                 }
             } else {
-                formData.append('submissionId', submissionId)
+                // If submission exists, update the existing submission
+                formData.append('submissionId', submissionId); // Append submission ID to the form data
                 const response = await fetch(`${BASE_URL}/employee/updateUploadedAssignment/${submissionId}`, {
-                    method: "PUT",
+                    method: "PUT", // HTTP method for updating submission
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        "Authorization": `Bearer ${token}` // Set authorization header
                     },
-                    body: formData
+                    body: formData // Attach form data
                 });
                 if (response.status == 200) {
-                    setShowToast(true)
+                    setShowToast(true); // Show success toast
                     setTimeout(() => {
-                        setShowToast(false)
-                    }, 3000)
-                    setFile(null);
-                    setUploadError(null);
-                    fetchAssignment();
+                        setShowToast(false); // Hide toast after 3 seconds
+                    }, 3000);
+                    setFile(null); // Clear the file input
+                    setUploadError(null); // Clear any upload errors
+                    fetchAssignment(); // Refresh assignment data
                 } else {
-                    setUploadError("Failed to update assignment. Please try again.");
+                    setUploadError("Failed to update assignment. Please try again."); // Error on update failure
                 }
             }
 
             // Reload the assignment data to reflect the latest submission
             fetchAssignment();
         } catch (error) {
-            setUploadError("Failed to upload assignment. Please try again.");
+            setUploadError("Failed to upload assignment. Please try again."); // Error on catch
         }
     };
 
+    // Function to view the submitted assignment
     const handleViewSubmission = async () => {
         try {
-            const token = localStorage.getItem('token')
+            const token = localStorage.getItem('token'); // Retrieve token from local storage
             const response = await fetch(`${BASE_URL}/employee/course/${courseId}/assignment/${assignmentId}/viewSubmission`, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}` // Set authorization header
                 }
-            }); // Replace with your API endpoint
+            }); // Fetch submission from API
             if (response.status === 200) {
-                const file = await response.blob();
-                const fileUrl = URL.createObjectURL(file);
-                document.getElementById('my_modal_4').showModal()
-                setSubmissionPdf(fileUrl);
+                const file = await response.blob(); // Get the file blob from response
+                const fileUrl = URL.createObjectURL(file); // Create a URL for the blob
+                document.getElementById('my_modal_4').showModal(); // Show the modal for viewing submission
+                setSubmissionPdf(fileUrl); // Set the submission PDF URL
             } else {
-
-                setError("Failed to fetch submission");
+                setError("Failed to fetch submission"); // Error if fetching submission fails
             }
-
         } catch (error) {
-            console.error('Error fetching submission:', error);
+            console.error('Error fetching submission:', error); // Log error to console
         }
     };
 
     return (
         <div className="max-w-3xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg mt-6">
             {showToast && (
-            <div className="flex justify-center">
-                <div className="toast toast-top relative">
-                <div className="alert alert-success">
-                    <span>Assignment submitted successfully!</span>
+                <div className="flex justify-center">
+                    <div className="toast toast-top relative">
+                        <div className="alert alert-success">
+                            <span>Assignment submitted successfully!</span> {/* Success message */}
+                        </div>
+                    </div>
                 </div>
-                </div>
-            </div>
             )}
-            <h2 className="text-2xl font-bold mb-4">{title}</h2>
-            <p className=" mb-4">{description}</p>
+            <h2 className="text-2xl font-bold mb-4">{title}</h2> {/* Display assignment title */}
+            <p className="mb-4">{description}</p> {/* Display assignment description */}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <h3 className="text-lg font-semibold">Deadline:</h3>
-                    <p>{deadlineDate}</p>
+                    <p>{deadlineDate}</p> {/* Display formatted deadline date */}
                 </div>
                 <div>
                     <h3 className="text-lg font-semibold">Submission Status:</h3>
-                    <p>{submissionStatus}</p>
+                    <p>{submissionStatus}</p> {/* Display submission status */}
                 </div>
             </div>
 
@@ -219,28 +228,28 @@ const AssignmentView = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <h4 className="font-semibold">Submission Status:</h4>
-                            <p>{submission.submissionStatus}</p>
+                            <p>{submission.submissionStatus}</p> {/* Display submission status */}
                         </div>
                         <div>
                             <h4 className="font-semibold">Submitted At:</h4>
-                            <p>{dayjs(submission.submissionAt).format('MMMM D, YYYY h:mm A')}</p>
+                            <p>{dayjs(submission.submissionAt).format('MMMM D, YYYY h:mm A')}</p> {/* Display submission date */}
                         </div>
                         {gradeBook && (
                             <>
                                 <div>
                                     <h4 className="font-semibold">Grade:</h4>
-                                    <p>{grade}%</p>
+                                    <p>{grade}%</p> {/* Display grade */}
                                 </div>
                                 <div>
                                     <h4 className="font-semibold">Feedback:</h4>
-                                    <p>{gradeBook.feedback}</p>
+                                    <p>{gradeBook.feedback}</p> {/* Display feedback */}
                                 </div>
                             </>
                         )}
                     </div>
 
                     <button
-                        onClick={handleViewSubmission}
+                        onClick={handleViewSubmission} // Trigger view submission function
                         className="btn btn-primary mt-4"
                     >
                         View Submission
@@ -248,28 +257,27 @@ const AssignmentView = () => {
                 </div>
             )}
             <dialog id="my_modal_4" className="modal">
-                    <div className="modal-box w-11/12 max-w-5xl">
-                        <h3 className="font-bold text-lg text-center">Submission</h3>
-                        <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                        </form>
-                        <div className="w-full content-center">
-                            <div className="mt-4">
-                            {!isMobile?<object
-            data={submissionPdf}
-            type="application/pdf"
-            className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
-            style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
-        />:
-            <p>Your browser does not support viewing PDF files.
-               <a href={submissionPdf} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
-            </p>
-       }
-                            </div>
+                <div className="modal-box w-11/12 max-w-5xl">
+                    <h3 className="font-bold text-lg text-center">Submission</h3>
+                    <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button> {/* Close modal button */}
+                    </form>
+                    <div className="w-full content-center">
+                        <div className="mt-4">
+                            {!isMobile ? (
+                                <object
+                                    data={submissionPdf} // Display PDF in object tag
+                                    type="application/pdf"
+                                    className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
+                                    style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
+                                />
+                            ) : (
+                                <p>Your browser does not support viewing PDF files.
+                                    <a href={submissionPdf} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
+                                </p> // Link to open PDF in new tab for mobile users
+                            )}
                         </div>
-
-
+                    </div>
                 </div>
             </dialog>
 
@@ -277,23 +285,24 @@ const AssignmentView = () => {
                 <h3 className="text-xl font-bold mb-4">Upload Assignment</h3>
                 <input
                     type="file"
-                    accept="application/pdf"
-                    onChange={handleFileChange}
+                    accept="application/pdf" // Accept only PDF files
+                    onChange={handleFileChange} // Trigger file change function
                     className="file-input file-input-bordered w-full max-w-xs"
-                    disabled={!!gradeBook} // Disable if assignment is graded
+                    disabled={!!gradeBook} // Disable input if assignment is graded
                 />
-                {uploadError && <p className="text-red-500 mt-2">{uploadError}</p>}
+                {uploadError && <p className="text-red-500 mt-2">{uploadError}</p>} {/* Display upload error message */}
 
                 <button
-                    onClick={handleUpload}
-                    disabled={!!gradeBook} // Disable if assignment is graded
+                    onClick={handleUpload} // Trigger upload function
+                    disabled={!!gradeBook } // Disable button if assignment is graded
                     className="btn btn-primary mt-4"
                 >
-                    {submission ? 'Update Assignment' : 'Submit Assignment'}
+                    {submission ? 'Update Assignment' : 'Submit Assignment'} {/* Button text based on submission status */}
                 </button>
             </div>
         </div>
     );
 };
 
+// Exporting the AssignmentView component for use in other parts of the application
 export default AssignmentView;

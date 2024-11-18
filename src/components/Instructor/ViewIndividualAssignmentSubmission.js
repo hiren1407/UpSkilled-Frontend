@@ -17,6 +17,7 @@ const ViewIndividualAssignmentSubmission = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
     const [loading, setLoading] = useState(true);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
         const fetchSubmissionDetails = async () => {
@@ -186,11 +187,18 @@ const ViewIndividualAssignmentSubmission = () => {
                 </button>
                 {showSubmission && submissionFileUrl && (
                     <div className="mt-4">
-                        <iframe
-                            src={submissionFileUrl}
-                            className="w-full h-96"
-                            title="PDF Preview"
-                        />
+                        {!isMobile ? (
+                                <object
+                                    data={submissionFileUrl} // Display PDF in object tag
+                                    type="application/pdf"
+                                    className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
+                                    style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
+                                />
+                            ) : (
+                                <p>Your browser does not support viewing PDF files.
+                                    <a href={submissionFileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
+                                </p> // Link to open PDF in new tab for mobile users
+                            )}
                     </div>
                 )}
             </div>
