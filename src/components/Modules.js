@@ -216,10 +216,10 @@ const CourseMaterial = () => {
                                     <button className="btn btn-neutral btn-sm md:btn-md" onClick={() => handleViewModule(data.id, data.materialTitle)}>View Module</button>
                                     {userRole === 'instructor' &&
                                         <div>
-                                            <button className="btn btn-warning btn-sm md:btn-md" onClick={() => { handleEdit(data) }}>
+                                            <button data-testid="editBtn" className="btn btn-warning btn-sm md:btn-md" onClick={() => { handleEdit(data) }}>
                                                 <FontAwesomeIcon icon={faEdit} /> Edit
                                             </button>
-                                            <button className="btn btn-danger btn-sm md:btn-md" onClick={() => { setModuleId(data.id); document.getElementById('deleteModule').showModal() }}>
+                                            <button data-testid = "deleteButtonTest" className="btn btn-danger btn-sm md:btn-md" onClick={() => { setModuleId(data.id); document.getElementById('deleteModule').showModal() }}>
                                                 <FontAwesomeIcon icon={faTrash} /> Delete
                                             </button>
                                         </div>}
@@ -263,7 +263,7 @@ const CourseMaterial = () => {
                     </dialog>
 
                     <dialog id="modulePdf" className="modal" aria-labelledby="modulePdfTitle">
-                        <div className="modal-box w-11/12 max-w-5xl">
+                        <div data-testid = "modulePdfTest" className="modal-box w-11/12 max-w-5xl">
                             <h3 id="modulePdfTitle" className="font-bold text-lg text-center">{materialTitle}</h3>
                             <form method="dialog">
                                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
@@ -293,7 +293,7 @@ const CourseMaterial = () => {
                         </div>
                     </dialog>
 
-                    <dialog id="deleteModule" className="modal modal-bottom sm:modal-middle" aria-labelledby="deleteModuleTitle">
+                    <dialog data-testid = "deleteModuleTest" id="deleteModule" className="modal modal-bottom sm:modal-middle" aria-labelledby="deleteModuleTitle">
                         <div className="modal-box">
                             <h3 id="deleteModuleTitle" className="font-bold text-lg">Delete module</h3>
                             <form method="dialog">

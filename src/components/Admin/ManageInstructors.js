@@ -75,12 +75,12 @@ const ManageInstructors = () => {
   return (
     <div className='my-2'>
       {/* Main title of the Manage Instructors section */}      
-      <h1 className='flex text-2xl md:text-4xl font-bold justify-center my-2' tabIndex="0">Manage Instructors</h1>
+      <h1 data-testid="heading" className='flex text-2xl md:text-4xl font-bold justify-center my-2' tabIndex="0">Manage Instructors</h1>
       {/* Tabbed interface for active and inactive instructors */}
       <div role="tablist" className="tabs tabs-lifted mx-2">
         {/* Tab for Active Instructors */}
-        <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Active Instructors" />
-        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <input data-testid="activeInstructorsTab" type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Active Instructors" />
+        <div role="tabpanel" data-testid="activeInstructorsTable" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
           <div className="flex justify-center">
             <div className="overflow-x-auto w-full max-w-4xl">
               <table className="table-auto w-full text-center">
@@ -93,11 +93,14 @@ const ManageInstructors = () => {
                 </thead>
                 <tbody>
                   {/* Mapping through active instructors to display them in the table */}
-                  { activeInstructors.map((data) => (
-                    <tr key={data.id}>
-                      <td className="border px-4 py-2">{data.firstName + " " + data.lastName}</td>
-                      <td className="border px-4 py-2">{data.email}</td>
-                    </tr>
+                  {activeInstructors.map((data) => (
+
+                    
+                  <tr key={data.id}>
+                    <td className="border px-4 py-2" data-testid={`activeInstructorName-${data.id}`}>{data.firstName + " " + data.lastName}</td>
+                    <td className="border px-4 py-2" data-testid={`activeInstructorEmail-${data.id}`}>{data.email}</td>
+                  </tr>
+                    
                   ))}
                 </tbody>
               </table>
@@ -112,8 +115,9 @@ const ManageInstructors = () => {
           role="tab"
           className="tab"
           aria-label="Inactive Instructors"
+          data-testid="inactiveInstructorsTab"
           defaultChecked />
-        <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div role="tabpanel" data-testid="inactiveInstructorsTable" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
           <div className="flex justify-center">
             <div className="overflow-x-auto w-full max-w-4xl">
               <table className="table-auto w-full text-center">
@@ -129,15 +133,15 @@ const ManageInstructors = () => {
                   {/* Mapping through inactive instructors to display them in the table */}
                   {inactiveInstructors.map((data) => (
                     <tr key={data.id}>
-                      <td className="border px-4 py-2">{data.firstName + " " + data.lastName}</td>
-                      <td className="border px-4 py-2">{data.email}</td>
+                      <td className="border px-4 py-2" data-testid={`inactiveInstructorName-${data.id}`}>{data.firstName + " " + data.lastName}</td>
+                      <td className="border px-4 py-2" data-testid={`inactiveInstructorEmail-${data.id}`}>{data.email}</td>
                       <td className="border px-4 py-2 space-x-3">
                         {/* Button to approve the instructor */}
-                        <button className="btn bg-inherit btn-circle btn-sm" onClick={() => approveRequest(data.id)} aria-label={`Approve ${data.firstName} ${data.lastName}`}>
+                        <button data-testid={`approveButton-${data.id}`} className="btn bg-inherit btn-circle btn-sm" onClick={() => approveRequest(data.id)} aria-label={`Approve ${data.firstName} ${data.lastName}`}>
                           <FontAwesomeIcon icon={faCheckCircle} />
                         </button>
                         {/* Button to deny the instructor */}
-                        <button className="btn bg-inherit btn-circle btn-sm" onClick={() => denyRequest(data.id)} aria-label={`Deny ${data.firstName} ${data.lastName}`}>
+                        <button data-testid={`denyButton-${data.id}`} className="btn bg-inherit btn-circle btn-sm" onClick={() => denyRequest(data.id)} aria-label={`Deny ${data.firstName} ${data.lastName}`}>
                           <FontAwesomeIcon icon={faTimesCircle} />
                         </button>
                       </td>

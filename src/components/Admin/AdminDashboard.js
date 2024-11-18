@@ -26,9 +26,9 @@ const AdminDashboard = () => {
             <p>View all details of courses here</p>
             <div className="card-actions justify-end">
               {/* Link to navigate to manage courses page */}
-              <Link to='/admin/manage-courses'>
+              <Link to='/admin/manage-courses' data-testid="manageCoursesLink">
                 
-                <button className="btn btn-primary" aria-label="Go to manage courses">Go</button>
+                <button data-testid="manageCoursesButton" className="btn btn-primary" aria-label="Go to manage courses">Go</button>
               
               </Link>
             </div>
@@ -49,9 +49,9 @@ const AdminDashboard = () => {
             <p>View all details of instructors here</p>
             <div className="card-actions justify-end">
               {/* Link to navigate to manage instructors page */}
-              <Link to='/admin/manage-instructors'>
+              <Link to='/admin/manage-instructors' data-testid="manageInstructorsLink">
                 
-                <button className="btn btn-primary" aria-label="Go to manage instructors">Go</button>
+                <button data-testid="manageInstructorsButton" className="btn btn-primary" aria-label="Go to manage instructors">Go</button>
               
               </Link>
             </div>
