@@ -26,7 +26,7 @@ const CreateAnnouncement = () => {
             body: JSON.stringify({ title, content }), // Prepare the request body with title and content
         });
         
-        // Check if the response is okay (status 200-299)
+        // Check if the response is okay
         if (response.ok) {
             setShowPopup(true); // Show the success popup
             // Set a timeout to hide the popup and navigate to the announcements page
@@ -42,37 +42,42 @@ const CreateAnnouncement = () => {
     // Render the component
     return (
         <div className="flex justify-center">
-            <div className="w-3/4 border-2 p-2 my-8 text-center self-center ">
+            <div className="w-3/4 border-2 p-2 my-8 text-center self-center">
                 <h2 className="my-2 text-2xl">Create Announcement</h2> {/* Title of the form */}
-                <form onSubmit={handleSubmit} className="flex flex-col p-12">
-                    {/* Input for announcement title */}
-                    <input 
-                        type="text" 
-                        placeholder="Title" 
-                        value={title} 
+                <form onSubmit={handleSubmit} className="flex flex-col p-12" aria-labelledby="form-title"> {/* Title of the form */}{/* Input for announcement title */}
+                    <label htmlFor="title" className="sr-only">Title</label>
+                    <input
+                        id="title"
+                        type="text"
+                        placeholder="Title"
+                        value={title}
                         onChange={(event) => setTitle(event.target.value)} // Update title state on change
-                        className="input input-bordered m-2 p-6" 
+                        className="input input-bordered m-2 p-6"
+                        required
                     />
                     {/* Textarea for announcement content */}
-                    <textarea 
-                        placeholder="Description" 
-                        value={content} 
+                    <label htmlFor="content" className="sr-only">Description</label>
+                    <textarea
+                        id="content"
+                        placeholder="Description"
+                        value={content}
                         onChange={(event) => setContent(event.target.value)} // Update content state on change
                         className="textarea textarea-bordered textarea-lg m-2 min-h-96"
+                        required
                     ></textarea>
                     {/* Submit button for the form */}
                     <button type="submit" className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg my-2">
                         Create Announcement
                     </button>
                     {/* Display error message if there is an error */}
-                    {error && <div className="alert alert-error">{error}</div>}
+                    {error && <div className="alert alert-error" role="alert">{error}</div>}
                 </form>
                 {/* Popup message for successful announcement creation */}
                 {showPopup && (
                     <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
-                        <div className="p-4 rounded shadow-lg">
+                        <div className="p-4 rounded shadow-lg" role="dialog" aria-labelledby="popup-title">
                             <div className="alert alert-info">
-                                <span>Announcement Created Successfully.</span> {/* Success message */}
+                                <span id="popup-title">Announcement Created Successfully.</span> {/* Success message */}
                             </div>
                         </div>
                     </div>

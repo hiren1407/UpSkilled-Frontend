@@ -59,8 +59,8 @@ const AssignmentView = () => {
     // Render loading spinner while data is being fetched
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <span className="loading loading-dots loading-lg"></span>
+            <div className="flex justify-center items-center min-h-screen" role="status" aria-live="polite">
+                <span className="loading loading-dots loading-lg" aria-label="Loading"></span>
             </div>
         );
     }
@@ -68,7 +68,7 @@ const AssignmentView = () => {
     // Render error message if there is an error
     if (error) {
         return (
-            <div className="flex flex-col justify-center items-center min-h-screen text-center">
+            <div className="flex flex-col justify-center items-center min-h-screen text-center" role="alert" aria-live="assertive">
                 <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2>
                 <p className="text-lg text-gray-600 mb-6">
                     We encountered an error. Please try again later.
@@ -111,6 +111,7 @@ const AssignmentView = () => {
         }
     };
 
+    // Function to handle file upload
     // Function to handle file upload
     const handleUpload = async () => {
         if (!file) {
@@ -200,49 +201,49 @@ const AssignmentView = () => {
     return (
         <div className="max-w-3xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg mt-6">
             {showToast && (
-                <div className="flex justify-center">
-                    <div className="toast toast-top relative">
-                        <div className="alert alert-success">
-                            <span>Assignment submitted successfully!</span> {/* Success message */}
+                    <div className="flex justify-center">
+                        <div className="toast toast-top relative" role="status" aria-live="polite">
+                                <div className="alert alert-success">
+                                    <span>Assignment submitted successfully!</span> {/* Success message */}
+                                </div>
                         </div>
                     </div>
-                </div>
             )}
-            <h2 className="text-2xl font-bold mb-4">{title}</h2> {/* Display assignment title */}
-            <p className="mb-4">{description}</p> {/* Display assignment description */}
+            <h2 className="text-2xl font-bold mb-4" tabIndex="0">{title}</h2> {/* Display assignment title */}
+            <p className="mb-4" tabIndex="0">{description}</p> {/* Display assignment description */}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <h3 className="text-lg font-semibold">Deadline:</h3>
-                    <p>{deadlineDate}</p> {/* Display formatted deadline date */}
+                    <h3 className="text-lg font-semibold" tabIndex="0">Deadline:</h3>
+                    <p tabIndex="0">{deadlineDate}</p>{/* Display formatted deadline date */}
                 </div>
                 <div>
-                    <h3 className="text-lg font-semibold">Submission Status:</h3>
-                    <p>{submissionStatus}</p> {/* Display submission status */}
+                    <h3 className="text-lg font-semibold" tabIndex="0">Submission Status:</h3>
+                    <p tabIndex="0">{submissionStatus}</p>{/* Display submission status */}
                 </div>
             </div>
 
             {submission && (
                 <div className="mt-6">
-                    <h3 className="text-xl font-bold mb-2">Submission Details</h3>
+                    <h3 className="text-xl font-bold mb-2" tabIndex="0">Submission Details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <h4 className="font-semibold">Submission Status:</h4>
-                            <p>{submission.submissionStatus}</p> {/* Display submission status */}
+                            <h4 className="font-semibold" tabIndex="0">Submission Status:</h4>
+                            <p tabIndex="0">{submission.submissionStatus}</p> {/* Display submission status */}
                         </div>
                         <div>
-                            <h4 className="font-semibold">Submitted At:</h4>
-                            <p>{dayjs(submission.submissionAt).format('MMMM D, YYYY h:mm A')}</p> {/* Display submission date */}
+                            <h4 className="font-semibold" tabIndex="0">Submitted At:</h4>
+                            <p tabIndex="0">{dayjs(submission.submissionAt).format('MMMM D, YYYY h:mm A')}</p> {/* Display submission date */}
                         </div>
                         {gradeBook && (
                             <>
                                 <div>
-                                    <h4 className="font-semibold">Grade:</h4>
-                                    <p>{grade}%</p> {/* Display grade */}
+                                    <h4 className="font-semibold" tabIndex="0">Grade:</h4>
+                                    <p tabIndex="0">{grade}%</p> {/* Display grade */}
                                 </div>
                                 <div>
-                                    <h4 className="font-semibold">Feedback:</h4>
-                                    <p>{gradeBook.feedback}</p> {/* Display feedback */}
+                                    <h4 className="font-semibold" tabIndex="0">Feedback:</h4>
+                                    <p tabIndex="0">{gradeBook.feedback}</p> {/* Display feedback */}
                                 </div>
                             </>
                         )}
@@ -256,11 +257,12 @@ const AssignmentView = () => {
                     </button>
                 </div>
             )}
-            <dialog id="my_modal_4" className="modal">
+            <dialog id="submissionModal" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
                     <h3 className="font-bold text-lg text-center">Submission</h3>
                     <form method="dialog">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button> {/* Close modal button */}
+                        {/* if there is a button in form, it will close the modal */}
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
                     </form>
                     <div className="w-full content-center">
                         <div className="mt-4">
@@ -270,6 +272,7 @@ const AssignmentView = () => {
                                     type="application/pdf"
                                     className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
                                     style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
+                                    aria-label="Submission PDF"
                                 />
                             ) : (
                                 <p>Your browser does not support viewing PDF files.
@@ -289,8 +292,9 @@ const AssignmentView = () => {
                     onChange={handleFileChange} // Trigger file change function
                     className="file-input file-input-bordered w-full max-w-xs"
                     disabled={!!gradeBook} // Disable input if assignment is graded
+                    aria-label="Upload Assignment"
                 />
-                {uploadError && <p className="text-red-500 mt-2">{uploadError}</p>} {/* Display upload error message */}
+                {uploadError && <p className="text-red-500 mt-2" role="alert">{uploadError}</p>} {/* Display upload error message */}
 
                 <button
                     onClick={handleUpload} // Trigger upload function

@@ -18,6 +18,7 @@ const ViewMessagesInstructor = () => {
     const [activeTab, setActiveTab] = useState('received'); // Tab state
     const [showToast, setShowToast] = useState(false);
 
+    // Fetch sent messages
     const fetchSentMessages = async () => {
         const token = localStorage.getItem('token');
         try {
@@ -34,6 +35,7 @@ const ViewMessagesInstructor = () => {
         }
     };
 
+    // Fetch received messages
     const fetchReceivedMessages = async () => {
         const token = localStorage.getItem('token');
         try {
@@ -50,11 +52,7 @@ const ViewMessagesInstructor = () => {
         }
     };
 
-    useEffect(() => {
-        fetchSentMessages();
-        fetchReceivedMessages();
-    }, []);
-
+    // Fetch employees
     const fetchEmployees = async () => {
         const token = localStorage.getItem('token');
         try {
@@ -64,12 +62,13 @@ const ViewMessagesInstructor = () => {
                 },
             });
             setEmployees(response.data);
-            setSelectedEmployees([])
+            setSelectedEmployees([]);
         } catch (error) {
             console.error('Error fetching employees:', error);
         }
     };
 
+    // Send a new message
     const handleSendMessage = async (event) => {
         event.preventDefault();
         if (newMessage.trim() === '') return;
@@ -102,6 +101,7 @@ const ViewMessagesInstructor = () => {
         }
     };
 
+    // Mark a message as read
     const markAsRead = async (employeeId) => {
         const token = localStorage.getItem('token');
         try {
@@ -120,11 +120,13 @@ const ViewMessagesInstructor = () => {
         }
     };
 
+    // Select user messages
     const selectUserMessages = async (user) => {
         setSelectedUser(user);
         activeTab === 'received' && user.messages.find(msg => msg.isRead === false) && markAsRead(user.user.employeeId);
     };
 
+    // Handle employee selection
     const handleSelectEmployee = (e) => {
         const selectedId = parseInt(e.target.value);
         const selectedEmployee = employees.find((emp) => emp.id === selectedId);
@@ -134,6 +136,8 @@ const ViewMessagesInstructor = () => {
             setEmployees(employees.filter((emp) => emp.id !== selectedId));
         }
     };
+
+    // Handle employee removal
     const handleRemoveEmployee = (id) => {
         const removedEmployee = selectedEmployees.find((emp) => emp.id === id);
         if (removedEmployee) {
@@ -142,18 +146,27 @@ const ViewMessagesInstructor = () => {
         }
     };
 
+    // Fetch messages on component mount
+    useEffect(() => {
+        fetchSentMessages();
+        fetchReceivedMessages();
+    }, []);
+
     return (
         <div className="relative my-4">
             <h1 className="text-2xl md:text-3xl font-bold text-center my-4">Messages</h1>
 
             {/* Tabs */}
-            <div className="flex justify-center border-b mb-4">
+            <div className="flex justify-center border-b mb-4" role="tablist">
                 <button
                     className={`px-4 py-2 font-semibold ${activeTab === 'received' ? 'border-b-4 border-blue-500' : 'text-gray-500'}`}
                     onClick={() => {
                         setActiveTab('received');
                         setSelectedUser(null);
                     }}
+                    role="tab"
+                    aria-selected={activeTab === 'received'}
+                    aria-controls="received-messages"
                 >
                     Received Messages
                 </button>
@@ -163,6 +176,9 @@ const ViewMessagesInstructor = () => {
                         setActiveTab('sent');
                         setSelectedUser(null);
                     }}
+                    role="tab"
+                    aria-selected={activeTab === 'sent'}
+                    aria-controls="sent-messages"
                 >
                     Sent Messages
                 </button>
@@ -172,6 +188,7 @@ const ViewMessagesInstructor = () => {
             <button
                 className="absolute top-4 right-6 bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600 w-14"
                 onClick={() => { document.getElementById('send-message').showModal(); fetchEmployees() }}
+                aria-label="Send a new message"
             >
                 <FontAwesomeIcon icon={faPaperPlane} />
             </button>
@@ -179,7 +196,7 @@ const ViewMessagesInstructor = () => {
             {/* Main Layout */}
             <div className="flex flex-col sm:flex-row h-screen sm:h-auto mx-4 rounded-md">
                 {/* Sidebar */}
-                <div className="w-full sm:w-1/4 border-r p-4 bg-gray-100 overflow-y-auto sm:h-full">
+                <div className="w-full sm:w-1/4 border-r p-4 bg-gray-100 overflow-y-auto sm:h-full" role="complementary">
                     <h2 className="text-xl font-bold mb-4">Users</h2>
                     {(activeTab === 'received' ? loadingReceived : loadingSent) ? (
                         <p>Loading...</p>
@@ -190,6 +207,9 @@ const ViewMessagesInstructor = () => {
                                 className={`border rounded-md p-4 my-2 bg-white shadow-md cursor-pointer ${selectedUser?.user.email === user.user.email ? 'bg-blue-100' : ''
                                     }`}
                                 onClick={() => selectUserMessages(user)}
+                                role="button"
+                                tabIndex="0"
+                                aria-pressed={selectedUser?.user.email === user.user.email}
                             >
                                 <p className="text-lg font-semibold text-gray-700">{user.user.name}</p>
                                 <div className="text-gray-500 text-sm mt-2 flex justify-between">
@@ -198,6 +218,7 @@ const ViewMessagesInstructor = () => {
                                         <FontAwesomeIcon
                                             icon={user.messages.some((msg) => !msg.isRead) ? faEnvelope : faEnvelopeOpen}
                                             className={`text-${user.messages.some((msg) => !msg.isRead) ? 'red' : 'green'}-500`}
+                                            aria-label={user.messages.some((msg) => !msg.isRead) ? 'Unread message' : 'Read message'}
                                         />
                                     )}
                                 </div>
@@ -207,10 +228,10 @@ const ViewMessagesInstructor = () => {
                 </div>
 
                 {/* Chat Window */}
-                <div className="w-full sm:w-3/4 p-4 bg-white overflow-y-auto">
+                <div className="w-full sm:w-3/4 p-4 bg-white overflow-y-auto" role="main">
                     {selectedUser ? (
                         <div className="h-[calc(100vh-200px)] overflow-y-auto">
-                            <h2 className="text-xl font-bold mb-4">Messages with {selectedUser.user.name}</h2>
+                            <h2 className="text-xl font-bold mb-4">Conversation with {selectedUser.user.name}</h2>
                             <div className="flex flex-col gap-4">
                                 {selectedUser.messages.map((msg, idx) => (
                                     <div
@@ -234,15 +255,16 @@ const ViewMessagesInstructor = () => {
             </div>
 
             {/* Send Message Modal */}
-            <dialog id="send-message" className="modal modal-bottom sm:modal-middle">
+            <dialog id="send-message" className="modal modal-bottom sm:modal-middle" aria-labelledby="send-message-title" aria-describedby="send-message-description">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Send Message</h3>
+                    <h3 id="send-message-title" className="font-bold text-lg">Send Message</h3>
                     <form method="dialog">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
                     </form>
                     <form onSubmit={handleSendMessage} className="py-4">
-                        <label className='block mb-2 text-sm font-bold text-gray-700'>Select Employees</label>
+                        <label htmlFor="select-employees" className='block mb-2 text-sm font-bold text-gray-700'>Select Employees</label>
                         <select
+                            id="select-employees"
                             onChange={handleSelectEmployee}
                             className="select select-bordered w-full min-h-[40px] mb-4"
                             defaultValue=""
@@ -267,6 +289,7 @@ const ViewMessagesInstructor = () => {
                                     <button
                                         className="ml-2 text-red-600 hover:text-red-800"
                                         onClick={() => handleRemoveEmployee(employee.id)}
+                                        aria-label={`Remove ${employee.firstName} ${employee.lastName}`}
                                     >
                                         ✕
                                     </button>
@@ -274,9 +297,15 @@ const ViewMessagesInstructor = () => {
                             ))}
                         </div>
 
-                        <label className='block mb-2 text-sm font-bold text-gray-700'>Message</label>
-                        <textarea className="w-full border rounded-md p-2 mb-4" rows="4" value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)} placeholder="Type your message here..." />
+                        <label htmlFor="message-textarea" className='block mb-2 text-sm font-bold text-gray-700'>Message</label>
+                        <textarea
+                            id="message-textarea"
+                            className="w-full border rounded-md p-2 mb-4"
+                            rows="4"
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            placeholder="Type your message here..."
+                        />
                         <button type="submit"
                             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
                         >
@@ -296,7 +325,7 @@ const ViewMessagesInstructor = () => {
                     </div>
                 </div>
             )}
-        </div >
+        </div>
     );
 };
 

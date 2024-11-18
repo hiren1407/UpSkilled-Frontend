@@ -74,9 +74,8 @@ const ManageInstructors = () => {
 
   return (
     <div className='my-2'>
-      {/* Main title of the Manage Instructors section */}
-      <h1 className='flex text-2xl md:text-4xl font-bold justify-center my-2'>Manage Instructors</h1>
-
+      {/* Main title of the Manage Instructors section */}      
+      <h1 className='flex text-2xl md:text-4xl font-bold justify-center my-2' tabIndex="0">Manage Instructors</h1>
       {/* Tabbed interface for active and inactive instructors */}
       <div role="tablist" className="tabs tabs-lifted mx-2">
         {/* Tab for Active Instructors */}
@@ -134,11 +133,11 @@ const ManageInstructors = () => {
                       <td className="border px-4 py-2">{data.email}</td>
                       <td className="border px-4 py-2 space-x-3">
                         {/* Button to approve the instructor */}
-                        <button className="btn bg-inherit btn-circle btn-sm" onClick={() => approveRequest(data.id)}>
+                        <button className="btn bg-inherit btn-circle btn-sm" onClick={() => approveRequest(data.id)} aria-label={`Approve ${data.firstName} ${data.lastName}`}>
                           <FontAwesomeIcon icon={faCheckCircle} />
                         </button>
                         {/* Button to deny the instructor */}
-                        <button className="btn bg-inherit btn-circle btn-sm" onClick={() => denyRequest(data.id)}>
+                        <button className="btn bg-inherit btn-circle btn-sm" onClick={() => denyRequest(data.id)} aria-label={`Deny ${data.firstName} ${data.lastName}`}>
                           <FontAwesomeIcon icon={faTimesCircle} />
                         </button>
                       </td>

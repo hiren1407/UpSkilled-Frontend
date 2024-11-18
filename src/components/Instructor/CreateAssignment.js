@@ -41,7 +41,7 @@ const CreateAssignment = () => {
                 body: JSON.stringify(assignmentDetails) // Sending assignment details as JSON
             });
 
-            // Check if the response is okay (status 200-299)
+            // Handle the response
             if (response.ok) {
                 setStatus('success'); // Set status to success on successful creation
             } else {
@@ -57,8 +57,8 @@ const CreateAssignment = () => {
     // Conditional rendering based on loading state
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <span className="loading loading-dots loading-lg"></span> {/* Loading spinner */}
+            <div className="flex justify-center items-center min-h-screen" role="alert" aria-busy="true">
+                <span className="loading loading-dots loading-lg" aria-label="Loading"></span> {/* Loading spinner */}
             </div>
         );
     }
@@ -66,7 +66,7 @@ const CreateAssignment = () => {
     // Conditional rendering based on error state
     if (error) {
         return (
-            <div className="flex flex-col justify-center items-center min-h-screen text-center">
+            <div className="flex flex-col justify-center items-center min-h-screen text-center" role="alert">
                 <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2> {/* Error heading */}
                 <p className="text-lg text-gray-600 mb-6">
                     We encountered an error. Please try again later. {/* Error message */}
@@ -84,37 +84,45 @@ const CreateAssignment = () => {
     // Render the component
     return (
         <div className="flex p-8 mx-2 text-center flex-col">
-            <form className="flex flex-col" onSubmit={handleCreate}> {/* Form for creating assignment */}
-                <label className="text-2xl">Assignment Details</label> {/* Form title */}
-                <label className="label">Assignment Name</label> {/* Label for assignment name input */}
+            <form className="flex flex-col" onSubmit={handleCreate} aria-labelledby="form-title"> {/* Form for creating assignment */}
+                <h1 id="form-title" className="text-2xl">Assignment Details</h1> {/* Form title */}
+                <label htmlFor="assignment-name" className="label">Assignment Name</label>{/* Label for assignment name input */}
                 <input
+                    id="assignment-name"
                     type="text"
                     placeholder="Assignment Name"
                     className="input input-bordered"
                     value={name} // Binding value to name state
                     onChange={(e) => setName(e.target.value)} // Update name state on change
+                    required
                 />
- <label className="label">Description</label> {/* Label for assignment description input */}
-                <textarea 
-                    className="textarea textarea-bordered textarea-lg" 
-                    style={{ minHeight: '40vh' }} 
+                <label htmlFor="description" className="label">Description</label> {/* Label for assignment description input */}
+                <textarea
+                    id="description"
+                    className="textarea textarea-bordered textarea-lg"
+                    style={{ minHeight: '40vh' }}
                     placeholder="Description"
                     value={description} // Binding value to description state
                     onChange={(e) => setDescription(e.target.value)} // Update description state on change
+                    required
                 ></textarea>
-                <label className="label">Due Date</label> {/* Label for due date input */}
+                <label htmlFor="due-date" className="label">Due Date</label> {/* Label for due date input */}
                 <input
+                    id="due-date"
                     type="date"
                     className="input input-bordered w-full"
                     value={dueDate} // Binding value to dueDate state
                     onChange={(e) => setDueDate(e.target.value)} // Update dueDate state on change
+                    required
                 />
-                <label className="label">Due Time</label> {/* Label for due time input */}
+                <label htmlFor="due-time" className="label">Due Time</label> {/* Label for due time input */}
                 <input
+                    id="due-time"
                     type="time"
                     className="input input-bordered w-full"
                     value={dueTime} // Binding value to dueTime state
                     onChange={(e) => setDueTime(e.target.value)} // Update dueTime state on change
+                    required
                 />
                 <button
                     type="submit" // Submit button for the form
@@ -125,9 +133,9 @@ const CreateAssignment = () => {
                 </button>
             </form>
             {status === 'success' && ( // Conditional rendering for success message
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" role="dialog" aria-labelledby="success-title">
                     <div className="bg-slate-700 p-6 rounded-lg shadow-lg max-w-md w-full text-center">
-                        <h3 className="font-bold text-lg">Assignment created successfully!</h3> {/* Success message */}
+                        <h3 id="success-title" className="font-bold text-lg">Assignment created successfully!</h3> {/* Success message */}
                         <button 
                             className="btn btn-neutral mt-4" 
                             onClick={() => { navigate(`/instructor/course/${courseId}/assignments`) }} // Navigate to assignments page

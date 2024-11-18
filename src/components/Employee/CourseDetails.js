@@ -102,8 +102,8 @@ const CourseDetails = () => {
     // Render loading spinner while data is being fetched
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <span className="loading loading-dots loading-lg"></span> {/* Loading spinner */}
+            <div className="flex justify-center items-center min-h-screen" role="status" aria-live="polite">
+                <span className="loading loading-dots loading-lg" aria-label="Loading"></span> {/* Loading spinner */}
             </div>
         );
     }
@@ -111,16 +111,17 @@ const CourseDetails = () => {
     // Render the course details
     return (
         <div className='mr-5'>
-            <button className="btn btn-neutral ml-5 mt-5 btn-sm md:btn-md" onClick={() => navigate('/employee/all-courses')}>⬅️ All courses</button> {/* Back to all courses button */}
+            <button className="btn btn-neutral ml-5 mt-5 btn-sm md:btn-md" onClick={() => navigate('/employee/all-courses')} aria-label="Back to all courses">⬅️ All courses</button>
             <div className="mx-5 my-5 p-6 max-w-full bg-white rounded-lg shadow-md">
-                <h1 className="text-3xl font-bold mb-2">{courseDetails.title}</h1> {/* Course title */}
-                <h2 className="text-xl text-gray-700 mb-4">{courseDetails.name}</h2> {/* Course name */}
-                <p className="text-gray-600 mb-4">{courseDetails.description}</p> {/* Course description */}
-                <p className="text-gray-500 mb-6">Instructor: <span className="font-semibold">{courseDetails.instructorName}</span></p> {/* Instructor name */}
+                <h1 className="text-3xl font-bold mb-2" tabIndex="0">{courseDetails.title}</h1> {/* Course title */}
+                <h2 className="text-xl text-gray-700 mb-4" tabIndex="0">{courseDetails.name}</h2> {/* Course name */}
+                <p className="text-gray-600 mb-4" tabIndex="0">{courseDetails.description}</p> {/* Course description */}
+                <p className="text-gray-500 mb-6" tabIndex="0">Instructor: <span className="font-semibold">{courseDetails.instructorName}</span></p>
 
                 <button
                     onClick={handleViewSyllabus} // Trigger view syllabus function
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 mb-2 mr-2"
+                    aria-label="View Syllabus"
                 >
                     View Syllabus {/* Button to view syllabus */}
                 </button>
@@ -130,15 +131,16 @@ const CourseDetails = () => {
                     onClick={handleEnrollCourse} // Trigger enroll course function
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200 mt-4"
                     disabled={isEnrolled} // Disable button if already enrolled
+                    aria-label={enrollButtonContent}
                 >
                     {enrollButtonContent} {/* Button text based on enrollment status */}
                 </button>
 
-                <dialog id="course-syllabus" className="modal"> {/* Modal for syllabus display */}
+                <dialog id="course-syllabus" className="modal" aria-labelledby="syllabus-title"> {/* Modal for syllabus display */}
                     <div className="modal-box w-11/12 max-w-5xl">
-                        <h3 className="font-bold text-lg text-center">Syllabus</h3> {/* Syllabus title */}
+                        <h3 id="syllabus-title" className="font-bold text-lg text-center">Syllabus</h3> {/* Syllabus title */}
                         <form method="dialog">
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button> {/* Close modal button */}
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button> {/* Close modal button */}
                         </form>
                         <div className="w-full content-center">
                             <div className="mt-4">
@@ -155,6 +157,7 @@ const CourseDetails = () => {
                                             maxHeight: '100vh',
                                             width: '100%'
                                         }}
+                                        aria-label="Syllabus PDF"
                                     >
                                     </object>
                                 )}
@@ -165,7 +168,7 @@ const CourseDetails = () => {
                 {error && (
                     <div role="alert" className="alert alert-error my-4"> {/* Error alert */}
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current"
-                            fill="none" viewBox="0 0 24 24">
+                            fill="none" viewBox="0 0 24 24" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>

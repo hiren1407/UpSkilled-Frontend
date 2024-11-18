@@ -34,14 +34,15 @@ const EmployeeDashboard = () => {
       setLoading(false); // Set loading to false after fetching
     }).catch((err) => {
       setError(err); // Set error if fetching fails
+      setLoading(false);
     });
   }, [dispatch]); // Dependency array includes dispatch
 
   // Render loading spinner while data is being fetched
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-dots loading-lg"></span> {/* Loading spinner */}
+      <div className="flex justify-center items-center min-h-screen" role="status" aria-live="polite">
+        <span className="loading loading-dots loading-lg" aria-label="Loading"></span> {/* Loading spinner */}
       </div>
     );
   }
@@ -49,7 +50,7 @@ const EmployeeDashboard = () => {
   // Render error message if there is an error
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen text-center">
+      <div className="flex flex-col justify-center items-center min-h-screen text-center" role="alert">
         <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2> {/* Error title */}
         <p className="text-lg text-gray-600 mb-6">
           We encountered an error. Please try again later. {/* Error message */}
@@ -57,6 +58,7 @@ const EmployeeDashboard = () => {
         <button
           onClick={() => window.location.reload()} // Reload the page on button click
           className="px-6 py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition duration-200"
+          aria-label="Reload Page"
         >
           Reload Page {/* Reload button */}
         </button>
@@ -68,7 +70,7 @@ const EmployeeDashboard = () => {
   if (courses.length === 0) {
     return (
       <div>
-        <button className="btn btn-neutral ml-2 my-5" onClick={() => navigate('/employee/all-courses')}>
+        <button className="btn btn-neutral ml-2 my-5" onClick={() => navigate('/employee/all-courses')} aria-label="Enroll in a new course">
           Enroll in a new course {/* Button to navigate to all courses */}
         </button>
         <h1 className='text-xl ml-2'>You haven't enrolled in any courses yet.</h1> {/* Message for no courses */}
@@ -80,18 +82,20 @@ const EmployeeDashboard = () => {
   return (
     <div className='my-2'>
       <h1 className='text-2xl md:text-4xl font-bold text-center mb-2'>My Courses</h1> {/* Dashboard title */}
-      <button className="btn btn-neutral ml-2 btn-sm md:btn-md" onClick={() => navigate('/employee/all-courses')}>
+      <button className="btn btn-neutral ml-2 btn-sm md:btn-md" onClick={() => navigate('/employee/all-courses')} aria-label="Enroll in a new course">
         Enroll in a new course {/* Button to navigate to all courses */}
       </button>
       <div className="flex flex-wrap justify-start my-8">
         {/* Mapping through the list of courses to display them */}
         {courses.map((course) => (
-          <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2">
+          <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2" role="region" aria-labelledby={`course-title-${course.id}`}>
             <div className="card-body">
-              <h2 className="card-title">{course.title}</h2> {/* Course title */}
+              <h2 id={`course-title-${course.id}`} className="card-title">{course.title}</h2> {/* Course title */}
               <p>{course.name}</p> {/* Course name */}
               <div className="card-actions justify-end">
-                <button className="btn btn-primary" onClick={() => handleClick(course.id)}>Go to Course</button> {/* Button to navigate to course details */}
+                <button className="btn btn-primary" onClick={() => handleClick(course.id)} aria-label={`Go to Course ${course.title}`}>
+                  Go to Course
+                </button> {/* Button to navigate to course details */}
               </div>
             </div>
           </div>

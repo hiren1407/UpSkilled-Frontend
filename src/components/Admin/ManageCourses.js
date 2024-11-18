@@ -141,6 +141,7 @@ const ManageCourses = () => {
     }, [flag]);
 
     // Function to open the modal for adding a new course
+    // Function to open the modal for adding a new course
     const openModal = async () => {
         setIsEditing(false); // Set editing mode to false
         setSelectedInstructor(''); // Clear selected instructor
@@ -152,20 +153,21 @@ const ManageCourses = () => {
         <div className='my-2'>
             <h1 className='flex text-2xl md:text-4xl font-bold justify-center my-2'>Manage Courses</h1>
 
-            {/* Display error message if any */}
-            {error && <div className="error-message">{error}</div>}
+            {/* Display error message if there is an error */}
+            {error && <div className="error-message" role="alert">{error}</div>}
             <button className="btn btn-primary ml-2 btn-sm md:btn-md" onClick={openModal}>Add Course</button>
-            <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+            <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle" aria-labelledby="modal-title" aria-describedby="modal-description">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Add a New Course</h3>
+                    <h3 id="modal-title" className="font-bold text-lg">Add a New Course</h3>
                     <form method="dialog">
                         {/* Close button for the modal */}
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
                     </form>
-                    <form className="py-4">
+                    <form className="py-4" onSubmit={handleSubmit}>
                         <div>
-                            <label className="label">Course Title:</label>
+                            <label className="label" htmlFor="courseTitle">Course Title:</label>
                             <input
+                                id="courseTitle"
                                 type="text"
                                 value={courseTitle} // Bind input value to courseTitle state
                                 onChange={(e) => setCourseTitle(e.target.value)} // Update state on input change
@@ -174,8 +176,9 @@ const ManageCourses = () => {
                             />
                         </div>
                         <div>
-                            <label className="label">Course Name:</label>
+                            <label className="label" htmlFor="courseName">Course Name:</label>
                             <input
+                                id="courseName"
                                 type="text"
                                 value={courseName} // Bind input value to courseName state
                                 onChange={(e) => setCourseName(e.target.value)} // Update state on input change
@@ -184,8 +187,9 @@ const ManageCourses = () => {
                             />
                         </div>
                         <div className="mt-2">
-                            <label className="label">Instructor Name:</label>
+                            <label className="label" htmlFor="selectedInstructor">Instructor Name:</label>
                             <select
+                                id="selectedInstructor"
                                 value={selectedInstructor} // Bind select value to selectedInstructor state
                                 onChange={(e) => setSelectedInstructor(e.target.value)} // Update state on select change
                                 required
@@ -198,8 +202,9 @@ const ManageCourses = () => {
                             </select>
                         </div>
                         <div className="mt-2">
-                            <label className="label">Description:</label>
+                            <label className="label" htmlFor="description">Description:</label>
                             <textarea
+                                id="description"
                                 value={description} // Bind textarea value to description state
                                 onChange={(e) => setDescription(e.target.value)} // Update state on textarea change
                                 required
@@ -207,13 +212,13 @@ const ManageCourses = () => {
                             ></textarea>
                         </div>
                         <div className="modal-action">
-                            <button type="submit" className="btn" onClick={(e) => handleSubmit(e)}>{isEditing ? 'Update' : 'Create'}</button>
+                            <button type="submit" className="btn">{isEditing ? 'Update' : 'Create'}</button>
                         </div>
                     </form>
                 </div>
             </dialog>
 
-            {/* Displaying the list of courses */}
+            {/* Display list of courses */}
             {courses.map((data) => (
                 <div key={data.id} className="collapse collapse-plus bg-base-200 my-2 mx-2">
                     <input type="radio" name="my-accordion-3" defaultChecked />
@@ -224,10 +229,10 @@ const ManageCourses = () => {
                     <div className="collapse-content">
                         <p>{data.description}</p>
                         <div className="flex justify-end mt-2">
-                            <button className="btn btn-warning mt-2 mx-1 btn-sm md:btn-md" onClick={() => handleEdit(data)}>
+                            <button className="btn btn-warning mt-2 mx-1 btn-sm md:btn-md" onClick={() => handleEdit(data)} aria-label={`Edit ${data.title}`}>
                                 <FontAwesomeIcon icon={faEdit} /> Edit
                             </button>
-                            <button className="btn btn-danger mt-2 btn-sm md:btn-md" onClick={() => { setCourseId(data.id); document.getElementById('deleteCourse').showModal() }}>
+                            <button className="btn btn-danger mt-2 btn-sm md:btn-md" onClick={() => { setCourseId(data.id); document.getElementById('deleteCourse').showModal() }} aria-label={`Delete ${data.title}`}>
                                 <FontAwesomeIcon icon={faTrash} /> Delete
                             </button>
                         </div>
@@ -235,14 +240,14 @@ const ManageCourses = () => {
                 </div>
             ))}
 
-            {/* Modal for confirming course deletion */}
-            <dialog id="deleteCourse" className="modal modal-bottom sm:modal-middle">
+            {/* Delete course modal */}
+            <dialog id="deleteCourse" className="modal modal-bottom sm:modal-middle" aria-labelledby="delete-modal-title" aria-describedby="delete-modal-description">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Delete course</h3>
+                    <h3 id="delete-modal-title" className="font-bold text-lg">Delete course</h3>
                     <form method="dialog">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
                     </form>
-                    <div className="modal-body">
+                    <div id="delete-modal-description" className="modal-body">
                         <p>Are you sure you want to delete this course?</p>
                         <div className="flex justify-between mt-4">
                             <button className="btn btn-danger" onClick={() => handleDelete()}>Delete</button>

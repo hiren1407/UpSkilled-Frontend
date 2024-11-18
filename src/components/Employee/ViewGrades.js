@@ -50,59 +50,64 @@ const ViewGrades = () => {
 
     // Loading and error states
     if (loading) {
-        return <div>Loading...</div>; // Render loading message while data is being fetched
+        return <div role="status" aria-live="polite">Loading...</div>; // Render loading message while data is being fetched
     }
 
     if (error) {
-        return <div>Error: {error}</div>; // Render error message if an error occurs
+        return <div role="alert">Error: {error}</div>; // Render error message if an error occurs
     }
 
-    return (
-        <div className="flex flex-col items-center my-2 ">
-            {/* Heading */}
-            <h1 className="text-2xl md:text-3xl font-bold text-center my-2">Grades</h1> {/* Title for the grades section */}
+  return (
+    <div className="flex flex-col items-center my-2">
+      {/* Heading */}
+      <h1 className="text-2xl md:text-3xl font-bold text-center my-2" tabIndex="0">Grades</h1> {/* Title for the grades section */}
 
-            {/* Table to display grades data */}
-            {gradesData.length === 0 ? (
-                <p className="text-center text-xl">No grades found</p> // Message when no grades are available
-            ) : (
-                <div className="w-4/5 my-5">
-                    <table className="min-w-full bg-white border-collapse shadow-md rounded-lg">
-                        <thead>
-                            <tr>
-                                <th className="px-6 py-4 text-left border-b">Assignment Name</th> {/* Column header for assignment name */}
-                                <th className="px-6 py-4 text-left border-b">Grade</th> {/* Column header for grade */}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* Mapping through grades data to display each assignment */}
-                            {gradesData.map((assignment) => (
-                                <tr key={assignment.assignmentId}>
-                                    <td className="px-6 py-4 border-b cursor-pointer hover:text-blue-500" 
-                                        onClick={() => navigate(`/employee/course/${courseId}/assignments/${assignment.assignmentId}`)}>
-                                        {assignment.assignmentName} {/* Assignment name with navigation on click */}
-                                    </td>
-                                    <td className="px-6 py-4 border-b">
-                                        {assignment.status === "GRADED" ? ( // Conditional rendering based on assignment status
-                                            assignment.grade // Display grade if graded
-                                        ) : assignment.status === "PENDING" ? (
-                                            <span className="text-gray-500 ">Not Yet Submitted</span> // Message for pending assignments
-                                        ) : (
-                                            <span className="text-gray-500">Not Graded</span> // Message for ungraded assignments
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                            <tr className="font-bold">
-                                <td className="px-6 py-4 text-right border-t">Percentage</td> {/* Row for displaying percentage */}
-                                <td className="px-6 py-4 border-t">{percentage.toFixed(2)}%</td> {/* Display calculated percentage */}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            )}
+      {/* Table */}
+      {gradesData.length === 0 ? (
+        <p className="text-center text-xl" tabIndex="0">No grades found</p> // Message when no grades are available
+      ) : (
+        <div className="w-4/5 my-5">
+          <table className="min-w-full bg-white border-collapse shadow-md rounded-lg" role="table">
+            <thead>
+              <tr>
+                <th className="px-6 py-4 text-left border-b" scope="col">Assignment Name</th> {/* Column header for assignment name */}
+                <th className="px-6 py-4 text-left border-b" scope="col">Grade</th> {/* Column header for grade */}
+              </tr>
+            </thead>
+            <tbody>
+            {/* Mapping through grades data to display each assignment */}
+              {gradesData.map((assignment) => (
+                <tr key={assignment.assignmentId}>
+                  <td
+                    className="px-6 py-4 border-b cursor-pointer hover:text-blue-500"
+                    onClick={() => navigate(`/employee/course/${courseId}/assignments/${assignment.assignmentId}`)}
+                    tabIndex="0"
+                    role="button"
+                    aria-label={`View details for ${assignment.assignmentName}`}
+                  >
+                    {assignment.assignmentName} {/* Assignment name with navigation on click */}
+                  </td>
+                  <td className="px-6 py-4 border-b">
+                    {assignment.status === "GRADED" ? ( // Conditional rendering based on assignment status
+                      assignment.grade // Display grade if graded
+                    ) : assignment.status === "PENDING" ? (
+                      <span className="text-gray-500">Not Yet Submitted</span>// Message for pending assignments
+                    ) : (
+                      <span className="text-gray-500">Not Graded</span> // Message for ungraded assignments
+                    )}
+                  </td>
+                </tr>
+              ))}
+              <tr className="font-bold">
+                <td className="px-6 py-4 text-right border-t">Percentage</td> {/* Row for displaying percentage */}
+                <td className="px-6 py-4 border-t">{percentage.toFixed(2)}%</td>{/* Display calculated percentage */}
+              </tr>
+            </tbody>
+          </table>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 // Exporting the ViewGrades component for use in other parts of the application

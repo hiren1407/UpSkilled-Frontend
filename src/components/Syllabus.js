@@ -75,7 +75,7 @@ const Syllabus = () => {
                 body: formData // Setting the body to the FormData object
             });
 
- if (response.ok) { // Checking if the response is successful
+            if (response.ok) { // Checking if the response is successful
                 setStatus('success'); // Setting status to success
                 setNewSyllabus(null); // Resetting the new syllabus state
                 setFileError(null); // Clearing any file error messages
@@ -109,10 +109,11 @@ const Syllabus = () => {
                         </div>
                         {role === 'instructor' && ( // Conditional rendering for instructor role
                             <div className="form-control w-full md:w-64 mt-4 md:mt-0">
-                                <label className="label">
+                                <label className="label" htmlFor="file-upload">
                                     <span className="text-md md:text-xl">Upload Syllabus</span> {/* Label for file upload */}
                                 </label>
                                 <input
+                                    id="file-upload"
                                     type="file" accept="application/pdf" // Accepting only PDF files
                                     className="file-input file-input-bordered w-full max-w-xs mb-2"
                                     onChange={(e) => setNewSyllabus(e.target.files[0])} // Setting the new syllabus file on change
@@ -127,16 +128,17 @@ const Syllabus = () => {
                         <button
                             className="btn py-1 mt-4 md:mt-0 w-full md:w-auto"
                             onClick={() => document.getElementById('syllabus').showModal()} // Opening the syllabus modal
+                            aria-haspopup="dialog" // Indicating that the button opens a dialog
                         >
                             Show Syllabus
                         </button>
                     )}
                     {(
-                        <dialog id="syllabus" className="modal"> {/* Modal for displaying the syllabus */}
+                        <dialog id="syllabus" className="modal" aria-labelledby="syllabus-title" aria-modal="true"> {/* Modal for displaying the syllabus */}
                             <div className="modal-box w-11/12 max-w-5xl">
-                                <h3 className="font-bold text-lg text-center">Syllabus</h3> {/* Modal title */}
+                                <h3 id="syllabus-title" className="font-bold text-lg text-center">Syllabus</h3> {/* Modal title */}
                                 <form method="dialog" onSubmit={(e) => e.preventDefault()}> {/* Preventing default form submission */}
-                                    <button type="button" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById('syllabus').close()}>✕</button> {/* Close button for modal */}
+                                    <button type="button" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById('syllabus').close()} aria-label="Close">✕</button> {/* Close button for modal */}
                                 </form>
                                 <div className="w-full content-center">
                                     <div className="mt-4">
@@ -147,14 +149,15 @@ const Syllabus = () => {
                                                 data={syllabus} // Displaying the syllabus PDF
                                                 type="application/pdf"
                                                 className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh] overflow-y-scroll"
+                                                aria-label="Syllabus PDF"
                                                 style={{
                                                     minHeight: '70vh',
                                                     height: '100%',
-                                                    maxHeight : '100vh',
+                                                    maxHeight: '100vh',
                                                     width: '100%'
                                                 }}
                                             >
-                                                
+                                                <p>Your browser does not support PDFs. <a href={syllabus}>Download the PDF</a>.</p> {/* Fallback content for unsupported browsers */}
                                             </object>
                                         )}
                                     </div>
@@ -166,10 +169,10 @@ const Syllabus = () => {
             </div>
 
             {status === 'success' && ( // Conditional rendering for successful upload status
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" role="alertdialog" aria-labelledby="upload-success-title" aria-describedby="upload-success-desc">
                     <div className="bg-slate-700 p-4 md:p-6 rounded-lg shadow-lg max-w-md w-full text-center">
-                        <h3 className="font-bold text-lg text-white">Syllabus uploaded successfully!</h3> {/* Success message */}
-                        <button className="btn btn-neutral mt-4 w-full md:w-auto" onClick={() => { setStatus(null); fetchSyllabus(); }}>
+                        <h3 id="upload-success-title" className="font-bold text-lg text-white">Syllabus uploaded successfully!</h3> {/* Success message */}
+                        <button className="btn btn-neutral mt-4 w-full md:w-auto" onClick={() => { setStatus(null); fetchSyllabus(); }} aria-label="Close">
                             Close
                         </button>
                     </div>
@@ -179,7 +182,7 @@ const Syllabus = () => {
             {error && ( // Conditional rendering for error state
                 <div role="alert" className="alert alert-error my-4">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current"
-                        fill="none" viewBox="0 0 24 24">
+                        fill="none" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -188,7 +191,6 @@ const Syllabus = () => {
             )}
         </div>
     );
-
 }
 
 // Exporting the Syllabus component for use in other parts of the application

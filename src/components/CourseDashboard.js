@@ -78,8 +78,8 @@ const CourseDashboard = () => {
     // Conditional rendering for loading state
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <span className="loading loading-dots loading-lg"></span> {/* Loading spinner */}
+            <div className="flex justify-center items-center min-h-screen" role="status" aria-live="polite">
+                <span className="loading loading-dots loading-lg" aria-label="Loading"></span> {/* Loading spinner */}
             </div>
         );
     }
@@ -87,11 +87,11 @@ const CourseDashboard = () => {
     // Conditional rendering for error state
     if (error) {
         return (
-            <div className="flex flex-col justify-center items-center min-h-screen text-center">
+            <div className="flex flex-col justify-center items-center min-h-screen text-center" role="alert" aria-live="assertive">
                 <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2> {/* Error message title */}
                 <p className="text-lg text-gray-600 mb-6">
                     We encountered an error. Please try again later. {/* Error message description */}
-                </ p>
+                </p>
                 <button
                     onClick={() => window.location.reload()} // Button to reload the page
                     className="px-6 py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition duration-200"
@@ -105,7 +105,7 @@ const CourseDashboard = () => {
     // Main return statement for the component
     return (
         <div className='mr-5'>
-            <div className="mx-5 my-5 p-6 max-w-full bg-white rounded-lg shadow-md"> {/* Container for course details */}
+            <div className="mx-5 my-5 p-6 max-w-full bg-white rounded-lg shadow-md" role="main"> {/* Container for course details */}
                 <h1 className="text-3xl font-bold mb-2">{courseDetails.title}</h1> {/* Course title */}
                 <h2 className="text-xl text-gray-700 mb-4">{courseDetails.name}</h2> {/* Course name */}
                 <p className="text-gray-600 mb-4">{courseDetails.description}</p> {/* Course description */}
@@ -116,12 +116,14 @@ const CourseDashboard = () => {
                         navigate('syllabus'); // Navigating to syllabus page
                     }}
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200 mb-2 mr-2"
+                    aria-label="View Syllabus"
                 >
                     View Syllabus
                 </button>
 
                 <button onClick={() => navigate('modules')} // Button to view course materials
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200 mt-4 mr-2"
+                    aria-label="View Course Material"
                 >
                     View Course Material
                 </button>
@@ -130,17 +132,18 @@ const CourseDashboard = () => {
                     <button
                         className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200 mt-4"
                         onClick={() => setShowUnenrollModal(true)} // Opening unenroll modal
+                        aria-label="Unenroll from Course"
                     >
                         Unenroll
                     </button>
                 )}
 
                 {showUnenrollModal && ( // Conditional rendering for unenroll confirmation modal
-                    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50">
+                    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50" role="dialog" aria-modal="true" aria-labelledby="unenroll-modal-title">
                         <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
-                            <h3 className="font-bold text-lg">You will lose all submission and grade related data. Do you want to continue?</h3> {/* Warning message */}
-                            <button className="btn m-4" onClick={handleUnenroll}>Yes</button> {/* Confirm unenroll button */}
-                            <button className="btn m-4" onClick={() => setShowUnenrollModal(false)}>No</button> {/* Cancel button */}
+                            <h3 id="unenroll-modal-title" className="font-bold text-lg">You will lose all submission and grade related data. Do you want to continue?</h3> {/* Warning message */}
+                            <button className="btn m-4" onClick={handleUnenroll} aria-label="Confirm Unenroll">Yes</button> {/* Confirm unenroll button */}
+                            <button className="btn m-4" onClick={() => setShowUnenrollModal(false)} aria-label="Cancel Unenroll">No</button> {/* Cancel button */}
                         </div>
                     </div>
                 )}

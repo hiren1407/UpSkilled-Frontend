@@ -19,9 +19,10 @@ const CourseMaterial = () => {
     const [newDescription, setNewDescription] = useState("");
     const [newPdf, setNewPdf] = useState(null);
     const [moduleId, setModuleId] = useState(null);
-    const [materialTitle,setMaterialTitle]=useState(null)
+    const [materialTitle, setMaterialTitle] = useState(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+    // Fetch modules based on user role
     const fetchModules = async () => {
         setLoading(true);
         document.title = `Modules - ${courseDetails.title}`;
@@ -29,9 +30,8 @@ const CourseMaterial = () => {
             let url;
             if (userRole === "instructor") {
                 url = `${BASE_URL}/instructor/getCourseMaterials/${courseId}`;
-            }
-            else if (userRole === "employee") {
-                url = `${BASE_URL}/employee/getCourseMaterials/${courseId}`
+            } else if (userRole === "employee") {
+                url = `${BASE_URL}/employee/getCourseMaterials/${courseId}`;
             }
 
             const response = await fetch(url, {
@@ -49,6 +49,7 @@ const CourseMaterial = () => {
         setLoading(false);
     };
 
+    // Fetch modules when course details change
     useEffect(() => {
         if (courseDetails.length !== 0) fetchModules();
         const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -56,6 +57,7 @@ const CourseMaterial = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, [courseDetails]);
 
+    // Handle module creation or editing
     const handleCreateModule = async () => {
         if (userRole !== "instructor") return;
         if (!newTitle || !newDescription || !newPdf) {
@@ -77,8 +79,7 @@ const CourseMaterial = () => {
                     },
                     body: formData
                 });
-            }
-            else {
+            } else {
                 formData.append("materialTitle", newTitle);
                 formData.append("materialDescription", newDescription);
                 formData.append("file", newPdf);
@@ -97,23 +98,21 @@ const CourseMaterial = () => {
                 setNewPdf(null);
                 setModuleError("");
                 fetchModules();
-            }
-            else {
+            } else {
                 setModuleError("Failed to create module");
             }
-        }
-        catch (error) {
+        } catch (error) {
             setModuleError(error.message);
         }
-    }
+    };
 
-    const handleViewModule = async (id,title) => {
+    // Handle viewing a module
+    const handleViewModule = async (id, title) => {
         document.getElementById('modulePdf').showModal();
         let url;
         if (userRole === "instructor") {
             url = `${BASE_URL}/instructor/getCourseMaterial/${courseId}/${id}`;
-        }
-        else {
+        } else {
             url = `${BASE_URL}/employee/getCourseMaterial/${courseId}/${id}`;
         }
         const response = await fetch(url, {
@@ -127,9 +126,10 @@ const CourseMaterial = () => {
         const file = await response.blob();
         const fileUrl = URL.createObjectURL(file);
         setModulePdf(fileUrl);
-        setMaterialTitle(title)
-    }
+        setMaterialTitle(title);
+    };
 
+    // Handle editing a module
     const handleEdit = async (data) => {
         if (userRole !== "instructor") return;
         setIsEditing(true);
@@ -137,8 +137,9 @@ const CourseMaterial = () => {
         setNewDescription(data.materialDescription);
         setModuleId(data.id);
         document.getElementById('moduleDetails').showModal();
-    }
+    };
 
+    // Handle deleting a module
     const handleDelete = async () => {
         if (userRole !== "instructor") return;
         try {
@@ -153,27 +154,26 @@ const CourseMaterial = () => {
             if (result) {
                 document.getElementById('deleteModule').close();
                 fetchModules();
-            }
-            else {
+            } else {
                 console.log(result.message);
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error);
         }
-    }
+    };
 
+    // Open modal for creating a new module
     const openModal = () => {
         setIsEditing(false);
         setNewTitle("");
         setNewDescription("");
         setNewPdf(null);
         document.getElementById('moduleDetails').showModal();
-    }
+    };
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
+            <div className="flex justify-center items-center min-h-screen" role="alert" aria-busy="true">
                 <span className="loading loading-dots loading-lg"></span>
             </div>
         );
@@ -181,7 +181,7 @@ const CourseMaterial = () => {
 
     if (error) {
         return (
-            <div className="flex flex-col justify-center items-center min-h-screen text-center">
+            <div className="flex flex-col justify-center items-center min-h-screen text-center" role="alert">
                 <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2>
                 <p className="text-lg text-gray-600 mb-6">
                     We encountered an error. Please try again later.
@@ -213,13 +213,13 @@ const CourseMaterial = () => {
                             <div className="collapse-content">
                                 <p>{data.materialDescription}</p>
                                 <div className="flex justify-between mt-2">
-                                    <button className="btn btn-neutral btn-sm md:btn-md" onClick={() => handleViewModule(data.id,data.materialTitle)}>View Module</button>
+                                    <button className="btn btn-neutral btn-sm md:btn-md" onClick={() => handleViewModule(data.id, data.materialTitle)}>View Module</button>
                                     {userRole === 'instructor' &&
                                         <div>
-                                            <button className="btn btn-warning  btn-sm md:btn-md" onClick={() => { handleEdit(data) }}>
+                                            <button className="btn btn-warning btn-sm md:btn-md" onClick={() => { handleEdit(data) }}>
                                                 <FontAwesomeIcon icon={faEdit} /> Edit
                                             </button>
-                                            <button className="btn btn-danger  btn-sm md:btn-md" onClick={() => { setModuleId(data.id); document.getElementById('deleteModule').showModal() }}>
+                                            <button className="btn btn-danger btn-sm md:btn-md" onClick={() => { setModuleId(data.id); document.getElementById('deleteModule').showModal() }}>
                                                 <FontAwesomeIcon icon={faTrash} /> Delete
                                             </button>
                                         </div>}
@@ -228,34 +228,31 @@ const CourseMaterial = () => {
                         </div>
                     ))) : <p className="text-center text-xl">No modules available</p>}
 
-                    <dialog id="moduleDetails" className="modal modal-bottom sm:modal-middle">
+                    <dialog id="moduleDetails" className="modal modal-bottom sm:modal-middle" aria-labelledby="moduleDetailsTitle">
                         <div className="modal-box">
-                            <h3 className="font-bold text-lg">{isEditing ? 'Edit Module Details' : 'Create a new module'}</h3>
+                            <h3 id="moduleDetailsTitle" className="font-bold text-lg">{isEditing ? 'Edit Module Details' : 'Create a new module'}</h3>
                             <form method="dialog">
-                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
                             </form>
 
                             <div className="modal-body">
                                 <div className="form-control w-full max-w-md">
-                                    <label className="label">
+                                    <label className="label" htmlFor="moduleTitle">
                                         <span className="text-xl">Module Title</span>
                                     </label>
-
-                                    <input type="text" className="input input-bordered w-full" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
-                                </div>
-                                <div className="form-control w-full ">
-                                    <label className="label">
-                                        <span className="text-xl">Module Description</span>
-                                    </label>
-                                    <textarea className="textarea textarea-bordered w-full h-48" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
-
+                                    <input id="moduleTitle" type="text" className="input input-bordered w-full" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} />
                                 </div>
                                 <div className="form-control w-full">
-                                    <label className="label">
+                                    <label className="label" htmlFor="moduleDescription">
+                                        <span className="text-xl">Module Description</span>
+                                    </label>
+                                    <textarea id="moduleDescription" className="textarea textarea-bordered w-full h-48" value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
+                                </div>
+                                <div className="form-control w-full">
+                                    <label className="label" htmlFor="modulePdf">
                                         <span className="text-xl">Upload PDF</span>
                                     </label>
-
-                                    <input type="file" accept="application/pdf" className="file-input file-input-bordered w-full" onChange={(e) => setNewPdf(e.target.files[0])} />
+                                    <input id="modulePdf" type="file" accept="application/pdf" className="file-input file-input-bordered w-full" onChange={(e) => setNewPdf(e.target.files[0])} />
                                     {moduleError && <p className="text-red-500">{moduleError}</p>}
                                 </div>
                                 <div className="form-control w-full mt-4">
@@ -265,14 +262,14 @@ const CourseMaterial = () => {
                         </div>
                     </dialog>
 
-                    <dialog id="modulePdf" className="modal">
+                    <dialog id="modulePdf" className="modal" aria-labelledby="modulePdfTitle">
                         <div className="modal-box w-11/12 max-w-5xl">
-                            <h3 className="font-bold text-lg text-center">{ materialTitle}</h3>
+                            <h3 id="modulePdfTitle" className="font-bold text-lg text-center">{materialTitle}</h3>
                             <form method="dialog">
-                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
                             </form>
                             <div className="w-full content-center">
-                            <div className="mt-4">
+                                <div className="mt-4">
                                     {isMobile ? (
                                         <a href={modulePdf} download className="text-blue-500 underline">Download Module</a>
                                     ) : (
@@ -286,20 +283,21 @@ const CourseMaterial = () => {
                                                 maxHeight: '100vh',
                                                 width: '100%'
                                             }}
+                                            aria-label="PDF Viewer"
                                         >
-                                            
+                                            <p>Your browser does not support PDFs. <a href={modulePdf}>Download the PDF</a>.</p>
                                         </object>
                                     )}
-                                    </div>
+                                </div>
                             </div>
                         </div>
                     </dialog>
 
-                    <dialog id="deleteModule" className="modal modal-bottom sm:modal-middle">
+                    <dialog id="deleteModule" className="modal modal-bottom sm:modal-middle" aria-labelledby="deleteModuleTitle">
                         <div className="modal-box">
-                            <h3 className="font-bold text-lg">Delete module</h3>
+                            <h3 id="deleteModuleTitle" className="font-bold text-lg">Delete module</h3>
                             <form method="dialog">
-                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
                             </form>
                             <div className="modal-body">
                                 <p>Are you sure you want to delete this module?</p>
@@ -314,6 +312,6 @@ const CourseMaterial = () => {
             </div>
         </div>
     );
-}
+};
 
 export default CourseMaterial;

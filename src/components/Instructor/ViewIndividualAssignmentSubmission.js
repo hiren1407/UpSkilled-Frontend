@@ -4,21 +4,22 @@ import { BASE_URL } from "../../utils/constants";
 import { useSelector } from "react-redux";
 
 const ViewIndividualAssignmentSubmission = () => {
-    const userRole = useSelector((state) => state.user.role);
-    const [submissionDetails, setSubmissionDetails] = useState([]);
-    const [gradeDetails, setGradeDetails] = useState([]);
-    const [employee, setEmployee] = useState([]);
-    const [submissionFileUrl, setSubmissionFileUrl] = useState([]);
-    const [showSubmission, setShowSubmission] = useState(false);
-    const { courseId, assignmentId, submissionId } = useParams();
-    const [editGrade, setEditGrade] = useState(false);
-    const [grade, setGrade] = useState('');
-    const [feedback, setFeedback] = useState('');
-    const [showPopup, setShowPopup] = useState(false);
-    const [popupMessage, setPopupMessage] = useState('');
-    const [loading, setLoading] = useState(true);
+    const userRole = useSelector((state) => state.user.role); // Get user role from Redux store
+    const [submissionDetails, setSubmissionDetails] = useState([]); // State variable for submission details
+    const [gradeDetails, setGradeDetails] = useState([]); // State variable for grade details
+    const [employee, setEmployee] = useState([]); // State variable for employee details
+    const [submissionFileUrl, setSubmissionFileUrl] = useState([]); // State variable for submission file URL
+    const [showSubmission, setShowSubmission] = useState(false); // State variable to toggle submission visibility
+    const { courseId, assignmentId, submissionId } = useParams(); // Get courseId, assignmentId, and submissionId from URL parameters
+    const [editGrade, setEditGrade] = useState(false); // State variable to toggle grade editing
+    const [grade, setGrade] = useState(''); // State variable for grade
+    const [feedback, setFeedback] = useState(''); // State variable for feedback
+    const [showPopup, setShowPopup] = useState(false); // State variable to show popup
+    const [popupMessage, setPopupMessage] = useState(''); // State variable for popup message
+    const [loading, setLoading] = useState(true); // State variable for loading state
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+    // Fetch submission details on component mount
     useEffect(() => {
         const fetchSubmissionDetails = async () => {
             setLoading(true);
@@ -62,8 +63,9 @@ const ViewIndividualAssignmentSubmission = () => {
             setLoading(false);
         };
         fetchSubmissionDetails();
-    }, []);
+    }, [assignmentId, courseId, submissionId]);
 
+    // Function to handle grade submission
     const handleGradeSubmission = async () => {
         try {
             setLoading(true);
@@ -116,16 +118,17 @@ const ViewIndividualAssignmentSubmission = () => {
         }
     };
 
+    // Show loading spinner while loading
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen">
-                <span className="loading loading-dots loading-lg"></span>
+            <div className="flex justify-center items-center min-h-screen" role="status" aria-live="polite">
+                <span className="loading loading-dots loading-lg" aria-label="Loading"></span>
             </div>
         );
     }
 
     return (
-        <div className="flex flex-col px-4 py-6 md:px-16 md:py-8 space-y-6">
+        <div className="flex flex-col px-4 py-6 md:px-16 md:py-8 space-y-6" role="main">
             <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-center">Submission Details</h2>
 
             <div className="flex flex-col sm:flex-row justify-between space-y-3 sm:space-y-0 sm:space-x-6">
@@ -149,28 +152,34 @@ const ViewIndividualAssignmentSubmission = () => {
                         <button
                             className="btn btn-gray btn-sm md:btn-md w-full sm:w-auto"
                             onClick={() => setEditGrade(!editGrade)}
+                            aria-label={gradeDetails.length === 0 ? 'Provide Grade and Feedback' : 'Edit Grade and Feedback'}
                         >
                             {gradeDetails.length === 0 ? 'Provide Grade and Feedback' : 'Edit Grade and Feedback'}
                         </button>
                     ) : (
                         <div className="flex flex-col gap-2 w-full max-w-sm">
                             <div className="flex items-center gap-2">
-                                <h3 className="text-sm sm:text-lg font-bold">Grade:</h3>
+                                <label htmlFor="grade-input" className="text-sm sm:text-lg font-bold">Grade:</label>
                                 <input
+                                    id="grade-input"
                                     className="input input-bordered w-12 h-8 px-2"
                                     type="text"
                                     value={grade}
                                     onChange={(e) => setGrade(e.target.value)}
+                                    aria-label="Grade"
                                 />
                                 <span className="text-sm">/100</span>
                             </div>
+                            <label htmlFor="feedback-textarea" className="sr-only">Feedback</label>
                             <textarea
+                                id="feedback-textarea"
                                 className="input input-bordered w-full h-24"
                                 value={feedback}
                                 onChange={(e) => setFeedback(e.target.value)}
                                 placeholder="Provide feedback"
+                                aria-label="Feedback"
                             />
-                            <button className="btn btn-primary w-full sm:w-auto" onClick={handleGradeSubmission}>
+                            <button className="btn btn-primary w-full sm:w-auto" onClick={handleGradeSubmission} aria-label="Submit Grade and Feedback">
                                 Submit
                             </button>
                         </div>
@@ -182,17 +191,20 @@ const ViewIndividualAssignmentSubmission = () => {
                 <button
                     className="btn btn-gray w-full sm:w-auto"
                     onClick={() => setShowSubmission(!showSubmission)}
+                    aria-expanded={showSubmission}
+                    aria-controls="submission-file"
                 >
                     {showSubmission ? 'Hide Submission' : 'Show Submission'}
                 </button>
                 {showSubmission && submissionFileUrl && (
-                    <div className="mt-4">
+                    <div className="mt-4" id="submission-file">
                         {!isMobile ? (
                                 <object
                                     data={submissionFileUrl} // Display PDF in object tag
                                     type="application/pdf"
                                     className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
                                     style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
+                                    aria-label="PDF submission"
                                 />
                             ) : (
                                 <p>Your browser does not support viewing PDF files.
@@ -204,7 +216,7 @@ const ViewIndividualAssignmentSubmission = () => {
             </div>
 
             {userRole === 'instructor' && showPopup && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" role="alert">
                     <div className="p-4 bg-white rounded shadow-lg">
                         <div className="alert alert-info">
                             <span>{popupMessage}</span>

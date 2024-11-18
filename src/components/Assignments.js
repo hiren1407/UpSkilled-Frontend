@@ -40,13 +40,17 @@ const Assignments = () => {
     }, [courseId, role]);
 
     return (
-        <div className="flex flex-col w-4/5 justify-self-center">
-            <div className="flex justify-between items-center my-4 w-full">
+        <main className="flex flex-col w-4/5 justify-self-center" role="main">
+            <header className="flex justify-between items-center my-4 w-full">
                 <h1 className="text-2xl md:text-3xl text-center font-bold flex-grow">Assignments</h1>
-            </div>
+            </header>
             <div className="flex justify-end w-full mb-2">
                 {role === 'instructor' && ( // Show button only for instructors
-                    <button className="btn btn-success btn-sm md:btn-md" onClick={() => navigate(`/instructor/course/${courseId}/create-assignment`)}>
+                    <button 
+                        className="btn btn-success btn-sm md:btn-md" 
+                        onClick={() => navigate(`/instructor/course/${courseId}/create-assignment`)}
+                        aria-label="Create New Assignment"
+                    >
                         Create New
                     </button>
                 )}
@@ -54,26 +58,31 @@ const Assignments = () => {
             {assignments.length === 0 ? (
                 <p className="text-center text-xl">No assignments found</p>
             ) : (
-                <div className="p-8 border-2 w-full bg-slate-700">
+                <section className="p-8 border-2 w-full bg-slate-700" aria-labelledby="assignments-list">
+                    <h2 id="assignments-list" className="sr-only">Assignments List</h2>
                     {assignments.map((assignment, index) => {
+                        let assignmentDetails = assignment?.assignmentDetails;
+                        let gradingDetails = assignment?.submissionDetails?.[0]?.gradeBook;
 
-                        let assignmentDetails = assignment?.assignmentDetails
-                        if (assignment.submissionDetails) {
-
-                            var gradingDetails = assignment?.submissionDetails[0]?.gradeBook
-                        }
                         return (
-                            <div key={index} className="shadow-md rounded-md p-4 my-4 bg-base-300 cursor-pointer" onClick={() => navigate(`${assignmentDetails.id}`)}>
-                                <h2 className="text-xl font-bold">{assignmentDetails.title}</h2>
+                            <article 
+                                key={index} 
+                                className="shadow-md rounded-md p-4 my-4 bg-base-300 cursor-pointer" 
+                                onClick={() => navigate(`${assignmentDetails.id}`)}
+                                tabIndex="0"
+                                role="button"
+                                aria-pressed="false"
+                            >
+                                <h3 className="text-xl font-bold">{assignmentDetails.title}</h3>
                                 <p className="text-md truncate max-w-md">{assignmentDetails.description}</p>
                                 <p className="text-sm">Due: {new Date(assignmentDetails.deadline).toString()}</p>
                                 {gradingDetails && <p className="mt-2">Grade: {gradingDetails?.grade}/100</p>}
-                            </div>)
+                            </article>
+                        );
                     })}
-
-                </div>
+                </section>
             )}
-        </div>
+        </main>
     );
 };
 

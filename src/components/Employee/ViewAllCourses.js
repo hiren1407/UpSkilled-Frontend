@@ -36,14 +36,15 @@ const ViewAllCourses = () => {
       setLoading(false); // Set loading to false after fetching
     }).catch((err) => {
       setError(err); // Set error if fetching fails
+      setLoading(false);
     });
   }, [dispatch]); // Dependency array includes dispatch
 
   // Render loading spinner while data is being fetched
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-dots loading-lg"></span> {/* Loading spinner */}
+      <div className="flex justify-center items-center min-h-screen" role="status" aria-live="polite">
+        <span className="loading loading-dots loading-lg" aria-label="Loading"></span> {/* Loading spinner */}
       </div>
     );
   }
@@ -51,7 +52,7 @@ const ViewAllCourses = () => {
   // Render error message if there is an error
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen text-center">
+      <div className="flex flex-col justify-center items-center min-h-screen text-center" role="alert">
         <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2> {/* Error title */}
         <p className="text-lg text-gray-600 mb-6">
           We encountered an error. Please try again later. {/* Error message */}
@@ -70,7 +71,7 @@ const ViewAllCourses = () => {
   if (courses.length === 0) {
     return (
       <div>
-        <button className="btn btn-neutral ml-2 my-5" onClick={() => navigate('/employee')}>
+        <button className="btn btn-neutral ml-2 my-5" onClick={() => navigate('/employee')} aria-label="Go to My Courses">
           ⬅️ My Courses {/* Button to navigate back to My Courses */}
         </button>
         <h1 className='text-xl ml-2'>No courses are available at the moment.</h1> {/* Message for no courses */}
@@ -80,26 +81,28 @@ const ViewAllCourses = () => {
 
   // Render the list of available courses
   return (
-    <div className='my-2'>
+    <main className='my-2' role="main">
       <h1 className='text-2xl md:text-4xl font-bold text-center mb-2'>Available Courses</h1> {/* Page title */}
-      <button className="btn btn-neutral ml-2 btn-sm md:btn-md" onClick={() => navigate('/employee')}>
+      <button className="btn btn-neutral ml-2 btn-sm md:btn-md" onClick={() => navigate('/employee')} aria-label="Go to My Courses">
         ⬅️ My Courses {/* Button to navigate back to My Courses */}
       </button>
       <div className="flex flex-wrap justify-start my-8">
         {/* Mapping through the list of courses to display them */}
         {courses.map((course) => (
-          <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2">
+          <article key={course.id} className="card bg-base-100 w-96 shadow-xl m-2">
             <div className="card-body">
               <h2 className="card-title">{course.title}</h2> {/* Course title */}
               <p>{course.name}</p> {/* Course name */}
               <div className="card-actions justify-end">
-                <button className="btn btn-primary" onClick={() => handleClick(course.id)}>View Course Details</button> {/* Button to navigate to course details */}
+                <button className="btn btn-primary" onClick={() => handleClick(course.id)} aria-label={`View details for ${course.title}`}>
+                  View Course Details
+                </button> {/* Button to navigate to course details */}
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
-    </div>
+    </main>
   );
 };
 

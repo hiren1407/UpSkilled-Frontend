@@ -38,13 +38,14 @@ const InstructorDashboard = () => {
     }).finally(() => {
       setLoading(false); // Setting loading to false after fetching completes
     });
-  }, [dispatch]); // Dependency array to run effect only once on mount
+    setLoading(false); // Set loading state to false
+  }, [dispatch]);
 
   // Conditional rendering for loading state
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-dots loading-lg"></span> {/* Loading spinner */}
+      <div className="flex justify-center items-center min-h-screen" role="status" aria-live="polite">
+        <span className="loading loading-dots loading-lg" aria-label="Loading"></span> {/* Loading spinner */}
       </div>
     );
   }
@@ -52,7 +53,7 @@ const InstructorDashboard = () => {
   // Conditional rendering for error state
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen text-center">
+      <div className="flex flex-col justify-center items-center min-h-screen text-center" role="alert" aria-live="assertive">
         <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2> {/* Error heading */}
         <p className="text-lg text-gray-600 mb-6">
           We encountered an error. Please try again later. {/* Error message */}
@@ -69,22 +70,23 @@ const InstructorDashboard = () => {
 
   // Render the component with the list of courses
   return (
-    <div className='my-2'>
-      <h1 className='text-2xl md:text-4xl font-bold text-center'>Dashboard</h1> {/* Dashboard title */}
-      <div className="flex flex-wrap justify-start my-8">
+    <main className='my-2' role="main">
+      <h1 className='text-2xl md:text-4xl font-bold text-center' tabIndex="0">Dashboard</h1> {/* Dashboard title */}
+      <section className="flex flex-wrap justify-start my-8" aria-labelledby="courses-heading">
+        <h2 id="courses-heading" className="sr-only">Courses</h2> {/* Hidden heading for screen readers */}
         {courses.map((course) => ( // Mapping through courses to render each course card
-          <div key={course.id} className="card bg-base-100 w-96 shadow-xl m-2"> {/* Course card */}
+          <article key={course.id} className="card bg-base-100 w-96 shadow-xl m-2"> {/* Course card */}
             <div className="card-body">
-              <h2 className="card-title">{course.title}</h2> {/* Course title */}
-              <p>{course.name}</p> {/* Course name */}
+              <h3 className="card-title" tabIndex="0">{course.title}</h3> {/* Course title */}
+              <p tabIndex="0">{course.name}</p> {/* Course name */}
               <div className="card-actions justify-end">
-                <button className="btn btn-primary" onClick={() => handleClick(course.id)}>Go to Course</button> {/* Button to navigate to course details */}
+                <button className="btn btn-primary" onClick={() => handleClick(course.id)} aria-label={`Go to course ${course.title}`}>Go to Course</button> {/* Button to navigate to course details */}
               </div>
             </div>
-          </div>
+          </article>
         ))}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
