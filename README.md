@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+UpSkilled - An ELMS Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Overview-
+UpSkilled is a React-based web application designed to facilitate communication and management between instructors, employees, and administrators in an educational setting. The application provides various features such as dashboards for different user roles, message management, announcements, assignments, and course details.
 
-## Available Scripts
+Features-
+User Role Management: Different dashboards for Admins, Instructors, and Employees, each with role-specific functionalities.
+Protected Routes: Secure access to routes based on user roles, ensuring that only authorized users can access certain components.
+Message Management: Instructors can send and view messages to/from employees.
+Announcements: View and create announcements for courses.
+Assignments: Manage assignments, including creating, viewing, and grading submissions.
+Course Management: Employees can view course details and syllabi, as well as access modules and grades.
+Responsive Design: The application is designed to work seamlessly on various devices.
 
-In the project directory, you can run:
+Technologies Used-
+React: For building the user interface.
+React Router: For handling routing and navigation within the application.
+Redux: For state management.
+Axios: For making HTTP requests to the backend API.
+TailwindCSS: For styling the application.
+JavaScript: For application logic.
 
-### `npm start`
+Usage-
+Component Overview
+The application consists of several key components, including:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Body: The main layout component that wraps other components.
+Login: The login page for user authentication.
+Dashboard Components:
+AdminDashboard: For admin functionalities such as managing instructors and courses.
+EmployeeDashboard: For employee functionalities such as viewing courses and grades.
+InstructorDashboard: For instructor functionalities such as managing assignments and messages.
+ProtectedRoute: A component that restricts access to certain routes based on user roles.
+Announcements: Components for viewing and creating announcements.
+Assignments: Components for managing assignments and viewing submissions.
+Messages: Components for viewing and sending messages.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+User Roles-
 
-### `npm test`
+The application supports three primary user roles:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Admin: Can manage instructors and courses, access all functionalities.
 
-### `npm run build`
+Instructor: Can manage assignments, view messages, and create announcements.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Employee: Can view courses, grades, and assignments.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Protected Routes: Routes are protected based on user roles. The ProtectedRoute component checks the user's role and redirects unauthorized users to the login page.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Sending Messages: Instructors can send messages to employees through the messaging interface. Messages can be viewed and managed easily.
