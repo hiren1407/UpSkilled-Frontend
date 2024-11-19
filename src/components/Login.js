@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import bg from '../images/bg.jpeg';
-import { loginUser, signUpUser, setUser } from '../utils/userSlice';
+import bg from '../images/bg.jpeg'
+import { loginUser, signUpUser, setUser, clearUser } from '../utils/userSlice';
 import { jwtDecode } from 'jwt-decode';
 import '../Styles/Login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -109,6 +109,8 @@ const Login = () => {
       if (response) {
         localStorage.setItem('token', response);
         const user = jwtDecode(response);
+        
+        
         dispatch(setUser({ user, token: response }));
         if (user.role.toLowerCase() === "admin") navigate("/admin");
         else if (user.role.toLowerCase() === "instructor") navigate("/instructor");
@@ -145,6 +147,16 @@ const Login = () => {
     const token = localStorage.getItem('token');
     if (token) {
       const user = jwtDecode(token);
+      const expiryTime = user.exp * 1000; // Convert to milliseconds
+      const currentTime = Date.now(); // Get current time in milliseconds
+
+            // Check if current time is greater than expiry time
+      if (currentTime > expiryTime) {
+                
+            localStorage.removeItem('token')
+            dispatch(clearUser())
+            navigate('/')
+        }
       dispatch(setUser({ user, token }));
       if (user.role.toLowerCase() === "admin") navigate("/admin");
       else if (user.role.toLowerCase() === "instructor") navigate("/instructor");

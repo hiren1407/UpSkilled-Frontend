@@ -24,14 +24,27 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
         }
     }
 
-    // Check if the user role is included in the allowedRoles
-    if (allowedRoles.includes(userRole)) {
+    if(allowedRoles.includes(userRole)){
+      const token = localStorage.getItem('token');
+      const user = jwtDecode(token);
+      const expiryTime = user.exp * 1000; // Convert to milliseconds
+      const currentTime = Date.now(); // Get current time in milliseconds
+
+            // Check if current time is greater than expiry time
+      if (currentTime > expiryTime) {
+            alert("Your session has been expired. Please Login again!")
+                
+            localStorage.removeItem('token')
+            dispatch(clearUser())
+            return <Navigate to='/'/>
+        }
         return children;
-    } else {
-        // If the user role is not allowed, clear the user data and navigate to the home page
-        localStorage.removeItem('token');
-        dispatch(clearUser());
-        return <Navigate to='/' />;
+
+    }
+    else{
+        localStorage.removeItem('token')
+        dispatch(clearUser())
+        
     }
 };
 
