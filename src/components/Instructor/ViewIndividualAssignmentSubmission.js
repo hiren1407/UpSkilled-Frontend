@@ -111,6 +111,10 @@ const ViewIndividualAssignmentSubmission = () => {
                 setPopupMessage("Failed to update grade and feedback");
                 setShowPopup(true);
                 setLoading(false);
+                setTimeout(() => {
+                    setShowPopup(false);
+                }
+                    , 2000);
             }
         } catch (error) {
             console.error('Error updating grade and feedback:', error);
@@ -199,18 +203,18 @@ const ViewIndividualAssignmentSubmission = () => {
                 {showSubmission && submissionFileUrl && (
                     <div className="mt-4" id="submission-file">
                         {!isMobile ? (
-                                <object
-                                    data={submissionFileUrl} // Display PDF in object tag
-                                    type="application/pdf"
-                                    className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
-                                    style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
-                                    aria-label="PDF submission"
-                                />
-                            ) : (
-                                <p>Your browser does not support viewing PDF files.
-                                    <a href={submissionFileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
-                                </p> // Link to open PDF in new tab for mobile users
-                            )}
+                            <object
+                                data={submissionFileUrl} // Display PDF in object tag
+                                type="application/pdf"
+                                className="w-full h-[75vh] sm:h-[60vh] md:h-[70vh]"
+                                style={{ minHeight: 'calc(100vh - 150px)', width: '100%' }}
+                                aria-label="PDF submission"
+                            />
+                        ) : (
+                            <p>Your browser does not support viewing PDF files.
+                                <a href={submissionFileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline"> Open PDF in new tab</a>
+                            </p> // Link to open PDF in new tab for mobile users
+                        )}
                     </div>
                 )}
             </div>
