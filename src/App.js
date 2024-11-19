@@ -28,6 +28,7 @@ import Error from "./components/Error"
 import ViewGrades from "./components/Employee/ViewGrades"
 import ViewMessagesEmployee from "./components/Employee/ViewMessagesEmployee"
 import ViewMessagesInstructor from "./components/Instructor/ViewMessagesInstructor"
+import ViewEmployees from "./components/Instructor/ViewEmployees"
 
 function App() {
 
@@ -201,6 +202,7 @@ function App() {
                             <Route path="/instructor/course/:courseId/assignments/:assignmentId/submission/:submissionId" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewIndividualAssignmentSubmission /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/modules" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><Modules /></div></div></ProtectedRoute>} />
                             <Route path="/instructor/course/:courseId/instructor-messages" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewMessagesInstructor /></div></div></ProtectedRoute>} />
+                            <Route path="/instructor/course/:courseId/people" element={<ProtectedRoute allowedRoles={['instructor']}><div className="flex"><SideBar /> <div className="flex-grow"><ViewEmployees /></div></div></ProtectedRoute>} />
                             <Route path="*" element={<ProtectedRoute allowedRoles={['admin', 'employee', 'instructor']}><Error /></ProtectedRoute>} />
                         </Route>
                     </Routes>
