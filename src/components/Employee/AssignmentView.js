@@ -7,7 +7,7 @@ import axios from 'axios'; // Importing axios for making HTTP requests
 // Main component for viewing assignments
 const AssignmentView = () => {
     // Extracting assignmentId and courseId from URL parameters
-    const { assignmentId, courseId } = useParams(); 
+    const { assignmentId, courseId } = useParams();
     // State variables for managing assignment data and submission details
     const [assignment, setAssignment] = useState(null); // State to hold assignment details
     const [submissionDetails, setSubmissionDetails] = useState(null); // State for submission details
@@ -84,7 +84,7 @@ const AssignmentView = () => {
     }
 
     // Destructuring assignment details
-    const { title, description, deadline } = assignment; 
+    const { title, description, deadline } = assignment;
     const deadlineDate = dayjs(deadline).format('MMMM D, YYYY h:mm A'); // Formatting deadline date
     const submission = submissionDetails || null; // Set submission to submissionDetails or null if not available
     const gradeBook = submission?.gradeBook; // Accessing grade book from submission details
@@ -201,16 +201,16 @@ const AssignmentView = () => {
     return (
         <div className="max-w-3xl mx-auto p-6 bg-base-100 shadow-lg rounded-lg mt-6">
             {showToast && (
-                    <div className="flex justify-center">
-                        <div className="toast toast-top relative" role="status" aria-live="polite">
-                                <div className="alert alert-success">
-                                    <span>Assignment submitted successfully!</span> {/* Success message */}
-                                </div>
+                <div className="flex justify-center">
+                    <div className="toast toast-top relative" role="status" aria-live="polite">
+                        <div className="alert alert-success">
+                            <span>Assignment submitted successfully!</span> {/* Success message */}
                         </div>
                     </div>
+                </div>
             )}
             <h2 className="text-2xl font-bold mb-4" tabIndex="0">{title}</h2> {/* Display assignment title */}
-            <p className="mb-4" tabIndex="0">{description}</p> {/* Display assignment description */}
+            <p className="mb-4" tabIndex="0" style={{ whiteSpace: 'pre-line' }}>{description}</p> {/* Display assignment description */}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -298,7 +298,7 @@ const AssignmentView = () => {
 
                 <button
                     onClick={handleUpload} // Trigger upload function
-                    disabled={!!gradeBook } // Disable button if assignment is graded
+                    disabled={!!gradeBook} // Disable button if assignment is graded
                     className="btn btn-primary mt-4"
                 >
                     {submission ? 'Update Assignment' : 'Submit Assignment'} {/* Button text based on submission status */}
