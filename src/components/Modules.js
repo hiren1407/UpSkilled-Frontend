@@ -108,7 +108,7 @@ const CourseMaterial = () => {
 
     // Handle viewing a module
     const handleViewModule = async (id, title) => {
-        document.getElementById('modulePdf').showModal();
+        document.getElementById('viewPdfModule').showModal();
         let url;
         if (userRole === "instructor") {
             url = `${BASE_URL}/instructor/getCourseMaterial/${courseId}/${id}`;
@@ -262,7 +262,7 @@ const CourseMaterial = () => {
                         </div>
                     </dialog>
 
-                    <dialog id="modulePdf" className="modal" aria-labelledby="modulePdfTitle">
+                    <dialog id="viewPdfModule" className="modal" aria-labelledby="modulePdfTitle">
                         <div data-testid = "modulePdfTest" className="modal-box w-11/12 max-w-5xl">
                             <h3 id="modulePdfTitle" className="font-bold text-lg text-center">{materialTitle}</h3>
                             <form method="dialog">

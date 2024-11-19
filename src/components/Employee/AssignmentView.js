@@ -188,7 +188,7 @@ const AssignmentView = () => {
             if (response.status === 200) {
                 const file = await response.blob(); // Get the file blob from response
                 const fileUrl = URL.createObjectURL(file); // Create a URL for the blob
-                document.getElementById('my_modal_4').showModal(); // Show the modal for viewing submission
+                document.getElementById('submissionModal').showModal(); // Show the modal for viewing submission
                 setSubmissionPdf(fileUrl); // Set the submission PDF URL
             } else {
                 setError("Failed to fetch submission"); // Error if fetching submission fails
