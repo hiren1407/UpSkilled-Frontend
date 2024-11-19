@@ -48,3 +48,19 @@ Employee: Can view courses, grades, and assignments.
 Protected Routes: Routes are protected based on user roles. The ProtectedRoute component checks the user's role and redirects unauthorized users to the login page.
 
 Sending Messages: Instructors can send messages to employees through the messaging interface. Messages can be viewed and managed easily.
+
+
+
+Download dependencies:
+Run npm install to install all the dependencies which the project needs.
+
+Development server:
+Run npm start for a dev server. Navigate to http://localhost:3000/. The application will automatically reload if you change any of the source files.
+
+Build:
+Run npm build to build the project. The build artifacts will be stored in build directory.
+
+Running unit tests: 
+Run npm test to launch the test runner in the interactive watch mode.
+
+Further help: To get more help on the React, go check out the https://react.dev/learn page.
