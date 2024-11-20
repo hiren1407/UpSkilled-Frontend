@@ -17,12 +17,13 @@ const Error = () => {
                     Oops! Page Not Found
                 </h2>
                 {/* Description of the error */}
-                <p className="text-lg text-gray-600 mb-8">
+                <p data-testid="errorMessage" className="text-lg text-gray-600 mb-8">
                     The page you’re looking for doesn’t exist.
                 </p>
                 {/* Link to navigate back to the home page */}
                 <Link
                     to={`/${userRole}`}
+                    data-testid= "goBackHome"
                     className="px-6 py-3 bg-indigo-500 text-white font-semibold rounded-md hover:bg-indigo-600 transition duration-200"
                     aria-label="Go back to home page"
                 >

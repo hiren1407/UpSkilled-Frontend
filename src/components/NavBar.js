@@ -62,7 +62,7 @@ const NavBar = () => {
           </h1>
         </Link>
         {user && (
-          <Link to={`/${user.role.toLowerCase()}`} className='hover:bg-neutral-400 p-2 rounded-md text-sm md:text-md' aria-label="Home">
+          <Link data-testid="dashboardLinkTest" to={`/${user.role.toLowerCase()}`} className='hover:bg-neutral-400 p-2 rounded-md text-sm md:text-md' aria-label="Home">
             <FontAwesomeIcon className='mr-1' icon={faHome} />
             Home
           </Link>
@@ -74,7 +74,7 @@ const NavBar = () => {
             Welcome, {user?.firstName}
           </div>
           <div className="dropdown dropdown-end mr-3 flex">
-            <button tabIndex={0} className="btn btn-ghost btn-circle avatar" style={{ minHeight: '2.5rem', height: '2.5rem' }} aria-label="User Menu">
+            <button data-testid="userMenuButton" tabIndex={0} className="btn btn-ghost btn-circle avatar" style={{ minHeight: '2.5rem', height: '2.5rem' }} aria-label="User Menu">
               <div className="w-8 rounded-full">
                 <img
                   alt="user avatar"
@@ -95,7 +95,7 @@ const NavBar = () => {
                 </Link>
               </li>
               <li role="menuitem">
-                <button onClick={handleLogout} className='cursor-pointer' aria-label="Logout">
+                <button data-testid="logoutButton" onClick={handleLogout} className='cursor-pointer' aria-label="Logout">
                   <FontAwesomeIcon icon={faSignOutAlt} />
                   Logout
                 </button>

@@ -319,7 +319,7 @@ const ViewMessagesInstructor = () => {
             {showToast && (
                 <div className="flex justify-center absolute w-full top-1">
                     <div className="toast toast-top relative">
-                        <div className="alert alert-success">
+                        <div data-testid="messageSuccess" className="alert alert-success">
                             <span>Message sent successfully!</span>
                         </div>
                     </div>

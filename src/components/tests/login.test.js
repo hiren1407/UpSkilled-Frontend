@@ -35,8 +35,8 @@ describe('Login Component', () => {
 
     const heading = screen.getByRole('heading', { name: /Login/i });
     expect(heading).toBeInTheDocument();
-    expect(screen.getByLabelText(/Email ID:/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByTestId("email")).toBeInTheDocument();
+    expect(screen.getByTestId("password")).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Login/i })).toBeInTheDocument();
   });
 
@@ -57,9 +57,9 @@ test('renders Signup form when toggled', () => {
     expect(heading).toBeInTheDocument();
   
     // Check for the presence of form fields
-    expect(screen.getByLabelText(/First Name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Last Name/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Designation/i)).toBeInTheDocument();
+    expect(screen.getByTestId("first-name")).toBeInTheDocument();
+    expect(screen.getByTestId("last-name")).toBeInTheDocument();
+    expect(screen.getByTestId("designation")).toBeInTheDocument();
     
      // Verify the dropdown for Role
   const roleDropdown = screen.getByRole('combobox', { name: /Role/i });
@@ -72,8 +72,8 @@ test('renders Signup form when toggled', () => {
   expect(screen.getByRole('option', { name: /Instructor/i })).toBeInTheDocument();
   
     // Check for email and password fields
-    expect(screen.getByLabelText(/Email ID:/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByTestId("email")).toBeInTheDocument();
+    expect(screen.getByTestId("password")).toBeInTheDocument();
   
     // Verify the presence of the Sign Up button
     expect(screen.getByRole('button', { name: /Sign Up/i })).toBeInTheDocument();
@@ -132,7 +132,7 @@ test('renders Signup form when toggled', () => {
       </Provider>
     );
 
-    const passwordInput = screen.getByLabelText(/Password/i);
+    const passwordInput = screen.getByTestId("password");
     const toggleButton = document.querySelector(
         '.absolute.inset-y-0.right-0.flex.items-center.pr-3.cursor-pointer'
       );
@@ -156,8 +156,8 @@ test('displays specific error messages on failed login', async () => {
       </Provider>
     );
   
-    const emailInput = screen.getByLabelText(/Email ID:/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
+    const emailInput = screen.getByTestId("email");
+    const passwordInput = screen.getByTestId("password");
     const loginButton = screen.getByRole('button', { name: /Login/i });
   
     // Simulate user input
@@ -182,31 +182,30 @@ test('displays signup success modal on valid inputs', async () => {
         </Router>
       </Provider>
     );
-  
-    // Click to switch to the Sign-Up form
-    fireEvent.click(screen.getByText(/New User\? Signup Here/i));
-  
-    // Generate a random email ID
-    const randomEmail = `user${Math.random().toString(36).substring(2, 11)}@gmail.com`;
-  
-    // Fill in the signup form
-    fireEvent.change(screen.getByLabelText(/First Name/i), { target: { value: 'Saanya' } });
-    fireEvent.change(screen.getByLabelText(/Last Name/i), { target: { value: 'Dhir' } });
-    fireEvent.change(screen.getByLabelText(/Designation/i), { target: { value: 'Developer' } });
-    fireEvent.change(screen.getByLabelText(/Role/i), { target: { value: 'Employee' } });
-    fireEvent.change(screen.getByLabelText(/Email ID:/i), { target: { value: randomEmail } });
-    fireEvent.change(screen.getByLabelText(/Password/i), { target: { value: 'test@123' } });
-  
-    // Mock the dispatch function to resolve successfully
-    mockDispatch.mockResolvedValueOnce(Promise.resolve(true));
-  
-    // Click the "Sign Up" button
-    fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
-  
-    // Ensure modal text includes instructor warning
-    expect(
-      screen.getByText(/If you signed up as an instructor, you need to contact the admin before login/i)
-    ).toBeInTheDocument();
+  // Switch to the Sign-Up form
+fireEvent.click(screen.getByText(/New User\? Signup Here/i));
+
+// Generate a random email ID
+const randomEmail = `user${Math.random().toString(36).substring(2, 11)}@gmail.com`;
+
+// Fill in the signup form
+fireEvent.change(screen.getByTestId('first-name'), { target: { value: 'Saanya' } });
+fireEvent.change(screen.getByTestId('last-name'), { target: { value: 'Dhir' } });
+fireEvent.change(screen.getByTestId('designation'), { target: { value: 'Developer' } });
+fireEvent.change(screen.getByTestId('role'), { target: { value: 'Employee' } });
+fireEvent.change(screen.getByTestId('email'), { target: { value: randomEmail } });
+fireEvent.change(screen.getByTestId('password'), { target: { value: 'test@123' } });
+
+// Mock the dispatch function to resolve successfully
+mockDispatch.mockResolvedValueOnce(Promise.resolve(true));
+
+// Click the "Sign Up" button
+fireEvent.click(screen.getByRole('button', { name: /Sign Up/i }));
+
+// Ensure modal text includes instructor warning
+expect(
+  screen.getByText(/If you signed up as an instructor, you need to contact the admin before login/i)
+).toBeInTheDocument();
   });
   
 });

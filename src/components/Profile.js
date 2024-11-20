@@ -70,7 +70,7 @@ const Profile = () => {
       <div className="card bg-base-300 w-96 shadow-xl" style={{ background: 'linear-gradient(0deg, #9495fd, #a3c3fe)' }}>
         {showToast && (
           <div className="flex justify-center">
-            <div className="toast toast-top relative">
+            <div data-testid="profileUpdated" className="toast toast-top relative">
               <div className="alert alert-success" role="alert">
                 <span>Profile updated successfully!</span>
               </div>
@@ -89,6 +89,7 @@ const Profile = () => {
                 </div>
                 <input
                   type="text"
+                  data-testid="firstName"
                   value={firstName}
                   className="input input-bordered w-full"
                   disabled
@@ -100,6 +101,7 @@ const Profile = () => {
                   <span className="label-text text-black">Last Name</span>
                 </div>
                 <input
+                  data-testid="lastName"
                   type="text"
                   value={lastName}
                   className="input input-bordered w-full"
@@ -114,6 +116,7 @@ const Profile = () => {
               </div>
               <input
                 type="text"
+                data-testid="designation"
                 value={designation}
                 className="input input-bordered w-full max-w-xs"
                 disabled
@@ -125,6 +128,7 @@ const Profile = () => {
                 <span className="label-text text-black">Role</span>
               </div>
               <select
+                data-testid="role"
                 className="select select-bordered w-full max-w-xs"
                 disabled
                 aria-label="Role" // ARIA label for accessibility
@@ -140,6 +144,7 @@ const Profile = () => {
               </div>
               <input
                 type="text"
+                data-testid="email"
                 value={email}
                 className="input input-bordered w-full max-w-xs"
                 disabled
@@ -153,6 +158,7 @@ const Profile = () => {
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
+                  data-testid="password"
                   name="password"
                   value={password}
                   className="input input-bordered w-full pr-10"
@@ -173,6 +179,7 @@ const Profile = () => {
           <p className="text-red-500">{error}</p>
           <div className="card-actions justify-center m-2">
             <button
+              data-testid="saveButtonTest"
               className="btn btn-primary"
               onClick={update}
               aria-label="Save" // ARIA label for accessibility

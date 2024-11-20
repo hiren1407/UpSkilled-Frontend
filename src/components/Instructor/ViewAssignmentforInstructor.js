@@ -125,7 +125,7 @@ const ViewAssignment = () => {
     // Conditional rendering for error state
     if (error) {
         return (
-            <div className="flex flex-col justify-center items-center min-h-screen text-center" role="alert">
+            <div data-testid="errorMessage" className="flex flex-col justify-center items-center min-h-screen text-center" role="alert">
                 <h2 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h2> {/* Error heading */}
                 <p className="text-lg text-gray-600 mb-6">
                     We encountered an error. Please try again later. {/* Error message */}
@@ -144,15 +144,15 @@ const ViewAssignment = () => {
     return (
         <div className="container mx-auto p-8 pt-6 mt-6">
             <div className="flex justify-between items-center mb-4">
-                <h1 className="text-3xl font-bold">{assignment?.title}</h1> {/* Assignment title */}
+                <h1 data-testid="assignmentTitle" className="text-3xl font-bold">{assignment?.title}</h1> {/* Assignment title */}
                 <div>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={() => document.getElementById('editAssignment').showModal()} aria-label="Edit Assignment">Edit</button> {/* Edit button */}
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => document.getElementById('deleteAssignment').showModal()} aria-label="Delete Assignment">Delete</button> {/* Delete button */}
+                    <button data-testid="editButton" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" onClick={() => document.getElementById('editAssignment').showModal()} aria-label="Edit Assignment">Edit</button> {/* Edit button */}
+                    <button data-testid="deleteButton" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => document.getElementById('deleteAssignment').showModal()} aria-label="Delete Assignment">Delete</button> {/* Delete button */}
                 </div>
             </div>
             <div className="p-4 rounded-md shadow-md">
-                <p className="text-md" style={{ whiteSpace: 'pre-line' }}>{assignment?.description}</p> {/* Assignment description */}
-                <p className="text-md mt-4">Due: {new Date(assignment?.deadline).toLocaleString()}</p> {/* Due date and time */}
+                <p data-testid="assignmentDescription" className="text-md" style={{ whiteSpace: 'pre-line' }}>{assignment?.description}</p> {/* Assignment description */}
+                <p data-testid="dueDate" className="text-md mt-4">Due: {new Date(assignment?.deadline).toLocaleString()}</p> {/* Due date and time */}
             </div>
 
             {/* Edit Assignment Modal */}
@@ -160,7 +160,7 @@ const ViewAssignment = () => {
                 <div className="modal-box w-11/12 max-w-5xl">
                     <h3 id="editAssignmentTitle" className="font-bold text-lg text-center">Edit Assignment</h3> {/* Modal title */}
                     <form method="dialog">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button> {/* Close button */}
+                        <button data-testid="closeButton" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button> {/* Close button */}
                     </form>
                     <form className="flex flex-col p-8" onSubmit={handleUpdate}>
                         <label className="label" htmlFor="title">Title:</label>
@@ -174,7 +174,7 @@ const ViewAssignment = () => {
                         <label className="label" htmlFor="dueTime">Due Time:</label>
                         <input id="dueTime" type="time" value={time} onChange={(e) => setTime(e.target.value)} className="input input-bordered w-full" /> {/* Due time input */}
 
-                        <button type="submit" className="btn btn-neutral mt-5" disabled={loading}>Update</button> {/* Update button */}
+                        <button data-testid="updateButton" type="submit" className="btn btn-neutral mt-5" disabled={loading}>Update</button> {/* Update button */}
                     </form>
                 </div>
             </dialog>
@@ -188,7 +188,7 @@ const ViewAssignment = () => {
                     <div className="content-center">
                         <div className="mt-4">
                             <h3 id="deleteAssignmentTitle" className="font-bold text-lg">Are you sure you want to delete this assignment?</h3> {/* Confirmation message */}
-                            <button className="btn m-4" onClick={handleDelete}>Yes</button> {/* Yes button for deletion */}
+                            <button data-testid="yesButton" className="btn m-4" onClick={handleDelete}>Yes</button> {/* Yes button for deletion */}
                             <button className="btn m-4" onClick={() => document.getElementById('deleteAssignment').close()}>
                                 No
                             </button> {/* No button to cancel deletion */}
@@ -239,7 +239,7 @@ const ViewAssignment = () => {
                                 <tr key={index}>
                                     <th scope="row">{index + 1}</th> {/* Submission index */}
                                     <td>{`${submission.userDetails.firstName} ${submission.userDetails.lastName}`}</td> {/* Student's name */}
-                                    <td><button className="btn btn-sm md:btn-md" onClick={() => navigate(`submission/${submission.submissionId}`)} aria-label={`View Submission ${index + 1}`}>View Submission</button></td> {/* Button to view submission */}
+                                    <td><button data-testid="viewSubmission" className="btn btn-sm md:btn-md" onClick={() => navigate(`submission/${submission.submissionId}`)} aria-label={`View Submission ${index + 1}`}>View Submission</button></td> {/* Button to view submission */}
                                     <td>{submission.gradeBook ? submission.gradeBook.grade : '-'}</td> {/* Displaying grade or placeholder */}
                                 </tr>
                             ))}

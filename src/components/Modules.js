@@ -200,7 +200,7 @@ const CourseMaterial = () => {
         <div className="flex flex-col">
             <div className="flex justify-between items-center m-4">
                 <h1 className="text-2xl md:text-3xl font-bold text-center flex-grow">Course Materials for {courseDetails.title}</h1>
-                {userRole === "instructor" && <button className="btn btn-neutral btn-sm md:btn-md" onClick={openModal}>Create New</button>}
+                {userRole === "instructor" && <button data-testid="createNewButon" className="btn btn-neutral btn-sm md:btn-md" onClick={openModal}>Create New</button>}
             </div>
             <div className="row mx-2">
                 <div className="col-md-6">
@@ -213,7 +213,7 @@ const CourseMaterial = () => {
                             <div className="collapse-content">
                                 <p>{data.materialDescription}</p>
                                 <div className="flex justify-between mt-2">
-                                    <button className="btn btn-neutral btn-sm md:btn-md" onClick={() => handleViewModule(data.id, data.materialTitle)}>View Module</button>
+                                    <button data-testid="viewModuleTest" className="btn btn-neutral btn-sm md:btn-md" onClick={() => handleViewModule(data.id, data.materialTitle)}>View Module</button>
                                     {userRole === 'instructor' &&
                                         <div>
                                             <button data-testid="editBtn" className="btn btn-warning btn-sm md:btn-md" onClick={() => { handleEdit(data) }}>
@@ -230,7 +230,7 @@ const CourseMaterial = () => {
 
                     <dialog id="moduleDetails" className="modal modal-bottom sm:modal-middle" aria-labelledby="moduleDetailsTitle">
                         <div className="modal-box">
-                            <h3 id="moduleDetailsTitle" className="font-bold text-lg">{isEditing ? 'Edit Module Details' : 'Create a new module'}</h3>
+                            <h3 data-testid="createModuleTest" id="moduleDetailsTitle" className="font-bold text-lg">{isEditing ? 'Edit Module Details' : 'Create a new module'}</h3>
                             <form method="dialog">
                                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" aria-label="Close">✕</button>
                             </form>
@@ -262,7 +262,7 @@ const CourseMaterial = () => {
                         </div>
                     </dialog>
 
-                    <dialog id="viewPdfModule" className="modal" aria-labelledby="modulePdfTitle">
+                    <dialog data-testid = "modulePdfTest" id="viewPdfModule" className="modal" aria-labelledby="modulePdfTitle">
                         <div data-testid = "modulePdfTest" className="modal-box w-11/12 max-w-5xl">
                             <h3 id="modulePdfTitle" className="font-bold text-lg text-center">{materialTitle}</h3>
                             <form method="dialog">
@@ -302,7 +302,7 @@ const CourseMaterial = () => {
                             <div className="modal-body">
                                 <p>Are you sure you want to delete this module?</p>
                                 <div className="flex justify-between mt-4">
-                                    <button className="btn btn-danger" onClick={() => handleDelete()}>Delete</button>
+                                    <button data-testid="confirmDeleteButton" className="btn btn-danger" onClick={() => handleDelete()}>Delete</button>
                                     <button className="btn btn-primary" onClick={() => document.getElementById('deleteModule').close()}>Cancel</button>
                                 </div>
                             </div>

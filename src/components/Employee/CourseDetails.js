@@ -111,12 +111,12 @@ const CourseDetails = () => {
     // Render the course details
     return (
         <div className='mr-5'>
-            <button className="btn btn-neutral ml-5 mt-5 btn-sm md:btn-md" onClick={() => navigate('/employee/all-courses')} aria-label="Back to all courses">⬅️ All courses</button>
+            <button data-testid="backToHome" className="btn btn-neutral ml-5 mt-5 btn-sm md:btn-md" onClick={() => navigate('/employee/all-courses')} aria-label="Back to all courses">⬅️ All courses</button>
             <div className="mx-5 my-5 p-6 max-w-full bg-white rounded-lg shadow-md">
-                <h1 className="text-3xl font-bold mb-2" tabIndex="0">{courseDetails.title}</h1> {/* Course title */}
-                <h2 className="text-xl text-gray-700 mb-4" tabIndex="0">{courseDetails.name}</h2> {/* Course name */}
-                <p className="text-gray-600 mb-4" tabIndex="0">{courseDetails.description}</p> {/* Course description */}
-                <p className="text-gray-500 mb-6" tabIndex="0">Instructor: <span className="font-semibold">{courseDetails.instructorName}</span></p>
+                <h1 data-testid="courseTitle" className="text-3xl font-bold mb-2" tabIndex="0">{courseDetails.title}</h1> {/* Course title */}
+                <h2 data-testid="courseName" className="text-xl text-gray-700 mb-4" tabIndex="0">{courseDetails.name}</h2> {/* Course name */}
+                <p data-testid="courseDescription" className="text-gray-600 mb-4" tabIndex="0">{courseDetails.description}</p> {/* Course description */}
+                <p data-testid="instructorName" className="text-gray-500 mb-6" tabIndex="0">Instructor: <span className="font-semibold">{courseDetails.instructorName}</span></p>
 
                 <button
                     onClick={handleViewSyllabus} // Trigger view syllabus function
@@ -128,6 +128,7 @@ const CourseDetails = () => {
 
                 <button
                     type='button'
+                    data-testid="enrolled"
                     onClick={handleEnrollCourse} // Trigger enroll course function
                     className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200 mt-4"
                     disabled={isEnrolled} // Disable button if already enrolled

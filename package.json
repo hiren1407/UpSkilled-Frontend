@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "jest": {
-    "transformIgnorePatterns": ["node_modules/(?!axios|@reduxjs/toolkit|jwt-decode)"]
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios|@reduxjs/toolkit|jwt-decode)"
+    ]
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.6.0",

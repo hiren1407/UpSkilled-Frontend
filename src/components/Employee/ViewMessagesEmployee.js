@@ -163,6 +163,7 @@ const ViewMessagesEmployee = () => {
               aria-label="Type your message here"
             />
             <button
+              data-testid="sendMessageButton"
               onClick={handleSendMessage}
               className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
               aria-label="Send message"

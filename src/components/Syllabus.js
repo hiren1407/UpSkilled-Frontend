@@ -126,6 +126,7 @@ const Syllabus = () => {
                     </div>
                     {!error && ( // Conditional rendering for showing syllabus button if no error
                         <button
+                            data-testid="showSyllabusButton"
                             className="btn py-1 mt-4 md:mt-0 w-full md:w-auto"
                             onClick={() => document.getElementById('syllabus').showModal()} // Opening the syllabus modal
                             aria-haspopup="dialog" // Indicating that the button opens a dialog

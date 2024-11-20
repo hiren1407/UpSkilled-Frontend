@@ -250,6 +250,7 @@ const AssignmentView = () => {
                     </div>
 
                     <button
+                        data-testid="viewSubmissionButton"
                         onClick={handleViewSubmission} // Trigger view submission function
                         className="btn btn-primary mt-4"
                     >
@@ -288,6 +289,7 @@ const AssignmentView = () => {
                 <h3 className="text-xl font-bold mb-4">Upload Assignment</h3>
                 <input
                     type="file"
+                    data-testid="uploadAssignment"
                     accept="application/pdf" // Accept only PDF files
                     onChange={handleFileChange} // Trigger file change function
                     className="file-input file-input-bordered w-full max-w-xs"

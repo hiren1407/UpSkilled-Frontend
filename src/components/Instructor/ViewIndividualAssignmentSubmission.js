@@ -154,6 +154,7 @@ const ViewIndividualAssignmentSubmission = () => {
                 {userRole === 'instructor' && (
                     !editGrade ? (
                         <button
+                            data-testid="provideGrade"
                             className="btn btn-gray btn-sm md:btn-md w-full sm:w-auto"
                             onClick={() => setEditGrade(!editGrade)}
                             aria-label={gradeDetails.length === 0 ? 'Provide Grade and Feedback' : 'Edit Grade and Feedback'}
@@ -165,6 +166,7 @@ const ViewIndividualAssignmentSubmission = () => {
                             <div className="flex items-center gap-2">
                                 <label htmlFor="grade-input" className="text-sm sm:text-lg font-bold">Grade:</label>
                                 <input
+                                    data-testid="gradeInput"
                                     id="grade-input"
                                     className="input input-bordered w-12 h-8 px-2"
                                     type="text"
@@ -176,6 +178,7 @@ const ViewIndividualAssignmentSubmission = () => {
                             </div>
                             <label htmlFor="feedback-textarea" className="sr-only">Feedback</label>
                             <textarea
+                                data-testid="feedback"
                                 id="feedback-textarea"
                                 className="input input-bordered w-full h-24"
                                 value={feedback}
@@ -193,6 +196,7 @@ const ViewIndividualAssignmentSubmission = () => {
 
             <div className="w-full">
                 <button
+                    data-testid="showSubmission"
                     className="btn btn-gray w-full sm:w-auto"
                     onClick={() => setShowSubmission(!showSubmission)}
                     aria-expanded={showSubmission}

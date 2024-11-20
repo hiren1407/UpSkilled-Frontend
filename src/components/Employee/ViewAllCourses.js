@@ -71,7 +71,7 @@ const ViewAllCourses = () => {
   if (courses.length === 0) {
     return (
       <div>
-        <button className="btn btn-neutral ml-2 my-5" onClick={() => navigate('/employee')} aria-label="Go to My Courses">
+        <button data-testid="myCoursesButton" className="btn btn-neutral ml-2 my-5" onClick={() => navigate('/employee')} aria-label="Go to My Courses">
           ⬅️ My Courses {/* Button to navigate back to My Courses */}
         </button>
         <h1 className='text-xl ml-2'>No courses are available at the moment.</h1> {/* Message for no courses */}
@@ -83,7 +83,7 @@ const ViewAllCourses = () => {
   return (
     <main className='my-2' role="main">
       <h1 className='text-2xl md:text-4xl font-bold text-center mb-2'>Available Courses</h1> {/* Page title */}
-      <button className="btn btn-neutral ml-2 btn-sm md:btn-md" onClick={() => navigate('/employee')} aria-label="Go to My Courses">
+      <button data-testid="goToCourses" className="btn btn-neutral ml-2 btn-sm md:btn-md" onClick={() => navigate('/employee')} aria-label="Go to My Courses">
         ⬅️ My Courses {/* Button to navigate back to My Courses */}
       </button>
       <div className="flex flex-wrap justify-start my-8">
@@ -94,7 +94,7 @@ const ViewAllCourses = () => {
               <h2 className="card-title">{course.title}</h2> {/* Course title */}
               <p>{course.name}</p> {/* Course name */}
               <div className="card-actions justify-end">
-                <button className="btn btn-primary" onClick={() => handleClick(course.id)} aria-label={`View details for ${course.title}`}>
+                <button data-testid="viewCourseDetails" className="btn btn-primary" onClick={() => handleClick(course.id)} aria-label={`View details for ${course.title}`}>
                   View Course Details
                 </button> {/* Button to navigate to course details */}
               </div>

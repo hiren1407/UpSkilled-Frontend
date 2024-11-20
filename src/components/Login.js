@@ -210,6 +210,7 @@ const Login = () => {
                     </div>
                     <input
                       type="text"
+                      data-testid="first-name"
                       value={firstName}
                       className="input input-bordered w-full"
                       onChange={(e) => setFirstName(e.target.value)}
@@ -226,6 +227,7 @@ const Login = () => {
                     <input
                       type="text"
                       value={lastName}
+                      data-testid="last-name"
                       className="input input-bordered w-full"
                       onChange={(e) => setLastName(e.target.value)}
                       aria-required="true"
@@ -242,6 +244,7 @@ const Login = () => {
                   <input
                     type="text"
                     value={designation}
+                    data-testid="designation"
                     className="input input-bordered w-full max-w-xs"
                     onChange={(e) => setDesignation(e.target.value)}
                     aria-required="true"
@@ -257,6 +260,7 @@ const Login = () => {
                   <select
                     className="select select-bordered w-full max-w-xs"
                     value={role}
+                    data-testid="role"
                     onChange={(e) => setRole(e.target.value)}
                     aria-required="true"
                     aria-invalid={roleError}
@@ -279,6 +283,7 @@ const Login = () => {
               <input
                 type="text"
                 value={email}
+                data-testid="email"
                 className="input input-bordered w-full max-w-xs"
                 onChange={(e) => setEmail(e.target.value)}
                 aria-required="true"
@@ -296,6 +301,7 @@ const Login = () => {
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={password}
+                  data-testid="password"
                   className="input input-bordered w-full pr-10" // Add padding to the right for the icon
                   onChange={(e) => setPassword(e.target.value)}
                   aria-required="true"
